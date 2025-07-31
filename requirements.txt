@@ -2,7 +2,7 @@
 pandas>=2.0.0
 numpy>=1.24.0
 requests>=2.31.0
-sqlite3
+# sqlite3 is built-in to Python
 
 # Data Analysis & Visualization
 matplotlib>=3.7.0
@@ -34,14 +34,8 @@ tweepy>=4.14.0
 # Utilities
 python-dotenv>=1.0.0
 cryptography>=41.0.0
-logging
-datetime
-json
-os
-sys
-time
-threading
-concurrent.futures
+# Built-in Python modules (no installation needed):
+# logging, datetime, json, os, sys, time, threading, concurrent.futures
 
 # Development & Testing
 pytest>=7.4.0
