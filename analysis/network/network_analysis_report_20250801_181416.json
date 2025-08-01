@@ -1,0 +1,72 @@
+{
+  "timestamp": "2025-08-01T18:14:16.693101",
+  "network_statistics": {
+    "member_network": {
+      "nodes": 26,
+      "edges": 0,
+      "density": 0,
+      "average_clustering": 0.0,
+      "connected_components": 26
+    },
+    "trading_network": {
+      "nodes": 24,
+      "edges": 170,
+      "density": 0.6159420289855072
+    }
+  },
+  "influence_analysis": {
+    "top_influential_members": [
+      [
+        "M000001",
+        NaN
+      ],
+      [
+        "M000008",
+        0.4906892908110547
+      ],
+      [
+        "M000005",
+        0.39119333523940203
+      ],
+      [
+        "M000009",
+        NaN
+      ],
+      [
+        "M000021",
+        0.4205697688987041
+      ],
+      [
+        "M000011",
+        0.39348115366267855
+      ],
+      [
+        "M000004",
+        0.38202938497983413
+      ],
+      [
+        "M000020",
+        0.37462023370614106
+      ],
+      [
+        "M000002",
+        0.3691270549061894
+      ],
+      [
+        "M000023",
+        0.3690334897727836
+      ]
+    ],
+    "average_influence_score": NaN,
+    "influence_distribution": {
+      "high_influence_count": 0,
+      "medium_influence_count": 10,
+      "low_influence_count": 14
+    }
+  },
+  "community_analysis": {},
+  "correlation_analysis": {},
+  "key_findings": [
+    "Low network density suggests fragmented committee structure"
+  ]
+}

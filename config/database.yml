@@ -1,0 +1,112 @@
+# Congressional Trading Intelligence System - Database Configuration
+# Environment-specific database settings
+
+development:
+  database:
+    host: localhost
+    port: 5432
+    name: congressional_trading_dev
+    user: postgres
+    password: ${DB_PASSWORD:-password}
+    admin_db: postgres
+    pool_size: 10
+    max_overflow: 20
+    pool_timeout: 30
+    pool_recycle: 3600
+
+production:
+  database:
+    host: ${DB_HOST:-localhost}
+    port: ${DB_PORT:-5432}
+    name: ${DB_NAME:-congressional_trading}
+    user: ${DB_USER:-app_user}
+    password: ${DB_PASSWORD}
+    admin_db: postgres
+    pool_size: 20
+    max_overflow: 50
+    pool_timeout: 30
+    pool_recycle: 3600
+    
+    # SSL configuration for production
+    sslmode: require
+    sslcert: ${DB_SSL_CERT}
+    sslkey: ${DB_SSL_KEY}
+    sslrootcert: ${DB_SSL_ROOT_CERT}
+
+testing:
+  database:
+    host: localhost
+    port: 5432
+    name: congressional_trading_test
+    user: postgres
+    password: ${DB_PASSWORD:-password}
+    admin_db: postgres
+    pool_size: 5
+    max_overflow: 10
+
+# Data source API configuration
+api_sources:
+  congress_gov:
+    base_url: https://api.congress.gov/v3
+    api_key: ${CONGRESS_API_KEY}
+    rate_limit: 5000  # requests per hour
+    
+  propublica:
+    base_url: https://api.propublica.org/congress/v1
+    api_key: ${PROPUBLICA_API_KEY}
+    rate_limit: 5000  # requests per day
+    
+  finnhub:
+    base_url: https://finnhub.io/api/v1
+    api_key: ${FINNHUB_API_KEY}
+    rate_limit: 60    # requests per minute
+
+# Data pipeline configuration
+data_pipeline:
+  batch_size: 1000
+  retry_attempts: 3
+  retry_delay: 5  # seconds
+  
+  # Data quality thresholds
+  quality_thresholds:
+    accuracy_minimum: 0.995  # 99.5%
+    completeness_minimum: 0.99  # 99%
+    freshness_maximum: 86400  # 24 hours in seconds
+    
+  # Backup and archival settings
+  backup:
+    enabled: true
+    retention_days: 90
+    s3_bucket: ${BACKUP_S3_BUCKET}
+    
+# Monitoring and alerting
+monitoring:
+  metrics:
+    enabled: true
+    collection_interval: 300  # 5 minutes
+    
+  alerts:
+    email: ${ALERT_EMAIL}
+    slack_webhook: ${SLACK_WEBHOOK}
+    
+    # Alert thresholds
+    thresholds:
+      data_quality_failure: 0.95
+      api_error_rate: 0.05
+      database_connection_failures: 5
+      processing_delay_minutes: 60
+
+# Security settings
+security:
+  encryption:
+    enabled: true
+    key_rotation_days: 90
+    
+  access_control:
+    max_failed_attempts: 5
+    lockout_duration: 300  # 5 minutes
+    
+  audit:
+    log_all_queries: false
+    log_data_changes: true
+    retention_days: 365
