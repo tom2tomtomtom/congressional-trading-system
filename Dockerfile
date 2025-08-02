@@ -7,9 +7,11 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the simple app
+# Copy the complete application
 COPY simple_app.py .
 COPY analysis_output/ ./analysis_output/
+COPY src/dashboard/comprehensive_dashboard.html ./dashboard/
+COPY src/data/ ./src/data/
 
 # Don't create complex start scripts - just use Python
 EXPOSE 5000
