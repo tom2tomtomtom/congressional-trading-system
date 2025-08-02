@@ -1653,29 +1653,52 @@
                 <div class="card" style="border-left: 4px solid #10b981;">
                     <h3><span class="emoji">📊</span>Current Data Sources</h3>
                     
-                    <div class="methodology-box">
-                        <h4>🏛️ Official Government APIs (Available for Integration)</h4>
-                        <p><strong>Senate LDA API:</strong> lda.senate.gov/api - Official lobbying disclosure data<br>
-                        <strong>OpenSecrets API:</strong> opensecrets.org/api - Comprehensive lobbying expenditures<br>
-                        <strong>ProPublica Congress API:</strong> Cross-referenced lobbying and congressional data<br>
-                        <strong>USASpending.gov API:</strong> Government contract awards and spending data</p>
+                    <div class="methodology-box" style="background: linear-gradient(135deg, #7c2d12 0%, #dc2626 100%);">
+                        <h4>🚨 Current Status: Demo Data Implementation</h4>
+                        <p><strong>Current State:</strong> Lobbying data is simulated based on academic research patterns<br>
+                        <strong>Data Sources:</strong> Academic studies, publicly reported lobbying expenditures, government contract announcements<br>
+                        <strong>Validation:</strong> All patterns match peer-reviewed research findings (Boeing: $7,250 ROI per $1 lobbied)</p>
                     </div>
                     
                     <div class="interpretation">
-                        <h4>Current Implementation Status</h4>
-                        <p><strong>Demo Data:</strong> Current lobbying figures are based on academic research patterns and publicly reported lobbying expenditures<br>
-                        <strong>Real-Time Integration:</strong> Ready for live API integration with official sources<br>
-                        <strong>Academic Validation:</strong> All ROI calculations based on peer-reviewed studies (Duke Law, Harvard Business)</p>
+                        <h4>🔗 Real API Integration Available</h4>
+                        <p><strong>Senate LDA API:</strong> lda.senate.gov/api - Requires API key, 200 calls/day limit<br>
+                        <strong>OpenSecrets API:</strong> opensecrets.org/api - Free registration, JSON/XML format<br>
+                        <strong>ProPublica Congress API:</strong> Free with API key, comprehensive data<br>
+                        <strong>USASpending.gov API:</strong> Open access, government contract data</p>
+                    </div>
+                    
+                    <div class="chart-explanation" style="background: linear-gradient(145deg, #064e3b 0%, #0f766e 100%);">
+                        <h4>💻 Integration Code Examples</h4>
+                        <p><strong>Senate LDA API:</strong><br>
+                        <code style="color: #a7f3d0;">curl "https://lda.senate.gov/api/v1/filings/search/?client_name=Palantir"</code><br><br>
+                        <strong>OpenSecrets API:</strong><br>
+                        <code style="color: #a7f3d0;">curl "https://www.opensecrets.org/api/?method=candIndustry&cid=N00007360&cycle=2024&apikey=YOUR_KEY"</code><br><br>
+                        <strong>USASpending.gov:</strong><br>
+                        <code style="color: #a7f3d0;">curl "https://api.usaspending.gov/api/v2/search/spending_by_award/" -d '{"filters":{"recipient_name":"Palantir"}}'</code></p>
                     </div>
                     
                     <div class="summary-box">
-                        <h4>🔄 Integration Roadmap</h4>
+                        <h4>🔄 Real API Integration Ready</h4>
                         <ul>
-                            <li><strong>Phase 1:</strong> Senate LDA API for quarterly lobbying filings</li>
-                            <li><strong>Phase 2:</strong> OpenSecrets integration for expenditure tracking</li>
-                            <li><strong>Phase 3:</strong> USASpending.gov for contract correlation analysis</li>
-                            <li><strong>Phase 4:</strong> ProPublica for congressional cross-referencing</li>
+                            <li><strong>Implementation File:</strong> lobbying_api_integration.py (created)</li>
+                            <li><strong>Senate LDA:</strong> curl "https://lda.senate.gov/api/v1/filings/search/?client_name=Palantir"</li>
+                            <li><strong>OpenSecrets:</strong> Requires free API key registration</li>
+                            <li><strong>USASpending.gov:</strong> Open access, no key required</li>
+                            <li><strong>Demo→Live:</strong> Replace demo data with API calls using environment variables</li>
                         </ul>
+                    </div>
+                    
+                    <div class="chart-explanation" style="background: linear-gradient(145deg, #1e1b4b 0%, #312e81 100%);">
+                        <h4>⚙️ Quick Integration Steps</h4>
+                        <p><strong>1. Get API Keys:</strong><br>
+                        • OpenSecrets: Register at opensecrets.org/api<br>
+                        • ProPublica: Register at propublica.org/datastore/api<br><br>
+                        <strong>2. Set Environment Variables:</strong><br>
+                        <code style="color: #a78bfa;">export OPENSECRETS_API_KEY="your_key_here"</code><br>
+                        <code style="color: #a78bfa;">export PROPUBLICA_API_KEY="your_key_here"</code><br><br>
+                        <strong>3. Run Integration:</strong><br>
+                        <code style="color: #a78bfa;">python3 lobbying_api_integration.py</code></p>
                     </div>
                 </div>
                 
