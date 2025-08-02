@@ -21,6 +21,7 @@ CONGRESSIONAL_MEMBERS = [
         "id": 1, "name": "Nancy Pelosi", "party": "Democrat", "state": "California", "chamber": "House",
         "committee": "House Speaker (Former)", "net_worth": "$114M", "tenure": "1987-Present",
         "influence_score": 95, "trading_frequency": "High", "avg_trade_size": "$1.2M",
+        "suspicious_activity": True, "risk_score": 8.7,
         "recent_trades": [
             {"date": "2024-01-15", "stock": "NVDA", "action": "Buy", "amount": "$1M-5M", "reason": "AI Infrastructure Bill support", "market_timing": "Excellent", "roi": "+23%"},
             {"date": "2024-01-10", "stock": "TSLA", "action": "Sell", "amount": "$500K-1M", "reason": "EV Tax Credit concerns", "market_timing": "Good", "roi": "+15%"},
@@ -31,6 +32,7 @@ CONGRESSIONAL_MEMBERS = [
         "id": 2, "name": "Josh Gottheimer", "party": "Democrat", "state": "New Jersey", "chamber": "House",
         "committee": "Financial Services", "net_worth": "$8.2M", "tenure": "2017-Present",
         "influence_score": 72, "trading_frequency": "Medium", "avg_trade_size": "$85K",
+        "suspicious_activity": False, "risk_score": 4.1,
         "recent_trades": [
             {"date": "2024-01-12", "stock": "AAPL", "action": "Buy", "amount": "$15K-50K", "reason": "Right to Repair opposition", "market_timing": "Good", "roi": "+12%"},
             {"date": "2024-01-08", "stock": "JPM", "action": "Buy", "amount": "$50K-100K", "reason": "Banking regulation insights", "market_timing": "Excellent", "roi": "+8%"}
@@ -40,6 +42,7 @@ CONGRESSIONAL_MEMBERS = [
         "id": 3, "name": "Dan Crenshaw", "party": "Republican", "state": "Texas", "chamber": "House",
         "committee": "Energy & Commerce", "net_worth": "$1.8M", "tenure": "2019-Present",
         "influence_score": 68, "trading_frequency": "High", "avg_trade_size": "$125K",
+        "suspicious_activity": True, "risk_score": 9.2,
         "recent_trades": [
             {"date": "2024-01-08", "stock": "XOM", "action": "Buy", "amount": "$50K-100K", "reason": "Drilling permits expansion", "market_timing": "Excellent", "roi": "+19%"},
             {"date": "2024-01-05", "stock": "COP", "action": "Buy", "amount": "$15K-50K", "reason": "Pipeline approval insights", "market_timing": "Good", "roi": "+14%"},
@@ -68,6 +71,7 @@ CONGRESSIONAL_MEMBERS = [
         "id": 6, "name": "Joe Manchin", "party": "Democrat", "state": "West Virginia", "chamber": "Senate",
         "committee": "Energy & Natural Resources", "net_worth": "$7.6M", "tenure": "2010-Present",
         "influence_score": 89, "trading_frequency": "High", "avg_trade_size": "$180K",
+        "suspicious_activity": True, "risk_score": 8.9,
         "recent_trades": [
             {"date": "2024-01-14", "stock": "ARCH", "action": "Buy", "amount": "$100K-250K", "reason": "Coal industry protection", "market_timing": "Excellent", "roi": "+22%"},
             {"date": "2024-01-09", "stock": "CNX", "action": "Buy", "amount": "$50K-100K", "reason": "Natural gas expansion", "market_timing": "Good", "roi": "+16%"},
@@ -190,10 +194,196 @@ CONGRESSIONAL_MEMBERS = [
         "id": 20, "name": "Richard Burr", "party": "Republican", "state": "North Carolina", "chamber": "Senate",
         "committee": "Health Committee (Former)", "net_worth": "$1.7M", "tenure": "2005-2023",
         "influence_score": 73, "trading_frequency": "High", "avg_trade_size": "$140K",
+        "suspicious_activity": True, "risk_score": 9.1,
         "recent_trades": [
             {"date": "2024-01-06", "stock": "PFE", "action": "Sell", "amount": "$62K-170K", "reason": "COVID vaccine concerns", "market_timing": "Poor", "roi": "-8%"},
             {"date": "2024-01-03", "stock": "JNJ", "action": "Sell", "amount": "$50K-100K", "reason": "Pharmaceutical regulation", "market_timing": "Poor", "roi": "-5%"}
         ]
+    },
+    # Additional House Members - Expanded Coverage
+    {
+        "id": 21, "name": "Jim Jordan", "party": "Republican", "state": "Ohio", "chamber": "House",
+        "committee": "Judiciary Chair", "net_worth": "$500K", "tenure": "2007-Present",
+        "influence_score": 74, "trading_frequency": "Low", "avg_trade_size": "$25K",
+        "suspicious_activity": False, "risk_score": 2.1,
+        "recent_trades": [
+            {"date": "2024-01-09", "stock": "VZ", "action": "Buy", "amount": "$15K-50K", "reason": "Telecom regulation discussions", "market_timing": "Fair", "roi": "+4%"}
+        ]
+    },
+    {
+        "id": 22, "name": "Ilhan Omar", "party": "Democrat", "state": "Minnesota", "chamber": "House",
+        "committee": "Foreign Affairs", "net_worth": "$500K", "tenure": "2019-Present",
+        "influence_score": 63, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    {
+        "id": 23, "name": "Matt Gaetz", "party": "Republican", "state": "Florida", "chamber": "House",
+        "committee": "Judiciary", "net_worth": "$700K", "tenure": "2017-Present",
+        "influence_score": 58, "trading_frequency": "Medium", "avg_trade_size": "$45K",
+        "suspicious_activity": False, "risk_score": 4.2,
+        "recent_trades": [
+            {"date": "2024-01-11", "stock": "DIS", "action": "Buy", "amount": "$15K-50K", "reason": "Content regulation stance", "market_timing": "Poor", "roi": "-2%"},
+            {"date": "2024-01-07", "stock": "META", "action": "Sell", "amount": "$25K-50K", "reason": "Big Tech criticism", "market_timing": "Good", "roi": "+6%"}
+        ]
+    },
+    {
+        "id": 24, "name": "Katie Porter", "party": "Democrat", "state": "California", "chamber": "House",
+        "committee": "Financial Services", "net_worth": "$1.8M", "tenure": "2019-Present",
+        "influence_score": 71, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    {
+        "id": 25, "name": "Marjorie Taylor Greene", "party": "Republican", "state": "Georgia", "chamber": "House",
+        "committee": "Oversight", "net_worth": "$44M", "tenure": "2021-Present",
+        "influence_score": 52, "trading_frequency": "High", "avg_trade_size": "$180K",
+        "suspicious_activity": True, "risk_score": 7.8,
+        "recent_trades": [
+            {"date": "2024-01-13", "stock": "DWAC", "action": "Buy", "amount": "$50K-100K", "reason": "Trump Media support", "market_timing": "Poor", "roi": "-12%"},
+            {"date": "2024-01-10", "stock": "GM", "action": "Buy", "amount": "$25K-50K", "reason": "Georgia manufacturing", "market_timing": "Fair", "roi": "+3%"},
+            {"date": "2024-01-08", "stock": "T", "action": "Buy", "amount": "$15K-50K", "reason": "Rural broadband focus", "market_timing": "Good", "roi": "+8%"}
+        ]
+    },
+    # Senate Leadership & Key Players
+    {
+        "id": 26, "name": "Mitch McConnell", "party": "Republican", "state": "Kentucky", "chamber": "Senate",
+        "committee": "Minority Leader", "net_worth": "$34M", "tenure": "1985-Present",
+        "influence_score": 96, "trading_frequency": "Medium", "avg_trade_size": "$120K",
+        "suspicious_activity": False, "risk_score": 5.3,
+        "recent_trades": [
+            {"date": "2024-01-12", "stock": "KO", "action": "Buy", "amount": "$50K-100K", "reason": "Kentucky business interests", "market_timing": "Good", "roi": "+7%"},
+            {"date": "2024-01-08", "stock": "UPS", "action": "Buy", "amount": "$25K-50K", "reason": "Louisville hub importance", "market_timing": "Excellent", "roi": "+11%"}
+        ]
+    },
+    {
+        "id": 27, "name": "Chuck Schumer", "party": "Democrat", "state": "New York", "chamber": "Senate",
+        "committee": "Majority Leader", "net_worth": "$1.1M", "tenure": "1999-Present",
+        "influence_score": 94, "trading_frequency": "Low", "avg_trade_size": "$35K",
+        "suspicious_activity": False, "risk_score": 2.8,
+        "recent_trades": [
+            {"date": "2024-01-10", "stock": "GS", "action": "Sell", "amount": "$15K-50K", "reason": "Wall Street regulation focus", "market_timing": "Fair", "roi": "+5%"}
+        ]
+    },
+    {
+        "id": 28, "name": "Elizabeth Warren", "party": "Democrat", "state": "Massachusetts", "chamber": "Senate",
+        "committee": "Banking", "net_worth": "$12M", "tenure": "2013-Present",
+        "influence_score": 86, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    {
+        "id": 29, "name": "Ted Cruz", "party": "Republican", "state": "Texas", "chamber": "Senate",
+        "committee": "Judiciary", "net_worth": "$4M", "tenure": "2013-Present",
+        "influence_score": 77, "trading_frequency": "Medium", "avg_trade_size": "$75K",
+        "suspicious_activity": False, "risk_score": 4.9,
+        "recent_trades": [
+            {"date": "2024-01-14", "stock": "XOM", "action": "Buy", "amount": "$50K-100K", "reason": "Texas energy interests", "market_timing": "Excellent", "roi": "+16%"},
+            {"date": "2024-01-11", "stock": "AT&T", "action": "Buy", "amount": "$25K-50K", "reason": "Texas telecom focus", "market_timing": "Good", "roi": "+9%"}
+        ]
+    },
+    {
+        "id": 30, "name": "Josh Hawley", "party": "Republican", "state": "Missouri", "chamber": "Senate",
+        "committee": "Judiciary", "net_worth": "$1M", "tenure": "2019-Present",
+        "influence_score": 65, "trading_frequency": "Low", "avg_trade_size": "$30K",
+        "suspicious_activity": False, "risk_score": 1.9,
+        "recent_trades": [
+            {"date": "2024-01-09", "stock": "WMT", "action": "Buy", "amount": "$15K-50K", "reason": "Missouri retail interests", "market_timing": "Good", "roi": "+6%"}
+        ]
+    },
+    # Technology Committee & Big Tech Critics
+    {
+        "id": 31, "name": "Amy Klobuchar", "party": "Democrat", "state": "Minnesota", "chamber": "Senate",
+        "committee": "Judiciary", "net_worth": "$2M", "tenure": "2007-Present",
+        "influence_score": 79, "trading_frequency": "Low", "avg_trade_size": "$40K",
+        "suspicious_activity": False, "risk_score": 3.1,
+        "recent_trades": [
+            {"date": "2024-01-08", "stock": "AMZN", "action": "Sell", "amount": "$15K-50K", "reason": "Antitrust legislation focus", "market_timing": "Good", "roi": "+8%"}
+        ]
+    },
+    {
+        "id": 32, "name": "Marco Rubio", "party": "Republican", "state": "Florida", "chamber": "Senate",
+        "committee": "Intelligence", "net_worth": "$443K", "tenure": "2011-Present",
+        "influence_score": 81, "trading_frequency": "Medium", "avg_trade_size": "$55K",
+        "suspicious_activity": False, "risk_score": 3.8,
+        "recent_trades": [
+            {"date": "2024-01-13", "stock": "LMT", "action": "Buy", "amount": "$25K-50K", "reason": "Defense intelligence focus", "market_timing": "Good", "roi": "+10%"},
+            {"date": "2024-01-10", "stock": "CCL", "action": "Buy", "amount": "$15K-50K", "reason": "Florida tourism recovery", "market_timing": "Excellent", "roi": "+14%"}
+        ]
+    },
+    # House Progressive Caucus - Clean Records
+    {
+        "id": 33, "name": "Pramila Jayapal", "party": "Democrat", "state": "Washington", "chamber": "House",
+        "committee": "Progressive Caucus Chair", "net_worth": "$6M", "tenure": "2017-Present",
+        "influence_score": 73, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    {
+        "id": 34, "name": "Rashida Tlaib", "party": "Democrat", "state": "Michigan", "chamber": "House",
+        "committee": "Financial Services", "net_worth": "$1.4M", "tenure": "2019-Present",
+        "influence_score": 64, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    # House Freedom Caucus
+    {
+        "id": 35, "name": "Lauren Boebert", "party": "Republican", "state": "Colorado", "chamber": "House",
+        "committee": "Natural Resources", "net_worth": "$1M", "tenure": "2021-Present",
+        "influence_score": 49, "trading_frequency": "Medium", "avg_trade_size": "$65K",
+        "suspicious_activity": False, "risk_score": 4.7,
+        "recent_trades": [
+            {"date": "2024-01-12", "stock": "CAT", "action": "Buy", "amount": "$25K-50K", "reason": "Colorado mining interests", "market_timing": "Good", "roi": "+7%"},
+            {"date": "2024-01-09", "stock": "FCX", "action": "Buy", "amount": "$15K-50K", "reason": "Mining sector focus", "market_timing": "Fair", "roi": "+4%"}
+        ]
+    },
+    # Healthcare & Pharma Committee Members
+    {
+        "id": 36, "name": "Anna Eshoo", "party": "Democrat", "state": "California", "chamber": "House",
+        "committee": "Energy & Commerce", "net_worth": "$7.2M", "tenure": "1993-Present",
+        "influence_score": 78, "trading_frequency": "Medium", "avg_trade_size": "$95K",
+        "suspicious_activity": True, "risk_score": 6.4,
+        "recent_trades": [
+            {"date": "2024-01-11", "stock": "GILD", "action": "Buy", "amount": "$50K-100K", "reason": "Biotech legislation insights", "market_timing": "Excellent", "roi": "+13%"},
+            {"date": "2024-01-07", "stock": "AMGN", "action": "Buy", "amount": "$25K-50K", "reason": "Drug pricing discussions", "market_timing": "Good", "roi": "+9%"}
+        ]
+    },
+    # Transportation & Infrastructure
+    {
+        "id": 37, "name": "Peter DeFazio", "party": "Democrat", "state": "Oregon", "chamber": "House",
+        "committee": "Transportation Chair (Former)", "net_worth": "$250K", "tenure": "1987-2023",
+        "influence_score": 76, "trading_frequency": "Low", "avg_trade_size": "$20K",
+        "suspicious_activity": False, "risk_score": 1.8,
+        "recent_trades": [
+            {"date": "2024-01-06", "stock": "UNP", "action": "Buy", "amount": "$10K-15K", "reason": "Rail infrastructure focus", "market_timing": "Good", "roi": "+8%"}
+        ]
+    },
+    # Agriculture Committee
+    {
+        "id": 38, "name": "David Scott", "party": "Democrat", "state": "Georgia", "chamber": "House",
+        "committee": "Agriculture Chair", "net_worth": "$1.8M", "tenure": "2003-Present",
+        "influence_score": 72, "trading_frequency": "Medium", "avg_trade_size": "$60K",
+        "suspicious_activity": False, "risk_score": 3.9,
+        "recent_trades": [
+            {"date": "2024-01-10", "stock": "ADM", "action": "Buy", "amount": "$25K-50K", "reason": "Agricultural policy insights", "market_timing": "Good", "roi": "+6%"},
+            {"date": "2024-01-08", "stock": "DE", "action": "Buy", "amount": "$15K-50K", "reason": "Farm equipment subsidies", "market_timing": "Excellent", "roi": "+12%"}
+        ]
+    },
+    # Veterans Affairs
+    {
+        "id": 39, "name": "Mark Takano", "party": "Democrat", "state": "California", "chamber": "House",
+        "committee": "Veterans' Affairs Chair", "net_worth": "$300K", "tenure": "2013-Present",
+        "influence_score": 69, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
+    },
+    # Clean Record Senate Members
+    {
+        "id": 40, "name": "Cory Booker", "party": "Democrat", "state": "New Jersey", "chamber": "Senate",
+        "committee": "Judiciary", "net_worth": "$300K", "tenure": "2013-Present",
+        "influence_score": 74, "trading_frequency": "None", "avg_trade_size": "$0",
+        "suspicious_activity": False, "risk_score": 0.0,
+        "recent_trades": []
     }
 ]
 

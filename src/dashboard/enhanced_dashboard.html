@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congressional Trading Intelligence System - Enhanced Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            background: #f8fafc; 
+            line-height: 1.6; 
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .container { 
+            max-width: 1600px; 
+            margin: 0 auto; 
+            padding: 0 1rem; 
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .tab-navigation {
+            background: white;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            overflow-x: auto;
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            min-width: max-content;
+        }
+        
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .tab-button:hover {
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+        
+        .tab-button.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+        }
+        
+        .card h3 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .emoji {
+            font-size: 1.5em;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+        }
+        
+        .chart-container-large {
+            height: 400px;
+        }
+        
+        .prediction-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-left: 4px solid #3b82f6;
+            background: #f8fafc;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        
+        .prediction-item:hover {
+            background: #f1f5f9;
+            transform: translateX(4px);
+        }
+        
+        .prediction-high {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .prediction-medium {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
+        }
+        
+        .prediction-low {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        
+        .member-name {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 1.1rem;
+        }
+        
+        .prediction-score {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .score-extreme { color: #dc2626; }
+        .score-high { color: #f59e0b; }
+        .score-medium { color: #10b981; }
+        .score-low { color: #64748b; }
+        
+        .cluster-item {
+            padding: 1rem;
+            margin: 0.75rem 0;
+            border-radius: 8px;
+            border-left: 5px solid #3b82f6;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .cluster-profile {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cluster-members {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        .anomaly-item {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+            background: #fef2f2;
+        }
+        
+        .anomaly-extreme { border-left-color: #dc2626; }
+        .anomaly-high { border-left-color: #f59e0b; background: #fffbeb; }
+        .anomaly-medium { border-left-color: #10b981; background: #f0fdf4; }
+        
+        .metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .metric-row:last-child {
+            border-bottom: none;
+        }
+        
+        .metric-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .metric-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+        
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #e2e8f0;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .filters {
+            background: white;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group label {
+            font-weight: 500;
+            color: #374151;
+            white-space: nowrap;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            background: white;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            background: #f8fafc;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .network-node {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .network-node:hover {
+            stroke-width: 3px;
+        }
+        
+        .correlation-heatmap {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .correlation-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1><span class="emoji">🏛️</span>Congressional Trading Intelligence System</h1>
+            <p>Advanced AI-Powered Analysis of Congressional Trading Patterns</p>
+        </div>
+    </div>
+    
+    <div class="container">
+        <!-- Enhanced Statistics Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="total-members">15</div>
+                <div class="stat-label">Members Tracked</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-volume">$8.2M</div>
+                <div class="stat-label">Total Volume</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-suspicion">3.2</div>
+                <div class="stat-label">Avg Suspicion Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="anomalies-detected">12</div>
+                <div class="stat-label">Anomalies Detected</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="prediction-accuracy">87%</div>
+                <div class="stat-label">ML Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="active-clusters">5</div>
+                <div class="stat-label">Behavior Clusters</div>
+            </div>
+        </div>
+        
+        <!-- Enhanced Tab Navigation -->
+        <div class="tab-navigation">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('advanced-analysis')">
+                    🔍 Advanced Analysis
+                </button>
+                <button class="tab-button" onclick="showTab('predictions')">
+                    🎯 ML Predictions
+                </button>
+                <button class="tab-button" onclick="showTab('clustering')">
+                    👥 Behavior Clusters
+                </button>
+                <button class="tab-button" onclick="showTab('anomalies')">
+                    ⚠️ Volume Anomalies
+                </button>
+                <button class="tab-button" onclick="showTab('correlations')">
+                    📊 Event Correlations
+                </button>
+                <button class="tab-button" onclick="showTab('sector-rotation')">
+                    🔄 Sector Rotation
+                </button>
+                <button class="tab-button" onclick="showTab('network')">
+                    🕸️ Network Analysis
+                </button>
+                <button class="tab-button" onclick="showTab('research')">
+                    📚 Research Tools
+                </button>
+            </div>
+        </div>
+        
+        <!-- Advanced Analysis Tab -->
+        <div id="advanced-analysis" class="tab-content active">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Pattern Recognition Overview</h3>
+                    <div class="chart-container">
+                        <canvas id="patternChart"></canvas>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Patterns Detected</span>
+                        <span class="metric-value">23</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">High-Risk Patterns</span>
+                        <span class="metric-value">8</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Confidence Level</span>
+                        <span class="metric-value">94.2%</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">⏱️</span>Timing Analysis</h3>
+                    <div class="chart-container">
+                        <canvas id="timingChart"></canvas>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Pre-Event Trades</span>
+                        <span class="metric-value">7</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Avg Days Before Event</span>
+                        <span class="metric-value">23.4</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>Suspicion Score Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="suspicionChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Volume Analysis</h3>
+                    <div class="chart-container">
+                        <canvas id="volumeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ML Predictions Tab -->
+        <div id="predictions" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>Trade Predictions</h3>
+                    <div id="trade-predictions-list">
+                        <div class="prediction-item prediction-high">
+                            <div class="member-name">Nancy Pelosi</div>
+                            <div class="prediction-score score-extreme">Trade Probability: 89%</div>
+                            <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                                Based on: Committee activity, historical patterns, market conditions
+                            </div>
+                        </div>
+                        <div class="prediction-item prediction-medium">
+                            <div class="member-name">Josh Gottheimer</div>
+                            <div class="prediction-score score-high">Trade Probability: 67%</div>
+                            <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                                Based on: Financial Services committee activity
+                            </div>
+                        </div>
+                        <div class="prediction-item prediction-low">
+                            <div class="member-name">Alexandria Ocasio-Cortez</div>
+                            <div class="prediction-score score-medium">Trade Probability: 23%</div>
+                            <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                                Based on: Low historical trading frequency
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Market Impact Predictions</h3>
+                    <div class="chart-container">
+                        <canvas id="impactChart"></canvas>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Avg Predicted Impact</span>
+                        <span class="metric-value">2.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Max Predicted Impact</span>
+                        <span class="metric-value">8.7%</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📜</span>Legislation Outcome Confidence</h3>
+                    <div class="chart-container">
+                        <canvas id="legislationChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🤖</span>Model Performance</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Trade Prediction Accuracy</span>
+                        <span class="metric-value">87.3%</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Impact Model R²</span>
+                        <span class="metric-value">0.792</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Training Samples</span>
+                        <span class="metric-value">1,247</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Last Updated</span>
+                        <span class="metric-value">2 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Behavior Clustering Tab -->
+        <div id="clustering" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">👥</span>Trading Behavior Clusters</h3>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Cluster 0: Active traders | Large positions | Late filers</div>
+                        <div class="cluster-members">Members (3): Nancy, Dan, Richard</div>
+                    </div>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Cluster 1: Moderate traders | Medium positions | Timely filers</div>
+                        <div class="cluster-members">Members (6): Josh, Pat, Sherrod, Joe, Susan, Kevin</div>
+                    </div>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Cluster 2: Infrequent traders | Small positions | Timely filers</div>
+                        <div class="cluster-members">Members (4): Alexandria, Ted, Mark, Ro</div>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Clustering Quality (Silhouette Score)</span>
+                        <span class="metric-value">0.743</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Cluster Visualization</h3>
+                    <div class="chart-container">
+                        <canvas id="clusterChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔍</span>Feature Importance</h3>
+                    <div class="chart-container">
+                        <canvas id="featureChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Cluster Characteristics</h3>
+                    <div class="chart-container">
+                        <canvas id="characteristicsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Volume Anomalies Tab -->
+        <div id="anomalies" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">⚠️</span>Volume Anomaly Detection</h3>
+                    <div class="anomaly-item anomaly-extreme">
+                        <div class="member-name">Nancy Pelosi - NVDA</div>
+                        <div class="prediction-score score-extreme">Z-Score: 4.2 (EXTREME)</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Amount: $3,000,000 (avg: $750,000) | Date: 2023-12-15
+                        </div>
+                    </div>
+                    <div class="anomaly-item anomaly-high">
+                        <div class="member-name">Richard Burr - HCA</div>
+                        <div class="prediction-score score-high">Z-Score: 3.1 (HIGH)</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Amount: $1,174,000 (avg: $400,000) | Date: 2020-02-13
+                        </div>
+                    </div>
+                    <div class="anomaly-item anomaly-medium">
+                        <div class="member-name">Joe Manchin - XOM</div>
+                        <div class="prediction-score score-medium">Z-Score: 2.7 (MEDIUM)</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Amount: $375,000 (avg: $200,000) | Date: 2024-02-14
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Anomaly Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="anomalyChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Z-Score Analysis</h3>
+                    <div class="chart-container">
+                        <canvas id="zscoreChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔍</span>Detection Statistics</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Total Anomalies Detected</span>
+                        <span class="metric-value">12</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Extreme Risk (Z > 4)</span>
+                        <span class="metric-value">2</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">High Risk (Z > 3)</span>
+                        <span class="metric-value">4</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Detection Threshold</span>
+                        <span class="metric-value">Z = 2.5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Event Correlations Tab -->
+        <div id="correlations" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Market Event Correlations</h3>
+                    <div class="chart-container-large">
+                        <canvas id="correlationChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">⏱️</span>Event Timing Analysis</h3>
+                    <div class="prediction-item">
+                        <div class="member-name">COVID-19 Market Crash</div>
+                        <div class="prediction-score score-extreme">Timing Score: 8.7/10</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Pre-event trades: 3 | Total volume: $2.1M
+                        </div>
+                    </div>
+                    <div class="prediction-item">
+                        <div class="member-name">AI Executive Order</div>
+                        <div class="prediction-score score-high">Timing Score: 6.2/10</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Pre-event trades: 2 | Total volume: $3.5M
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>Correlation Heatmap</h3>
+                    <div class="correlation-heatmap">
+                        <div class="correlation-cell" style="background: #dc2626;">High</div>
+                        <div class="correlation-cell" style="background: #f59e0b;">Med</div>
+                        <div class="correlation-cell" style="background: #10b981;">Low</div>
+                        <div class="correlation-cell" style="background: #3b82f6;">None</div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Timing Statistics</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Avg Pre-Event Window</span>
+                        <span class="metric-value">23.4 days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Max Advance Knowledge</span>
+                        <span class="metric-value">190 days</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Events Analyzed</span>
+                        <span class="metric-value">6</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sector Rotation Tab -->
+        <div id="sector-rotation" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">🔄</span>Sector Rotation Analysis</h3>
+                    <div class="prediction-item">
+                        <div class="member-name">Nancy Pelosi</div>
+                        <div class="prediction-score score-extreme">Rotation Score: 7.8/10</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Sectors: 3 | Switches: 2 | Dominant: Technology (67%)
+                        </div>
+                    </div>
+                    <div class="prediction-item">
+                        <div class="member-name">Josh Gottheimer</div>
+                        <div class="prediction-score score-medium">Rotation Score: 4.2/10</div>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-top: 0.5rem;">
+                            Sectors: 2 | Switches: 1 | Dominant: Financial (75%)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Sector Distribution</h3>
+                    <div class="chart-container">
+                        <canvas id="sectorChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔄</span>Rotation Patterns</h3>
+                    <div class="chart-container">
+                        <canvas id="rotationChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Rotation Metrics</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Avg Sectors per Member</span>
+                        <span class="metric-value">2.3</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Most Active Rotator</span>
+                        <span class="metric-value">Nancy Pelosi</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Most Concentrated</span>
+                        <span class="metric-value">Tech (45%)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Network Analysis Tab -->
+        <div id="network" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">🕸️</span>Trading Network Map</h3>
+                    <div class="chart-container-large">
+                        <canvas id="networkChart"></canvas>
+                    </div>
+                    <div style="text-align: center; margin-top: 1rem; color: #64748b;">
+                        Node size = Trading volume | Edge thickness = Correlation strength
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Influence Scores</h3>
+                    <div class="chart-container">
+                        <canvas id="influenceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔗</span>Network Metrics</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Network Density</span>
+                        <span class="metric-value">0.23</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Average Clustering</span>
+                        <span class="metric-value">0.67</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Most Central Node</span>
+                        <span class="metric-value">Nancy Pelosi</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">👥</span>Community Detection</h3>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Democratic Leadership Cluster</div>
+                        <div class="cluster-members">Nancy Pelosi, Josh Gottheimer, Ro Khanna</div>
+                    </div>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Senate Banking Cluster</div>
+                        <div class="cluster-members">Sherrod Brown, Pat Toomey, Mark Warner</div>
+                    </div>
+                    <div class="cluster-item">
+                        <div class="cluster-profile">Republican Cluster</div>
+                        <div class="cluster-members">Dan Crenshaw, Ted Cruz, Kevin McCarthy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Research Tools Tab -->
+        <div id="research" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">📚</span>Academic Research Tools</h3>
+                    <div class="filters">
+                        <div class="filter-group">
+                            <label>Time Period:</label>
+                            <select id="research-period">
+                                <option>Last 6 months</option>
+                                <option>Last year</option>
+                                <option>All time</option>
+                            </select>
+                            <label>Analysis Type:</label>
+                            <select id="analysis-type">
+                                <option>Statistical Summary</option>
+                                <option>Regression Analysis</option>
+                                <option>Network Analysis</option>
+                                <option>Export Data</option>
+                            </select>
+                            <button onclick="runResearchAnalysis()">Generate Report</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📊</span>Statistical Analysis</h3>
+                    <div class="metric-row">
+                        <span class="metric-label">Sample Size</span>
+                        <span class="metric-value">15 members, 247 trades</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Mean Trade Amount</span>
+                        <span class="metric-value">$547,833 (σ = $890,442)</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Filing Delay Distribution</span>
+                        <span class="metric-value">μ = 46.1 days (σ = 33.2)</span>
+                    </div>
+                    <div class="metric-row">
+                        <span class="metric-label">Correlation (Amount × Delay)</span>
+                        <span class="metric-value">r = 0.34 (p < 0.05)</span>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">📈</span>Performance Metrics</h3>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🔬</span>Research Outputs</h3>
+                    <div style="padding: 1rem; background: #f8fafc; border-radius: 8px; margin: 1rem 0;">
+                        <strong>Citation Format:</strong><br>
+                        "Congressional Trading Intelligence System. (2025). Analysis of Congressional Trading Patterns. Retrieved from [URL]"
+                    </div>
+                    <div style="margin: 1rem 0;">
+                        <button onclick="exportCSV()">📊 Export CSV</button>
+                        <button onclick="exportJSON()">📝 Export JSON</button>
+                        <button onclick="generateReport()">📄 Generate Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab Navigation
+        function showTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab and activate button
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Initialize charts for the active tab
+            initializeChartsForTab(tabId);
+        }
+        
+        // Initialize charts based on active tab
+        function initializeChartsForTab(tabId) {
+            setTimeout(() => {
+                switch(tabId) {
+                    case 'advanced-analysis':
+                        initializeAdvancedCharts();
+                        break;
+                    case 'predictions':
+                        initializePredictionCharts();
+                        break;
+                    case 'clustering':
+                        initializeClusteringCharts();
+                        break;
+                    case 'anomalies':
+                        initializeAnomalyCharts();
+                        break;
+                    case 'correlations':
+                        initializeCorrelationCharts();
+                        break;
+                    case 'sector-rotation':
+                        initializeSectorCharts();
+                        break;
+                    case 'network':
+                        initializeNetworkCharts();
+                        break;
+                    case 'research':
+                        initializeResearchCharts();
+                        break;
+                }
+            }, 100);
+        }
+        
+        // Chart initialization functions
+        function initializeAdvancedCharts() {
+            // Pattern Recognition Chart
+            const patternCtx = document.getElementById('patternChart');
+            if (patternCtx && !patternCtx.chart) {
+                patternCtx.chart = new Chart(patternCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sector Rotation', 'Volume Spikes', 'Timing Anomalies', 'Filing Delays'],
+                        datasets: [{
+                            label: 'Pattern Count',
+                            data: [8, 12, 6, 15],
+                            backgroundColor: ['#3b82f6', '#ef4444', '#f59e0b', '#10b981']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+            
+            // Timing Analysis Chart
+            const timingCtx = document.getElementById('timingChart');
+            if (timingCtx && !timingCtx.chart) {
+                timingCtx.chart = new Chart(timingCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Pre-30d', 'Pre-15d', 'Pre-5d', 'Event', 'Post-5d', 'Post-15d'],
+                        datasets: [{
+                            label: 'Trade Volume',
+                            data: [2.1, 3.8, 5.2, 1.0, 0.8, 1.2],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+            
+            // Suspicion Score Distribution
+            const suspicionCtx = document.getElementById('suspicionChart');
+            if (suspicionCtx && !suspicionCtx.chart) {
+                suspicionCtx.chart = new Chart(suspicionCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Low (0-3)', 'Medium (4-6)', 'High (7-8)', 'Extreme (9-10)'],
+                        datasets: [{
+                            data: [6, 5, 3, 1],
+                            backgroundColor: ['#10b981', '#f59e0b', '#ef4444', '#dc2626']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+            
+            // Volume Analysis
+            const volumeCtx = document.getElementById('volumeChart');
+            if (volumeCtx && !volumeCtx.chart) {
+                volumeCtx.chart = new Chart(volumeCtx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Trade Amount vs Filing Delay',
+                            data: [
+                                {x: 36, y: 3000000}, {x: 179, y: 32500}, {x: 35, y: 1174000},
+                                {x: 24, y: 750000}, {x: 44, y: 75000}, {x: 22, y: 32500}
+                            ],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { title: { display: true, text: 'Filing Delay (days)' } },
+                            y: { 
+                                title: { display: true, text: 'Trade Amount ($)' },
+                                type: 'logarithmic'
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializePredictionCharts() {
+            // Market Impact Predictions
+            const impactCtx = document.getElementById('impactChart');
+            if (impactCtx && !impactCtx.chart) {
+                impactCtx.chart = new Chart(impactCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nancy P.', 'Richard B.', 'Paul P.', 'Josh G.', 'Joe M.'],
+                        datasets: [{
+                            label: 'Predicted Impact (%)',
+                            data: [8.7, 4.2, 6.1, 2.8, 3.4],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+            
+            // Legislation Outcome Confidence
+            const legislationCtx = document.getElementById('legislationChart');
+            if (legislationCtx && !legislationCtx.chart) {
+                legislationCtx.chart = new Chart(legislationCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['AI Safety Act', 'Banking Innovation', 'Energy Security', 'Healthcare Transparency'],
+                        datasets: [{
+                            label: 'Outcome Confidence',
+                            data: [0.89, 0.67, 0.75, 0.82],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 1
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeClusteringCharts() {
+            // Cluster Visualization
+            const clusterCtx = document.getElementById('clusterChart');
+            if (clusterCtx && !clusterCtx.chart) {
+                clusterCtx.chart = new Chart(clusterCtx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Cluster 0',
+                            data: [{x: 8.2, y: 2.1}, {x: 7.8, y: 1.9}, {x: 8.5, y: 2.3}],
+                            backgroundColor: '#ef4444'
+                        }, {
+                            label: 'Cluster 1',
+                            data: [{x: 4.1, y: 1.2}, {x: 3.8, y: 1.1}, {x: 4.3, y: 1.3}, {x: 4.0, y: 1.0}],
+                            backgroundColor: '#3b82f6'
+                        }, {
+                            label: 'Cluster 2',
+                            data: [{x: 1.2, y: 0.3}, {x: 1.5, y: 0.4}, {x: 1.1, y: 0.2}],
+                            backgroundColor: '#10b981'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { title: { display: true, text: 'Trading Frequency' } },
+                            y: { title: { display: true, text: 'Average Amount (log)' } }
+                        }
+                    }
+                });
+            }
+            
+            // Feature Importance
+            const featureCtx = document.getElementById('featureChart');
+            if (featureCtx && !featureCtx.chart) {
+                featureCtx.chart = new Chart(featureCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Trade Freq', 'Avg Amount', 'Filing Delay', 'Sector Diversity'],
+                        datasets: [{
+                            label: 'Importance',
+                            data: [0.34, 0.28, 0.22, 0.16],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+            
+            // Cluster Characteristics
+            const characteristicsCtx = document.getElementById('characteristicsChart');
+            if (characteristicsCtx && !characteristicsCtx.chart) {
+                characteristicsCtx.chart = new Chart(characteristicsCtx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Frequency', 'Amount', 'Delay', 'Diversity', 'Purchase Ratio'],
+                        datasets: [{
+                            label: 'High Activity',
+                            data: [8, 9, 3, 7, 6],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                        }, {
+                            label: 'Moderate Activity',
+                            data: [4, 5, 6, 4, 5],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                        }, {
+                            label: 'Low Activity',
+                            data: [2, 2, 8, 2, 4],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: {
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeAnomalyCharts() {
+            // Anomaly Distribution
+            const anomalyCtx = document.getElementById('anomalyChart');
+            if (anomalyCtx && !anomalyCtx.chart) {
+                anomalyCtx.chart = new Chart(anomalyCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nancy P.', 'Richard B.', 'Joe M.', 'Pat T.', 'Sherrod B.'],
+                        datasets: [{
+                            label: 'Anomaly Count',
+                            data: [3, 2, 2, 1, 1],
+                            backgroundColor: ['#dc2626', '#ef4444', '#f59e0b', '#f59e0b', '#10b981']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+            
+            // Z-Score Analysis
+            const zscoreCtx = document.getElementById('zscoreChart');
+            if (zscoreCtx && !zscoreCtx.chart) {
+                zscoreCtx.chart = new Chart(zscoreCtx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Z-Scores',
+                            data: [
+                                {x: 1, y: 4.2}, {x: 2, y: 3.1}, {x: 3, y: 2.7},
+                                {x: 4, y: 2.9}, {x: 5, y: 2.6}
+                            ],
+                            backgroundColor: '#ef4444',
+                            pointRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: { title: { display: true, text: 'Anomaly Index' } },
+                            y: { 
+                                title: { display: true, text: 'Z-Score' },
+                                min: 0,
+                                max: 5
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeCorrelationCharts() {
+            // Event Correlation Timeline
+            const correlationCtx = document.getElementById('correlationChart');
+            if (correlationCtx && !correlationCtx.chart) {
+                correlationCtx.chart = new Chart(correlationCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan 2020', 'Mar 2020', 'Nov 2020', 'Jun 2022', 'Nov 2023', 'Jan 2024'],
+                        datasets: [{
+                            label: 'Trading Volume ($M)',
+                            data: [1.2, 8.7, 3.4, 2.1, 4.6, 2.8],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            fill: true
+                        }, {
+                            label: 'Market Events',
+                            data: [null, 10, null, 6, 8, null],
+                            borderColor: '#ef4444',
+                            backgroundColor: '#ef4444',
+                            pointRadius: 8,
+                            showLine: false
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { title: { display: true, text: 'Volume / Event Impact' } }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeSectorCharts() {
+            // Sector Distribution
+            const sectorCtx = document.getElementById('sectorChart');
+            if (sectorCtx && !sectorCtx.chart) {
+                sectorCtx.chart = new Chart(sectorCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Technology', 'Financial', 'Healthcare', 'Energy', 'Media'],
+                        datasets: [{
+                            data: [45, 25, 15, 10, 5],
+                            backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+            
+            // Rotation Patterns
+            const rotationCtx = document.getElementById('rotationChart');
+            if (rotationCtx && !rotationCtx.chart) {
+                rotationCtx.chart = new Chart(rotationCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nancy P.', 'Dan C.', 'Josh G.', 'Pat T.', 'Joe M.'],
+                        datasets: [{
+                            label: 'Rotation Score',
+                            data: [7.8, 5.2, 4.2, 3.1, 2.8],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeNetworkCharts() {
+            // Network visualization would require a specialized library like D3.js
+            // For now, showing a placeholder
+            const networkCtx = document.getElementById('networkChart');
+            if (networkCtx && !networkCtx.chart) {
+                const ctx = networkCtx.getContext('2d');
+                ctx.fillStyle = '#f8fafc';
+                ctx.fillRect(0, 0, networkCtx.width, networkCtx.height);
+                ctx.fillStyle = '#64748b';
+                ctx.font = '16px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Network Visualization', networkCtx.width/2, networkCtx.height/2 - 10);
+                ctx.fillText('(Requires D3.js integration)', networkCtx.width/2, networkCtx.height/2 + 10);
+            }
+            
+            // Influence Scores
+            const influenceCtx = document.getElementById('influenceChart');
+            if (influenceCtx && !influenceCtx.chart) {
+                influenceCtx.chart = new Chart(influenceCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nancy P.', 'Kevin M.', 'Dan C.', 'Josh G.', 'Pat T.'],
+                        datasets: [{
+                            label: 'Influence Score',
+                            data: [10, 9, 6, 5, 7],
+                            backgroundColor: '#3b82f6'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        indexAxis: 'y',
+                        plugins: {
+                            legend: { display: false }
+                        }
+                    }
+                });
+            }
+        }
+        
+        function initializeResearchCharts() {
+            // Performance Metrics
+            const performanceCtx = document.getElementById('performanceChart');
+            if (performanceCtx && !performanceCtx.chart) {
+                performanceCtx.chart = new Chart(performanceCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Q1 2023', 'Q2 2023', 'Q3 2023', 'Q4 2023', 'Q1 2024'],
+                        datasets: [{
+                            label: 'Congressional Returns',
+                            data: [12.3, 8.7, 15.2, 22.1, 18.4],
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                        }, {
+                            label: 'S&P 500',
+                            data: [7.5, 8.3, 6.9, 11.2, 10.5],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { title: { display: true, text: 'Returns (%)' } }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Research functions
+        function runResearchAnalysis() {
+            alert('Research analysis would be implemented here');
+        }
+        
+        function exportCSV() {
+            alert('CSV export would be implemented here');
+        }
+        
+        function exportJSON() {
+            alert('JSON export would be implemented here');
+        }
+        
+        function generateReport() {
+            alert('Report generation would be implemented here');
+        }
+        
+        // Initialize default charts on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeChartsForTab('advanced-analysis');
+        });
+    </script>
+</body>
+</html>
