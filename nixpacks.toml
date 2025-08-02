@@ -3,10 +3,10 @@
 nixPkgs = ["python39", "pip"]
 
 [phases.install]
-cmds = ["pip install -r requirements_minimal.txt"]
+cmds = ["pip install -r requirements.txt"]
 
 [phases.build]
 cmds = []
 
 [start]
-cmd = "gunicorn --bind 0.0.0.0:$PORT app:app"
+cmd = "gunicorn --bind 0.0.0.0:$PORT simple_app:app"
