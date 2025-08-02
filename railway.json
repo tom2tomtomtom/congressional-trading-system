@@ -4,12 +4,11 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "startCommand": "python src/api/app.py",
+    "startCommand": "gunicorn --bind 0.0.0.0:$PORT simple_app:app",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   },
   "environment": {
-    "PYTHON_VERSION": "3.11",
-    "PORT": 5000
+    "PYTHON_VERSION": "3.11"
   }
 }
