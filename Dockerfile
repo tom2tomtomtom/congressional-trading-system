@@ -11,12 +11,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY simple_app.py .
 COPY analysis_output/ ./analysis_output/
 
-# Create a simple start script
-RUN echo '#!/bin/bash\nexec gunicorn --bind 0.0.0.0:$PORT simple_app:app' > start.sh && chmod +x start.sh
+# Create a robust start script that handles PORT properly
+RUN echo '#!/bin/bash\nPORT=${PORT:-5000}\necho "🚂 Congressional Trading Intelligence System"\necho "Starting gunicorn on 0.0.0.0:$PORT"\necho "Environment: PORT=$PORT"\nexec gunicorn --bind 0.0.0.0:$PORT --timeout 120 --workers 1 --access-logfile - --error-logfile - simple_app:app' > start.sh && chmod +x start.sh
 
-# Use Railway's PORT environment variable
-ENV PORT=5000
-
-EXPOSE $PORT
+# Don't set default PORT - let Railway set it
+EXPOSE 5000
 
 CMD ["./start.sh"]
