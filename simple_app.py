@@ -111,88 +111,64 @@ def get_analysis_data():
 
 @app.route('/')
 def home():
-    """Congressional Trading Intelligence System - Main Dashboard"""
-    data = get_analysis_data()
-    
-    return f"""
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Congressional Trading Intelligence System</title>
-        <style>
-            body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
-            .container {{ max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }}
-            .stat {{ display: inline-block; margin: 15px; padding: 20px; background: #3b82f6; color: white; border-radius: 8px; text-align: center; }}
-            .stat h3 {{ margin: 0; font-size: 2em; }}
-            .stat p {{ margin: 5px 0 0 0; }}
-            .member {{ background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #dc2626; }}
-            .nav-links {{ margin: 20px 0; padding: 20px; background: #e5e7eb; border-radius: 8px; }}
-            .nav-links a {{ display: inline-block; margin: 10px 15px; padding: 10px 20px; background: #3b82f6; color: white; text-decoration: none; border-radius: 5px; }}
-            .nav-links a:hover {{ background: #1d4ed8; }}
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <h1>🏛️ Congressional Trading Intelligence System</h1>
-            <p><strong>Status:</strong> ✅ Successfully deployed on Railway!</p>
-            <p><strong>Coverage:</strong> Complete analysis of all {data['summary']['total_members']} congressional members</p>
-            
-            <div class="nav-links">
-                <h3>🚀 Explore the Full System:</h3>
-                <a href="/analysis">📊 Complete Analysis</a>
-                <a href="/dashboard">🎯 Interactive Dashboard</a>
-                <a href="/api/stats">📋 API Statistics</a>
-                <a href="/api/high-risk">⚠️ High-Risk Members</a>
+    """Congressional Trading Intelligence System - Interactive Dashboard Home Page"""
+    try:
+        # Load the comprehensive dashboard as the home page
+        with open('dashboard/comprehensive_dashboard.html', 'r') as f:
+            dashboard_html = f.read()
+        return dashboard_html
+    except Exception as e:
+        # Fallback if dashboard file not found
+        print(f"Dashboard file not found: {e}")
+        data = get_analysis_data()
+        return f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Congressional Trading Intelligence System</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
+                .container {{ max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }}
+                .error {{ background: #fee2e2; border: 1px solid #fecaca; padding: 20px; border-radius: 8px; margin: 20px 0; }}
+                .stat {{ display: inline-block; margin: 15px; padding: 20px; background: #3b82f6; color: white; border-radius: 8px; text-align: center; }}
+                .stat h3 {{ margin: 0; font-size: 2em; }}
+                .stat p {{ margin: 5px 0 0 0; }}
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🏛️ Congressional Trading Intelligence System</h1>
+                
+                <div class="error">
+                    <h3>⚠️ Dashboard Loading Issue</h3>
+                    <p><strong>Error:</strong> {e}</p>
+                    <p>The comprehensive dashboard is temporarily unavailable. Showing basic system overview instead.</p>
+                </div>
+                
+                <h2>📊 System Status</h2>
+                <div class="stat">
+                    <h3>{data['summary']['total_members']}</h3>
+                    <p>Congressional Members</p>
+                </div>
+                <div class="stat">
+                    <h3>{data['summary']['total_trades']:,}</h3>
+                    <p>Trades Analyzed</p>
+                </div>
+                <div class="stat">
+                    <h3>${data['summary']['total_volume']//1000000:,}M</h3>
+                    <p>Trading Volume</p>
+                </div>
+                
+                <h3>🔗 Try These Endpoints:</h3>
+                <ul>
+                    <li><a href="/analysis">📊 Full Analysis Page</a></li>
+                    <li><a href="/api/stats">📋 API Statistics</a></li>
+                    <li><a href="/api/high-risk">⚠️ High-Risk Members API</a></li>
+                </ul>
             </div>
-            
-            <h2>📊 System Overview</h2>
-            <div class="stat">
-                <h3>{data['summary']['total_members']}</h3>
-                <p>Congressional Members</p>
-            </div>
-            <div class="stat">
-                <h3>{data['summary']['total_trades']:,}</h3>
-                <p>Trades Analyzed</p>
-            </div>
-            <div class="stat">
-                <h3>{data['summary']['trading_members']}</h3>
-                <p>Active Traders</p>
-            </div>
-            <div class="stat">
-                <h3>${data['summary']['total_volume']//1000000:,}M</h3>
-                <p>Trading Volume</p>
-            </div>
-            <div class="stat">
-                <h3>{data['summary']['compliance_rate']:.1f}%</h3>
-                <p>STOCK Act Compliance</p>
-            </div>
-            <div class="stat">
-                <h3>{len(data['high_risk_members'])}</h3>
-                <p>High-Risk Members</p>
-            </div>
-            
-            <h2>⚠️ High-Risk Members Identified</h2>
-            {''.join([f'<div class="member"><strong>{m["name"]}</strong> ({m["party"]}-{m["state"]}, {m["chamber"]}) - Risk Score: {m["risk_score"]:.1f}/10</div>' for m in data['high_risk_members']])}
-            
-            <h2>🔗 System Features</h2>
-            <ul>
-                <li>✅ <strong>Complete Congressional Coverage:</strong> All 435 House + 100 Senate members</li>
-                <li>✅ <strong>Advanced Risk Analysis:</strong> ML-powered suspicion scoring</li>
-                <li>✅ <strong>STOCK Act Compliance:</strong> Filing delay tracking and violation detection</li>
-                <li>✅ <strong>Real-time API:</strong> RESTful endpoints for data access</li>
-                <li>✅ <strong>Interactive Dashboard:</strong> Comprehensive analysis tools</li>
-                <li>✅ <strong>High-Risk Detection:</strong> {len(data['high_risk_members'])} members flagged for investigation</li>
-            </ul>
-            
-            <p style="margin-top: 30px; color: #666; text-align: center;">
-                <strong>Congressional Trading Intelligence System</strong><br>
-                Professional-grade transparency and accountability platform<br>
-                Deployed successfully on Railway 🚂
-            </p>
-        </div>
-    </body>
-    </html>
-    """
+        </body>
+        </html>
+        """
 
 @app.route('/api/stats')
 def api_stats():
