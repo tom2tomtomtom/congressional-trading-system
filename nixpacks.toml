@@ -1,0 +1,12 @@
+# Nixpacks configuration for Congressional Trading Intelligence System
+[phases.setup]
+nixPkgs = ["python39", "pip"]
+
+[phases.install]
+cmds = ["pip install -r requirements_minimal.txt"]
+
+[phases.build]
+cmds = []
+
+[start]
+cmd = "gunicorn --bind 0.0.0.0:$PORT app:app"
