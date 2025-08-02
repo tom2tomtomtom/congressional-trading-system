@@ -2,18 +2,16 @@
 builder = "nixpacks"
 
 [deploy]
-startCommand = "python src/api/app.py"
+startCommand = "gunicorn --bind 0.0.0.0:$PORT app:app"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
 
 [[services]]
-name = "congressional-trading-api"
+name = "congressional-trading-intelligence"
 
 [services.variables]
-FLASK_APP = "src/api/app.py"
 FLASK_ENV = "production"
 PYTHONPATH = "/app"
-PORT = "5000"
 
 # Health check endpoint
 [services.healthcheck]
