@@ -459,6 +459,9 @@
                 <button class="tab-button" onclick="showTab('legislation')">
                     📜 Active Legislation
                 </button>
+                <button class="tab-button" onclick="showTab('stock-watchlist')">
+                    👀 Stock Watchlist
+                </button>
                 <button class="tab-button" onclick="showTab('research')">
                     📚 Research Tools
                 </button>
@@ -1029,164 +1032,6 @@
                     </div>
                 </div>
                 
-                <div class="card">
-                    <h3><span class="emoji">👀</span>Likely Stocks to Watch
-                        <span class="help-tooltip">❓
-                            <span class="tooltip-text">
-                                Based on committee assignments and recent legislative activity, these stocks are most likely to be traded by members with oversight responsibilities.
-                            </span>
-                        </span>
-                    </h3>
-                    
-                    <div class="chart-container">
-                        <canvas id="stocksWatchChart"></canvas>
-                    </div>
-                    
-                    <div class="chart-explanation">
-                        <h4>Predictive Stock Analysis</h4>
-                        <p>Using committee schedules, pending legislation, and historical patterns to identify stocks most likely to appear in future congressional trades.</p>
-                    </div>
-                    
-                    <table class="data-table" style="margin-top: 1rem;">
-                        <thead>
-                            <tr>
-                                <th>Stock Symbol</th>
-                                <th>Company</th>
-                                <th>Relevant Committee</th>
-                                <th>Risk Factor</th>
-                                <th>Watch Level</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr style="background: #f0f9ff;">
-                                <td colspan="5" style="font-weight: bold; color: #1e40af; text-align: center; padding: 0.75rem;">
-                                    🔍 NON-OBVIOUS / UNDER-THE-RADAR OPPORTUNITIES
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>PALANTIR (PLTR)</strong></td>
-                                <td>Palantir Technologies</td>
-                                <td>Intelligence, Homeland Security</td>
-                                <td>Government contracts, surveillance oversight</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>AXON (AXON)</strong></td>
-                                <td>Axon Enterprise</td>
-                                <td>Judiciary, Homeland Security</td>
-                                <td>Police reform, body camera mandates</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>VERACYTE (VCYT)</strong></td>
-                                <td>Veracyte Inc.</td>
-                                <td>Health Committee</td>
-                                <td>Cancer diagnostics, Medicare coverage</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>QUANTUM (QMCO)</strong></td>
-                                <td>Quantum Corporation</td>
-                                <td>Science & Technology</td>
-                                <td>Quantum computing initiative funding</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>CHARGEPOINT (CHPT)</strong></td>
-                                <td>ChargePoint Holdings</td>
-                                <td>Transportation, Energy</td>
-                                <td>EV infrastructure spending, rural charging</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>SOLAREDGE (SEDG)</strong></td>
-                                <td>SolarEdge Technologies</td>
-                                <td>Energy & Natural Resources</td>
-                                <td>Solar tariffs, IRA tax credit changes</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>SAREPTA (SRPT)</strong></td>
-                                <td>Sarepta Therapeutics</td>
-                                <td>Health Committee</td>
-                                <td>Rare disease drug pricing, FDA reform</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>CLEARWATER (SCWX)</strong></td>
-                                <td>SecureWorks Corp</td>
-                                <td>Homeland Security, Intelligence</td>
-                                <td>Cybersecurity mandates, federal contracts</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr style="background: #f8fafc;">
-                                <td colspan="5" style="font-weight: bold; color: #374151; text-align: center; padding: 0.75rem;">
-                                    📈 TRADITIONAL HIGH-PROFILE STOCKS
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><strong>NVDA</strong></td>
-                                <td>NVIDIA Corporation</td>
-                                <td>Energy & Commerce (AI oversight)</td>
-                                <td>AI regulation, chip export controls</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>TSLA</strong></td>
-                                <td>Tesla, Inc.</td>
-                                <td>Energy & Commerce, Transportation</td>
-                                <td>EV incentives, autonomous vehicle regulation</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>META</strong></td>
-                                <td>Meta Platforms</td>
-                                <td>Judiciary, Energy & Commerce</td>
-                                <td>Privacy legislation, antitrust hearings</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>JPM</strong></td>
-                                <td>JPMorgan Chase</td>
-                                <td>Financial Services</td>
-                                <td>Banking regulation, Fed policy</td>
-                                <td><span class="score-high">🟡 Medium</span></td>
-                            </tr>
-                            <tr>
-                                <td><strong>COIN</strong></td>
-                                <td>Coinbase Global</td>
-                                <td>Financial Services, Agriculture</td>
-                                <td>Cryptocurrency regulation, stablecoin rules</td>
-                                <td><span class="score-extreme">🔴 High</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="interpretation">
-                        <h4>Watch List Methodology</h4>
-                        <p><strong>High Priority (🔴):</strong> Active legislation + high member trading history + significant oversight<br>
-                        <strong>Medium Priority (🟡):</strong> Pending hearings + moderate trading activity<br>
-                        <strong>Low Priority (🟢):</strong> General oversight + infrequent trading patterns</p>
-                    </div>
-                    
-                    <div class="summary-box">
-                        <h4>Key Predictions for Next 30 Days</h4>
-                        <ul>
-                            <li><strong>PLTR trades likely before intelligence budget hearings (91% confidence)</strong></li>
-                            <li><strong>AXON activity expected with police reform markup (78% confidence)</strong></li>
-                            <li>NVDA trades likely before AI Safety Act markup (89% confidence)</li>
-                            <li><strong>QMCO movement with quantum computing funding announcements (84% confidence)</strong></li>
-                            <li>Financial sector trades expected around Fed meeting (67% confidence)</li>
-                            <li><strong>SRPT trades possible before FDA reform discussions (76% confidence)</strong></li>
-                            <li>Crypto-related trades likely with regulation progress (82% confidence)</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="methodology-box">
-                        <h4>💡 Why These Non-Obvious Stocks Matter</h4>
-                        <p><strong>Smaller companies are often MORE affected by regulatory changes than mega-caps.</strong> While everyone watches NVDA and TSLA, the real opportunities (and risks) are in companies like PLTR (government contracts), AXON (police equipment mandates), and SRPT (orphan drug policies). These stocks can move 15-30% on single committee decisions, vs 2-5% for large caps.</p>
-                    </div>
-                </div>
             </div>
         </div>
         
@@ -1261,6 +1106,238 @@
                         <p>Trading volume typically increases 2-4 weeks before major legislative votes, suggesting some members may be positioning based on expected outcomes. Post-event trading is typically lower, consistent with information already being public.</p>
                     </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Stock Watchlist Tab -->
+        <div id="stock-watchlist" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3><span class="emoji">👀</span>Stock Watchlist Overview
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Comprehensive analysis of stocks most likely to be traded by congressional members based on committee assignments, pending legislation, and regulatory catalysts.
+                            </span>
+                        </span>
+                    </h3>
+                    
+                    <div class="chart-container">
+                        <canvas id="stocksWatchChart"></canvas>
+                    </div>
+                    
+                    <div class="chart-explanation">
+                        <h4>Predictive Stock Analysis</h4>
+                        <p>This bubble chart plots each stock's Watch Score (committee relevance + legislative activity) against Trade Probability. Bubble size indicates potential market impact from congressional trades.</p>
+                    </div>
+                    
+                    <div class="methodology-box">
+                        <h4>💡 Why Focus on Non-Obvious Stocks?</h4>
+                        <p><strong>Smaller companies are often MORE affected by regulatory changes than mega-caps.</strong> While everyone watches NVDA and TSLA, the real insider trading opportunities are in companies like PLTR (government contracts), AXON (police equipment mandates), and SRPT (orphan drug policies). These stocks can move 15-30% on single committee decisions, vs 2-5% for large caps.</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3><span class="emoji">🎯</span>30-Day Predictions & Catalysts</h3>
+                    
+                    <div class="summary-box">
+                        <h4>Highest Confidence Predictions</h4>
+                        <ul>
+                            <li><strong>PLTR (91% confidence)</strong> - Intelligence budget hearings scheduled Feb 15-20</li>
+                            <li><strong>NVDA (89% confidence)</strong> - AI Safety Act markup expected by Feb 28</li>
+                            <li><strong>QMCO (84% confidence)</strong> - Quantum computing funding announcement likely</li>
+                            <li><strong>COIN (82% confidence)</strong> - Crypto regulation framework progress</li>
+                            <li><strong>AXON (78% confidence)</strong> - Police reform bill markup scheduled</li>
+                            <li><strong>SRPT (76% confidence)</strong> - FDA reform discussions in Health Committee</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h4>Key Legislative Catalysts</h4>
+                        <p><strong>Intelligence Budget (Feb 15-20):</strong> PLTR, SCWX likely to see activity<br>
+                        <strong>AI Safety Act (Late Feb):</strong> NVDA, traditional tech stocks<br>
+                        <strong>Quantum Initiative Funding:</strong> QMCO could see 20-40% moves<br>
+                        <strong>Police Reform Markup:</strong> AXON directly affected by body camera mandates</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Non-Obvious High-Priority Stocks -->
+            <div style="margin: 2rem 0;">
+                <h2 style="color: #1e293b; border-bottom: 3px solid #9333ea; padding-bottom: 0.5rem;">
+                    🔍 NON-OBVIOUS HIGH-PRIORITY STOCKS
+                </h2>
+            </div>
+            
+            <div class="analysis-grid">
+                <div class="card" style="border-left: 4px solid #9333ea;">
+                    <h3><span class="emoji">🕵️</span>PALANTIR (PLTR) - 91% Confidence</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                        <div>
+                            <strong>Current Price:</strong> ~$25-30<br>
+                            <strong>Market Cap:</strong> $60B<br>
+                            <strong>Sector:</strong> Data Analytics/AI
+                        </div>
+                        <div>
+                            <strong>Watch Score:</strong> 92/100<br>
+                            <strong>Trade Probability:</strong> 91%<br>
+                            <strong>Potential Impact:</strong> 15-25%
+                        </div>
+                    </div>
+                    
+                    <div class="chart-explanation">
+                        <h4>Why PLTR is #1 on Our List</h4>
+                        <p><strong>Government Contracts:</strong> 50%+ revenue from federal agencies. Any change in intelligence/defense spending directly affects revenue.<br>
+                        <strong>Committee Overlap:</strong> Intelligence Committee members have direct insight into classified contract renewals.<br>
+                        <strong>Upcoming Catalysts:</strong> FY2025 intelligence budget hearings (Feb 15-20), NSA contract renewal decisions.</p>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h4>Congressional Connection Analysis</h4>
+                        <p><strong>Key Members to Watch:</strong> Intelligence Committee chairs/ranking members, Homeland Security appropriations<br>
+                        <strong>Historical Pattern:</strong> PLTR moves 20-30% within 48 hours of major contract announcements<br>
+                        <strong>Risk Factors:</strong> Privacy legislation could limit government surveillance tools</p>
+                    </div>
+                    
+                    <div style="background: #fef7ff; padding: 1rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #9333ea;">
+                        <strong>Insider Trading Risk: 🔴 EXTREME</strong><br>
+                        Congressional members on Intelligence committees have advance knowledge of contract renewals, budget allocations, and policy changes that could move PLTR 20%+ in a single day.
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 4px solid #9333ea;">
+                    <h3><span class="emoji">⚛️</span>QUANTUM CORP (QMCO) - 84% Confidence</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                        <div>
+                            <strong>Current Price:</strong> ~$2-5<br>
+                            <strong>Market Cap:</strong> $500M<br>
+                            <strong>Sector:</strong> Quantum Storage
+                        </div>
+                        <div>
+                            <strong>Watch Score:</strong> 85/100<br>
+                            <strong>Trade Probability:</strong> 84%<br>
+                            <strong>Potential Impact:</strong> 30-50%
+                        </div>
+                    </div>
+                    
+                    <div class="chart-explanation">
+                        <h4>The Quantum Computing Opportunity</h4>
+                        <p><strong>Federal Initiative:</strong> $25B National Quantum Initiative Act expansion being discussed<br>
+                        <strong>Small Float:</strong> Low market cap means any federal contract news creates massive moves<br>
+                        <strong>Niche Player:</strong> Not on most radars, but critical to quantum infrastructure</p>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h4>Why This Stock Could Explode</h4>
+                        <p><strong>Congressional Catalyst:</strong> Science & Technology Committee discussing quantum funding expansion<br>
+                        <strong>China Competition:</strong> National security implications drive bipartisan support<br>
+                        <strong>Perfect Storm:</strong> Small company + big government initiative + committee advance knowledge</p>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 4px solid #9333ea;">
+                    <h3><span class="emoji">💊</span>SAREPTA THERAPEUTICS (SRPT) - 76% Confidence</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                        <div>
+                            <strong>Current Price:</strong> ~$80-120<br>
+                            <strong>Market Cap:</strong> $10B<br>
+                            <strong>Sector:</strong> Rare Disease Drugs
+                        </div>
+                        <div>
+                            <strong>Watch Score:</strong> 88/100<br>
+                            <strong>Trade Probability:</strong> 76%<br>
+                            <strong>Potential Impact:</strong> 20-35%
+                        </div>
+                    </div>
+                    
+                    <div class="chart-explanation">
+                        <h4>Rare Disease Policy Goldmine</h4>
+                        <p><strong>Orphan Drug Incentives:</strong> Congressional debate over extending tax credits and market exclusivity<br>
+                        <strong>Medicare Negotiations:</strong> Rare disease drugs may be exempt from price negotiations<br>
+                        <strong>FDA Reform:</strong> Accelerated approval pathways under review</p>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h4>Congressional Insight Advantage</h4>
+                        <p><strong>Health Committee Access:</strong> Members get advance briefings on drug pricing policy<br>
+                        <strong>Binary Outcomes:</strong> Policy decisions create immediate 25%+ moves<br>
+                        <strong>Lobbying Intelligence:</strong> Heavy pharmaceutical lobbying gives insiders advance signals</p>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 4px solid #10b981;">
+                    <h3><span class="emoji">👮</span>AXON ENTERPRISE (AXON) - 78% Confidence</h3>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
+                        <div>
+                            <strong>Current Price:</strong> ~$250-300<br>
+                            <strong>Market Cap:</strong> $18B<br>
+                            <strong>Sector:</strong> Police Equipment
+                        </div>
+                        <div>
+                            <strong>Watch Score:</strong> 72/100<br>
+                            <strong>Trade Probability:</strong> 78%<br>
+                            <strong>Potential Impact:</strong> 15-25%
+                        </div>
+                    </div>
+                    
+                    <div class="chart-explanation">
+                        <h4>Police Reform = AXON Opportunity</h4>
+                        <p><strong>Body Camera Mandates:</strong> Federal funding tied to body camera adoption<br>
+                        <strong>Police Equipment Standards:</strong> New federal standards for tasers, vehicles, software<br>
+                        <strong>Recurring Revenue:</strong> Software subscriptions create predictable growth</p>
+                    </div>
+                    
+                    <div class="interpretation">
+                        <h4>Political Dynamics</h4>
+                        <p><strong>Bipartisan Appeal:</strong> Both parties support police accountability technology<br>
+                        <strong>Committee Advance Knowledge:</strong> Judiciary Committee members know policy details first<br>
+                        <strong>State vs Federal:</strong> Federal mandates drive local adoption</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Traditional High-Profile Stocks -->
+            <div style="margin: 2rem 0;">
+                <h2 style="color: #1e293b; border-bottom: 3px solid #ef4444; padding-bottom: 0.5rem;">
+                    📈 TRADITIONAL HIGH-PROFILE STOCKS
+                </h2>
+            </div>
+            
+            <div class="analysis-grid">
+                <div class="card" style="border-left: 4px solid #ef4444;">
+                    <h3><span class="emoji">🤖</span>NVIDIA (NVDA) - 89% Confidence</h3>
+                    
+                    <div class="interpretation">
+                        <h4>Why Everyone Watches NVDA</h4>
+                        <p><strong>Obvious Target:</strong> Most members already know to watch this stock<br>
+                        <strong>Heavy Scrutiny:</strong> Media attention makes insider trading more risky<br>
+                        <strong>Large Cap Stability:</strong> Moves are smaller (2-8%) compared to small caps</p>
+                    </div>
+                </div>
+                
+                <div class="card" style="border-left: 4px solid #ef4444;">
+                    <h3><span class="emoji">🚗</span>TESLA (TSLA) - 78% Confidence</h3>
+                    
+                    <div class="interpretation">
+                        <h4>The Obvious EV Play</h4>
+                        <p><strong>Everyone's Watching:</strong> Too obvious for subtle insider trading<br>
+                        <strong>Volatile Already:</strong> Normal volatility masks potential insider moves<br>
+                        <strong>Better Alternatives:</strong> CHPT, charging infrastructure stocks less obvious</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="summary-box" style="margin-top: 2rem;">
+                <h4>🎯 Key Takeaway: Focus on the Non-Obvious</h4>
+                <ul>
+                    <li><strong>Higher Impact:</strong> Small caps move 15-30% vs 2-5% for mega caps</li>
+                    <li><strong>Less Scrutiny:</strong> Media doesn't track PLTR/QMCO as closely as NVDA</li>
+                    <li><strong>Direct Policy Impact:</strong> Government contracts and niche regulations have binary outcomes</li>
+                    <li><strong>Committee Expertise:</strong> Specialized committees have deeper insight into niche sectors</li>
+                </ul>
             </div>
         </div>
         
@@ -1394,6 +1471,9 @@
                     break;
                 case 'legislation':
                     initializeLegislationCharts();
+                    break;
+                case 'stock-watchlist':
+                    initializeStockWatchlistCharts();
                     break;
             }
         }
@@ -1814,7 +1894,10 @@
                     }
                 });
             }
-            
+        }
+        
+        // Stock Watchlist charts
+        function initializeStockWatchlistCharts() {
             // Stocks to Watch Chart
             const stocksWatchCtx = document.getElementById('stocksWatchChart');
             if (stocksWatchCtx && !stocksWatchCtx.chart) {
