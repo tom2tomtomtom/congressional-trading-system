@@ -1,0 +1,6 @@
+[build]
+builder = "dockerfile"
+
+[deploy]
+startCommand = "gunicorn --bind 0.0.0.0:$PORT simple_app:app"
+restartPolicyType = "ON_FAILURE"
