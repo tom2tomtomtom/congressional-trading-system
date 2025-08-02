@@ -1,0 +1,21 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "python src/api/app.py"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+
+[[services]]
+name = "congressional-trading-api"
+
+[services.variables]
+FLASK_APP = "src/api/app.py"
+FLASK_ENV = "production"
+PYTHONPATH = "/app"
+PORT = "5000"
+
+# Health check endpoint
+[services.healthcheck]
+path = "/health"
+timeout = 300

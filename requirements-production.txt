@@ -1,0 +1,50 @@
+# Congressional Trading Intelligence System - Production Requirements
+# Core Framework
+flask==3.0.0
+flask-restx==1.3.0
+flask-cors==4.0.0
+flask-jwt-extended==4.6.0
+
+# Database
+sqlalchemy==2.0.23
+alembic==1.12.1
+psycopg2-binary==2.9.9
+
+# Data Processing
+pandas==2.1.3
+numpy==1.24.4
+
+# Machine Learning
+scikit-learn==1.3.2
+
+# Dashboard
+dash==2.14.2
+plotly==5.17.0
+dash-bootstrap-components==1.5.0
+
+# Real-time & Caching
+redis==5.0.1
+websockets==12.0
+
+# Network Analysis
+networkx==3.2.1
+
+# Security
+cryptography==41.0.8
+werkzeug==3.0.1
+
+# HTTP Requests
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Configuration
+pyyaml==6.0.1
+
+# Logging
+structlog==23.2.0
+
+# Utilities
+python-dateutil==2.8.2
+
+# Production Server
+gunicorn==21.2.0
