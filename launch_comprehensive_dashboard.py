@@ -31,7 +31,7 @@ def launch_comprehensive_dashboard():
     print()
     
     print("   📋 TAB 1: MEMBER ANALYSIS")
-    print("      • Complete list of all 15+ congressional members")
+    print("      • Complete list of all 531 congressional members")
     print("      • Individual trading profiles and risk scores")
     print("      • Filing compliance analysis with STOCK Act requirements")
     print("      • Trading volume distribution and patterns")

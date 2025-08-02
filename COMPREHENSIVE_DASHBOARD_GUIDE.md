@@ -15,10 +15,10 @@ Every single chart now includes:
 
 ### 👥 **Complete Member Analysis**
 Restored and enhanced the detailed member list:
-- **15 Congressional Members** with full profiles
+- **531 Congressional Members** with full profiles (435 House + 100 Senate)
 - **Individual risk scores** and trading patterns
 - **Committee assignments** and oversight areas
-- **Recent trade details** with risk assessment
+- **1,755 trade details** with risk assessment
 - **Filing compliance** analysis with STOCK Act requirements
 
 ### 📈 **Detailed Trade Explorer**
@@ -218,7 +218,7 @@ Comprehensive trade-by-trade analysis:
 ## 🎉 **Summary: What You Now Have**
 
 ### **✅ Comprehensive Member Database**
-- All 15+ congressional members with full profiles
+- All 531 congressional members with full profiles (435 House + 100 Senate)
 - Individual risk scores and trading patterns
 - Committee assignments and potential conflicts
 - Filing compliance analysis
