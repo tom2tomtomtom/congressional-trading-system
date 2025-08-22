@@ -173,52 +173,8 @@ def health():
 @app.route('/dashboard')
 def dashboard():
     """Render comprehensive dashboard with full functionality."""
-    try:
-        # Try multiple possible paths for the comprehensive dashboard
-        possible_paths = [
-            'src/dashboard/comprehensive_dashboard.html',
-            './src/dashboard/comprehensive_dashboard.html',
-            os.path.join(os.path.dirname(__file__), 'src/dashboard/comprehensive_dashboard.html'),
-        ]
-        
-        for path in possible_paths:
-            try:
-                if os.path.exists(path):
-                    with open(path, 'r', encoding='utf-8') as f:
-                        content = f.read()
-                        print(f"✅ Successfully loaded comprehensive dashboard from: {path}")
-                        return content
-            except Exception as e:
-                print(f"❌ Failed to load from {path}: {e}")
-                continue
-        
-        # If comprehensive dashboard fails, fall back to the simple template
-        print("⚠️ Comprehensive dashboard not found, falling back to simple template")
-        return render_template('dashboard.html')
-        
-    except Exception as e:
-        print(f"❌ Dashboard error: {e}")
-        # Ultimate fallback to a basic working dashboard
-        return f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Congressional Trading Intelligence</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; background: #0f0f23; color: white; padding: 20px; }}
-                .error {{ background: #dc2626; padding: 15px; border-radius: 8px; margin: 20px 0; }}
-                .button {{ background: #8b5cf6; color: white; padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; margin: 5px; }}
-            </style>
-        </head>
-        <body>
-            <h1>🏛️ Congressional Trading Intelligence System</h1>
-            <div class="error">⚠️ Comprehensive dashboard temporarily unavailable. Error: {str(e)}</div>
-            <p>System is loading in fallback mode.</p>
-            <a href="/dashboard/simple"><button class="button">🎯 Try Simple Dashboard</button></a>
-            <a href="/analysis"><button class="button">📊 View Analysis</button></a>
-        </body>
-        </html>
-        """
+    # Directly serve the comprehensive dashboard instead of the simple template
+    return comprehensive_dashboard()
 
 @app.route('/dashboard/simple')
 def simple_dashboard():
