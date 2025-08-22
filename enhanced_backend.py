@@ -207,14 +207,14 @@ class DataProcessor:
                 anomaly_score = iso_forest.score_samples(X_scaled[idx].reshape(1, -1))[0]
                 
                 anomalies.append({
-                    'id': trade.get('id', idx),
-                    'member_name': trade['member_name'],
-                    'symbol': trade['symbol'],
-                    'transaction_date': trade['transaction_date'].strftime('%Y-%m-%d'),
-                    'amount_from': trade['amount_from'],
-                    'amount_to': trade['amount_to'],
+                    'id': int(trade.get('id', idx)) if trade.get('id', idx) is not None else int(idx),
+                    'member_name': str(trade['member_name']),
+                    'symbol': str(trade['symbol']),
+                    'transaction_date': trade['transaction_date'].strftime('%Y-%m-%d') if pd.notnull(trade['transaction_date']) else 'Unknown',
+                    'amount_from': float(trade['amount_from']) if pd.notnull(trade['amount_from']) else 0.0,
+                    'amount_to': float(trade['amount_to']) if pd.notnull(trade['amount_to']) else 0.0,
                     'anomaly_score': float(anomaly_score),
-                    'filing_delay_days': trade.get('filing_delay_days', 0),
+                    'filing_delay_days': int(trade.get('filing_delay_days', 0)) if pd.notnull(trade.get('filing_delay_days', 0)) else 0,
                     'reason': 'Statistical anomaly detected by ML model'
                 })
             
@@ -928,16 +928,31 @@ def api_v1_statistical_analysis():
             # Initialize statistical analyzer
             analyzer = CongressionalStatisticalAnalyzer()
             
-            # Set the data directly
+            # Set the data directly and prepare columns as expected by statistical analyzer
             analyzer.members_df = data_processor.members_df.copy() if data_processor.members_df is not None else pd.DataFrame()
             analyzer.trades_df = data_processor.trades_df.copy() if data_processor.trades_df is not None else pd.DataFrame()
+            
+            # Ensure trades data has the columns expected by statistical analyzer
+            if not analyzer.trades_df.empty:
+                # Create amount_avg column if it doesn't exist
+                if 'amount_avg' not in analyzer.trades_df.columns and 'avg_amount' in analyzer.trades_df.columns:
+                    analyzer.trades_df['amount_avg'] = analyzer.trades_df['avg_amount']
+                elif 'amount_avg' not in analyzer.trades_df.columns and 'amount_from' in analyzer.trades_df.columns and 'amount_to' in analyzer.trades_df.columns:
+                    analyzer.trades_df['amount_avg'] = (analyzer.trades_df['amount_from'] + analyzer.trades_df['amount_to']) / 2
+                
+                # Add date columns if they don't exist
+                if 'transaction_date' in analyzer.trades_df.columns:
+                    analyzer.trades_df['transaction_date'] = pd.to_datetime(analyzer.trades_df['transaction_date'], errors='coerce')
+                    analyzer.trades_df['transaction_year'] = analyzer.trades_df['transaction_date'].dt.year
+                    analyzer.trades_df['transaction_month'] = analyzer.trades_df['transaction_date'].dt.month
+                    analyzer.trades_df['transaction_quarter'] = analyzer.trades_df['transaction_date'].dt.quarter
             
             # Run comprehensive statistical tests
             party_analysis = analyzer.test_party_differences()
             chamber_analysis = analyzer.test_chamber_differences()
             temporal_analysis = analyzer.analyze_temporal_patterns()
             correlation_analysis = analyzer.correlation_analysis()
-            outlier_analysis = analyzer.detect_statistical_outliers()
+            outlier_analysis = analyzer.outlier_detection_analysis()
             
             # Compile results
             analysis_results = {
