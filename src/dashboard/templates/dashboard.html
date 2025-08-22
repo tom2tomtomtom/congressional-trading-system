@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Apex Trading Dashboard{% endblock %}
+
+{% block header %}
+<nav>
+  <div class="container">
+    <div class="nav-content">
+      <div class="logo">Apex Trading</div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="apex-section">
+  <div class="apex-container">
+    <h1 class="apex-gradient-text apex-heading-lg" style="margin-top: 4rem;">Congressional Trading Intelligence Dashboard</h1>
+    <div class="apex-grid apex-grid-4" style="margin-top: 2rem;">
+      <div class="apex-card">
+        <div class="stat-number" id="total-members">—</div>
+        <div class="stat-label">Members Tracked</div>
+      </div>
+      <div class="apex-card">
+        <div class="stat-number" id="total-volume">—</div>
+        <div class="stat-label">Total Volume</div>
+      </div>
+      <div class="apex-card">
+        <div class="stat-number" id="avg-suspicion">—</div>
+        <div class="stat-label">Avg Suspicion</div>
+      </div>
+      <div class="apex-card">
+        <div class="stat-number" id="anomalies-detected">—</div>
+        <div class="stat-label">Anomalies</div>
+      </div>
+    </div>
+
+    <div class="apex-card" style="margin-top: 2rem;">
+      <div class="tab-buttons">
+        <button class="apex-button" onclick="showTab('advanced-analysis')">🔍 Advanced Analysis</button>
+        <button class="apex-button apex-button-secondary" onclick="showTab('predictions')">🎯 Predictions</button>
+        <button class="apex-button apex-button-secondary" onclick="showTab('clustering')">👥 Clustering</button>
+        <button class="apex-button apex-button-secondary" onclick="showTab('anomalies')">⚠️ Anomalies</button>
+        <button class="apex-button apex-button-secondary" onclick="showTab('correlations')">📊 Correlations</button>
+      </div>
+    </div>
+
+    <div id="advanced-analysis" class="tab-content active" style="margin-top: 1rem;">
+      <div class="apex-grid apex-grid-3">
+        <div class="apex-card">
+          <h3 class="apex-heading-md">📈 Pattern Recognition</h3>
+          <div class="chart-container"><canvas id="patternChart"></canvas></div>
+        </div>
+        <div class="apex-card">
+          <h3 class="apex-heading-md">⏱️ Timing Analysis</h3>
+          <div class="chart-container"><canvas id="timingChart"></canvas></div>
+        </div>
+        <div class="apex-card">
+          <h3 class="apex-heading-md">🎯 Suspicion Distribution</h3>
+          <div class="chart-container"><canvas id="suspicionChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="predictions" class="tab-content" style="margin-top: 1rem;">
+      <div class="apex-grid apex-grid-3">
+        <div class="apex-card"><h3 class="apex-heading-md">📈 Market Impact</h3><div class="chart-container"><canvas id="impactChart"></canvas></div></div>
+        <div class="apex-card"><h3 class="apex-heading-md">📜 Legislation Confidence</h3><div class="chart-container"><canvas id="legislationChart"></canvas></div></div>
+        <div class="apex-card"><h3 class="apex-heading-md">🤖 Model Performance</h3><div class="chart-container"><canvas id="performanceChart"></canvas></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block body_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+{% endblock %}
+
+

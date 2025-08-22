@@ -172,8 +172,8 @@ def health():
 
 @app.route('/dashboard')
 def dashboard():
-    """Serve enhanced dashboard HTML from existing static file."""
-    return send_from_directory('src/dashboard', 'enhanced_dashboard.html')
+    """Render Apex-styled dashboard template."""
+    return render_template('dashboard.html')
 
 @app.route('/analysis')
 def analysis():
