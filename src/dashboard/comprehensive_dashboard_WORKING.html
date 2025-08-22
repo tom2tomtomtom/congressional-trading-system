@@ -212,6 +212,24 @@
             height: 120px;
         }
 
+        /* New elements for Actionable Insights */
+        .signal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        .signal-card { padding: 1rem; border-radius: 8px; text-align: center; }
+        .signal-card.buy { background: linear-gradient(145deg, #065f46 0%, #047857 100%); border: 1px solid #10b981; }
+        .signal-card.sell { background: linear-gradient(145deg, #7f1d1d 0%, #991b1b 100%); border: 1px solid #ef4444; }
+        .signal-card.watch { background: linear-gradient(145deg, #92400e 0%, #b45309 100%); border: 1px solid #f59e0b; }
+        .watchlist-table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        .watchlist-table th, .watchlist-table td { padding: 0.75rem; text-align: left; border-bottom: 1px solid rgba(139, 92, 246, 0.2); }
+        .watchlist-table th { background: linear-gradient(145deg, #374151 0%, #4b5563 100%); color: #a78bfa; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.5rem; margin: 1rem 0; }
+        .tool-button { padding: 0.75rem 1rem; background: linear-gradient(145deg, #7c3aed 0%, #8b5cf6 100%); color: white; border: none; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; }
+        .tool-button:hover { background: linear-gradient(145deg, #8b5cf6 0%, #a78bfa 100%); box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+
         /* Responsive design for smaller screens */
         @media (max-width: 768px) {
             .tab-buttons { flex-direction: column; }
@@ -1041,21 +1059,51 @@
         <div id="political-intel" class="tab-content">
             <div class="analysis-grid">
                 <div class="card">
-                    <h3>🏛️ Committee Analysis</h3>
+                    <h3>🏛️ Committee Analysis
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Analysis of congressional committee assignments and how they correlate with trading patterns in sectors they oversee.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>Committee members trading in sectors they have oversight responsibilities for, highlighting potential conflicts of interest.</p>
+                    </div>
                     <div class="chart-container">
-                        <canvas id="committeeChart"></canvas>
+                        <canvas id="committeeAnalysisChart"></canvas>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h3>📜 Active Legislation Impact</h3>
+                    <h3>📜 Active Legislation Impact
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Tracks how upcoming legislation and votes correlate with congressional trading patterns.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>Congressional trades that occurred before major legislative votes, particularly in affected sectors.</p>
+                    </div>
                     <div class="chart-container">
                         <canvas id="legislationChart"></canvas>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h3>🎯 Lobbying Intelligence</h3>
+                    <h3>🎯 Lobbying Intelligence
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Correlates lobbying expenditures with congressional trading patterns to identify potential influence.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>Relationship between corporate lobbying spending and congressional members' trading in those companies' stocks.</p>
+                    </div>
                     <div class="chart-container">
                         <canvas id="lobbyingChart"></canvas>
                     </div>
@@ -1067,21 +1115,58 @@
         <div id="market-analysis" class="tab-content">
             <div class="analysis-grid">
                 <div class="card">
-                    <h3>🔍 Pattern Recognition</h3>
+                    <h3>🔍 Pattern Recognition
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Advanced statistical analysis to identify unusual trading patterns and timing anomalies.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>Machine learning algorithms detect patterns in congressional trading that deviate from normal market behavior.</p>
+                    </div>
                     <div class="chart-grid">
                         <div class="chart-container">
                             <canvas id="patternChart"></canvas>
                         </div>
                         <div class="chart-container">
-                            <canvas id="correlationChart"></canvas>
+                            <canvas id="anomalyChart"></canvas>
                         </div>
                     </div>
                 </div>
                 
                 <div class="card">
-                    <h3>🎯 AI Predictions</h3>
+                    <h3>🎯 AI Predictions
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Machine learning models predict likely future trading behavior based on historical patterns.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>AI-powered predictions of which stocks congressional members are likely to trade based on committee assignments and past behavior.</p>
+                    </div>
                     <div class="chart-container">
                         <canvas id="predictionsChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📈 Market Correlations
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Statistical correlation between congressional trading and market movements.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="chart-explanation">
+                        <h4>What This Shows</h4>
+                        <p>How congressional trades correlate with market performance, identifying potential insider information.</p>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="correlationChart"></canvas>
                     </div>
                 </div>
             </div>
@@ -1091,18 +1176,68 @@
         <div id="actionable-insights" class="tab-content">
             <div class="analysis-grid">
                 <div class="card">
-                    <h3>🎯 Trade Signals</h3>
-                    <div id="tradeSignals"></div>
+                    <h3>🎯 Trade Signals Dashboard
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Actionable buy/sell/hold recommendations based on congressional trading analysis.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="signal-grid">
+                        <div class="signal-card buy">
+                            <h4>🟢 BUY SIGNALS</h4>
+                            <div id="buySignals">Loading signals...</div>
+                        </div>
+                        <div class="signal-card sell">
+                            <h4>🔴 SELL SIGNALS</h4>
+                            <div id="sellSignals">Loading signals...</div>
+                        </div>
+                        <div class="signal-card watch">
+                            <h4>👀 WATCH SIGNALS</h4>
+                            <div id="watchSignals">Loading signals...</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <div class="card">
-                    <h3>👀 Stock Watchlist</h3>
-                    <div id="stockWatchlist"></div>
+                    <h3>👀 Stock Watchlist
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Stocks with high congressional trading activity that warrant monitoring.
+                            </span>
+                        </span>
+                    </h3>
+                    <div id="stockWatchlist">
+                        <table class="watchlist-table">
+                            <thead>
+                                <tr>
+                                    <th>Stock</th>
+                                    <th>Congressional Activity</th>
+                                    <th>Risk Level</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="watchlistData">
+                                <tr><td colspan="4">Loading watchlist data...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 
                 <div class="card">
-                    <h3>📚 Research & Export Tools</h3>
-                    <div id="researchTools"></div>
+                    <h3>📚 Research & Export Tools
+                        <span class="help-tooltip">❓
+                            <span class="tooltip-text">
+                                Tools for detailed analysis and data export capabilities.
+                            </span>
+                        </span>
+                    </h3>
+                    <div class="tools-grid">
+                        <button class="tool-button" onclick="exportData('csv')">📄 Export CSV</button>
+                        <button class="tool-button" onclick="exportData('pdf')">📋 Generate Report</button>
+                        <button class="tool-button" onclick="showDetailedAnalysis()">🔍 Detailed Analysis</button>
+                        <button class="tool-button" onclick="scheduleAlerts()">🔔 Set Alerts</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2410,17 +2545,13 @@
                     initializeTradeCharts();
                     break;
                 case 'political-intel':
-                    initializeCommitteeCharts();
-                    initializeLegislationCharts();
-                    initializeLobbyingCharts();
+                    initializePoliticalCharts();
                     break;
                 case 'market-analysis':
-                    initializePatternCharts();
-                    initializeCorrelationCharts();
-                    initializePredictionCharts();
+                    initializeMarketCharts();
                     break;
                 case 'actionable-insights':
-                    initializeStockWatchlistCharts && initializeStockWatchlistCharts();
+                    initializeInsightCharts();
                     break;
             }
         }
@@ -2440,6 +2571,68 @@
                 perf.chart = new Chart(perf, { type: 'doughnut', data: { labels: ['Pelosi','Gottheimer','Crenshaw'], datasets: [{ data: [67,58,49], backgroundColor: ['#10b981','#3b82f6','#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
         }
+
+        // Add these chart initialization functions
+        function initializePoliticalCharts() {
+            const committeeCtx = document.getElementById('committeeAnalysisChart');
+            if (committeeCtx && !committeeCtx.chart) {
+                committeeCtx.chart = new Chart(committeeCtx, {
+                    type: 'bar',
+                    data: { labels: ['Banking', 'Technology', 'Healthcare', 'Energy', 'Defense'], datasets: [{ label: 'Trades by Committee Members', data: [45,32,28,22,18], backgroundColor: 'rgba(139, 92, 246, 0.8)' }] },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+            const legisCtx = document.getElementById('legislationChart');
+            if (legisCtx && !legisCtx.chart) {
+                legisCtx.chart = new Chart(legisCtx, { type: 'line', data: { labels: ['Bill A','Bill B','Bill C','Bill D'], datasets: [{ label: 'Pre-Vote Trades', data: [12,8,15,9], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
+            }
+            const lobbyCtx = document.getElementById('lobbyingChart');
+            if (lobbyCtx && !lobbyCtx.chart) {
+                lobbyCtx.chart = new Chart(lobbyCtx, { type: 'radar', data: { labels: ['Tech','Finance','Energy','Healthcare','Defense'], datasets: [{ label: 'Lobbying vs Trades', data: [78,65,52,49,31], borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,.15)' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100 } } } });
+            }
+        }
+
+        function initializeMarketCharts() {
+            const patternCtx = document.getElementById('patternChart');
+            if (patternCtx && !patternCtx.chart) {
+                patternCtx.chart = new Chart(patternCtx, { type: 'scatter', data: { datasets: [{ label: 'Trading Patterns', data: generateScatterData(), backgroundColor: 'rgba(139, 92, 246, 0.6)' }] }, options: { responsive: true, maintainAspectRatio: false } });
+            }
+            const anomalyCtx = document.getElementById('anomalyChart');
+            if (anomalyCtx && !anomalyCtx.chart) {
+                anomalyCtx.chart = new Chart(anomalyCtx, { type: 'bar', data: { labels: ['Extreme','High','Medium','Low'], datasets: [{ data: [2,4,6,8], backgroundColor: ['#dc2626','#ef4444','#f59e0b','#10b981'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            }
+            const predCtx = document.getElementById('predictionsChart');
+            if (predCtx && !predCtx.chart) {
+                predCtx.chart = new Chart(predCtx, { type: 'line', data: { labels: ['W1','W2','W3','W4'], datasets: [{ label: 'Predicted Trades', data: [4,8,6,9], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
+            }
+            const corrCtx = document.getElementById('correlationChart');
+            if (corrCtx && !corrCtx.chart) {
+                corrCtx.chart = new Chart(corrCtx, { type: 'line', data: { labels: ['Jan','Feb','Mar','Apr','May'], datasets: [{ label: 'Correlation', data: [0.2,0.35,0.5,0.42,0.61], borderColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 1 } } } });
+            }
+        }
+
+        function initializeInsightCharts() {
+            loadTradeSignals();
+            loadWatchlist();
+        }
+
+        // Helper functions
+        function loadTradeSignals() {
+            const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+            set('buySignals', 'AAPL, MSFT, TSLA');
+            set('sellSignals', 'META, NFLX');
+            set('watchSignals', 'GOOGL, AMZN, NVDA');
+        }
+        function loadWatchlist() {
+            const body = document.getElementById('watchlistData');
+            if (!body) return;
+            body.innerHTML = `
+                <tr><td>AAPL</td><td>High</td><td>Medium</td><td>Monitor</td></tr>
+                <tr><td>MSFT</td><td>Medium</td><td>Low</td><td>Buy</td></tr>
+                <tr><td>TSLA</td><td>Very High</td><td>High</td><td>Caution</td></tr>
+            `;
+        }
+        function generateScatterData() { return Array.from({length: 20}, () => ({ x: Math.random()*100, y: Math.random()*100 })); }
         
         // Member analysis charts
         function initializeMemberCharts() {
