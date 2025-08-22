@@ -8,13 +8,27 @@
             <div class="logo">Apex Trading</div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-                <li><a href="#insights">Insights</a></li>
+                <li><a href="/dashboard">Live Corruption Tracker</a></li>
+                <li><a href="#trade" aria-disabled="true" class="disabled-link" tabindex="-1">Trade Now</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#accuracy">Prediction Accuracy</a></li>
             </ul>
         </div>
     </div>
     </nav>
+<!-- Ticker Tape Banner -->
+<div class="ticker" aria-live="polite">
+  <div class="ticker__track">
+    <span class="ticker__item gain">NVDA $875.32 ↑2.3%</span>
+    <span class="ticker__item alert">🚨 PELOSI PORTFOLIO: +47% THIS QUARTER</span>
+    <span class="ticker__item loss">TSLA $248.91 ↓1.2%</span>
+    <span class="ticker__item alert">💰 INSIDER TRADING IS LEGAL IF YOU MAKE THE LAWS!</span>
+    <span class="ticker__item gain">AAPL $195.43 ↑0.8%</span>
+    <span class="ticker__item alert">🤡 DEMOCRACY DIES BUT YOUR PORTFOLIO DOESN'T HAVE TO</span>
+    <span class="ticker__item gain">MSFT $427.12 ↑1.1%</span>
+    <span class="ticker__item loss">COIN $198.22 ↓3.4%</span>
+  </div>
+</div>
 {% endblock %}
 
 {% block content %}
@@ -28,11 +42,14 @@
     
     <div class="container">
         <div class="hero-content">
-            <h1>Congressional Trading Intelligence</h1>
+            <h1>TRADE LIKE A CONGRESSMAN (BUT LEGALLY)</h1>
             <p class="subtitle">
-                Uncover potential insider trading patterns in Congress by analyzing historical trades, voting records, and committee activities to predict future market movements.
+                Finally, a trading platform that calls out the crooks in charge. Power corrupts. Profit from it.
             </p>
-            <a class="cta-button" href="#features">Explore Intelligence →</a>
+            <div>
+              <a class="cta-button" href="/dashboard" aria-label="Expose the corruption on the live tracker">EXPOSE THE CORRUPTION →</a>
+              <a class="cta-button cta-secondary" href="#trade" aria-disabled="true">START TRADING</a>
+            </div>
         </div>
     </div>
     </section>
@@ -81,6 +98,57 @@
         </div>
     </div>
     </section>
+
+<!-- About / Manifesto -->
+<section class="manifesto" id="about">
+  <div class="container">
+    <h2 class="section-title">We Hate Crooks and Cheats</h2>
+    <div class="apex-card">
+      <p><strong>WE HATE CROOKS AND CHEATS, ESPECIALLY WHEN THEY'RE ELECTED LEADERS!</strong></p>
+      <p>Power corrupts and now you can see how the powerful abuse their power to engorge themselves on stocks they legislate. We are the South Park of trading sites.</p>
+      <p>While Nancy Pelosi beats the market by 40%+ and Dan Crenshaw times his energy trades perfectly with committee votes, regular Americans get screwed. Not anymore.</p>
+      <p>Apex Trading exposes the corruption while giving you the tools to trade like the insiders (legally). Because if you can't beat the crooks, at least profit from watching them.</p>
+    </div>
+  </div>
+  </section>
+
+<!-- Prediction Accuracy -->
+<section class="accuracy" id="accuracy">
+  <div class="container">
+    <h2 class="section-title">ARE WE BETTER THAN A BLINDFOLDED MONKEY THROWING EXCREMENT AT A DARTBOARD?</h2>
+    <div class="features-grid">
+      <div class="apex-card"><h3>Our AI Predictions</h3><p class="stat-number">73% accuracy</p></div>
+      <div class="apex-card"><h3>Pelosi's Portfolio</h3><p class="stat-number">67% (with insider info!)</p></div>
+      <div class="apex-card"><h3>Random Monkey</h3><p class="stat-number">52% (surprisingly competitive)</p></div>
+      <div class="apex-card"><h3>Your Average Congressman</h3><p class="stat-number">49% (worse than random!)</p></div>
+    </div>
+    <p class="apex-text-secondary" style="text-align:center; margin-top:1rem;">At least our monkey doesn't have ethics violations.</p>
+  </div>
+  </section>
+
+<!-- Featured Corruption -->
+<section class="corruption" id="corruption">
+  <div class="container">
+    <h2 class="section-title">TODAY'S CONGRESSIONAL SHENANIGANS</h2>
+    <div class="features-grid">
+      <div class="apex-card">
+        <h3>Rep. X</h3>
+        <p>Bought defense stocks 2 days before Ukraine aid vote</p>
+        <a class="apex-button" href="/dashboard">FOLLOW THIS TRADE</a>
+      </div>
+      <div class="apex-card">
+        <h3>Senator Y</h3>
+        <p>Sold bank stocks before Silicon Valley Bank collapse</p>
+        <a class="apex-button" href="/dashboard">FOLLOW THIS TRADE</a>
+      </div>
+      <div class="apex-card">
+        <h3>Committee Chair Z</h3>
+        <p>Portfolio up 400% on stocks he regulates</p>
+        <a class="apex-button" href="/dashboard">FOLLOW THIS TRADE</a>
+      </div>
+    </div>
+  </div>
+  </section>
 
 <!-- Stats Section -->
 <section class="stats">

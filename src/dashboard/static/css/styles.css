@@ -20,6 +20,7 @@ nav { position: fixed; top: 0; width: 100%; background: rgba(15, 15, 35, 0.95); 
 .hero .subtitle { font-size: 1.3rem; color: #a0a0a0; margin-bottom: 2rem; font-weight: 300; }
 .cta-button { display: inline-block; background: linear-gradient(135deg, #00d2ff 0%, #3a7bd5 100%); color: white; padding: 1rem 2rem; border-radius: 50px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease, box-shadow 0.3s ease; border: none; cursor: pointer; }
 .cta-button:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0, 210, 255, 0.3); }
+.cta-secondary { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); margin-left: .5rem; }
 
 /* Features Section */
 .features { padding: 5rem 0; background: rgba(255, 255, 255, 0.02); }
@@ -40,6 +41,19 @@ nav { position: fixed; top: 0; width: 100%; background: rgba(15, 15, 35, 0.95); 
 
 /* Footer */
 footer { padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; color: #a0a0a0; }
+
+/* Ticker */
+.ticker { position: sticky; top: 62px; width: 100%; background: rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); overflow: hidden; white-space: nowrap; }
+.ticker__track { display: inline-block; padding: .5rem 0; animation: ticker-scroll 30s linear infinite; }
+.ticker__item { display: inline-block; margin: 0 1.25rem; font-weight: 600; }
+.ticker__item.gain { color: #10b981; }
+.ticker__item.loss { color: #ef4444; }
+.ticker__item.alert { color: #f59e0b; }
+@keyframes ticker-scroll { from { transform: translateX(100%);} to { transform: translateX(-100%);} }
+
+/* Manifesto, Accuracy, Corruption sections */
+.manifesto .apex-card, .accuracy .apex-card, .corruption .apex-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
+.disabled-link { opacity: .5; pointer-events: none; }
 
 /* Responsive */
 @media (max-width: 768px) {

@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Apex Trading{% endblock %}</title>
+    <meta name="description" content="Apex Trading – satirical congressional trading intelligence with real tools. Power corrupts. Profit from it.">
+    <meta property="og:title" content="Apex Trading – Trade Like a Congressman (Legally)">
+    <meta property="og:description" content="Exposing congressional corruption with live trading intelligence. Part Bloomberg, part Daily Show.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="{{ url_for('static', filename='img/og-apex.png') }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apex Trading – Trade Like a Congressman (Legally)">
+    <meta name="twitter:description" content="Exposing congressional corruption with live trading intelligence.">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/apex-design-system.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block head_extra %}{% endblock %}
@@ -15,13 +23,17 @@
     {% block header %}
     <header class="site-header">
         <div class="container">
-            <a class="brand" href="/">Apex Trading</a>
-            <nav class="nav">
+            <a class="brand" href="/" aria-label="Apex Trading Home">Apex Trading</a>
+            <nav class="nav apex-nav" aria-label="Primary Navigation">
                 <a href="/">Home</a>
-                <a href="/dashboard">Dashboard</a>
-                <a href="#features">Features</a>
+                <a href="/dashboard">Live Corruption Tracker</a>
+                <a href="#trade" aria-disabled="true" class="disabled-link" tabindex="-1">Trade Now</a>
                 <a href="#about">About</a>
+                <a href="#accuracy">Prediction Accuracy</a>
             </nav>
+        </div>
+        <div class="container" style="padding-bottom: .5rem; color: #a0a0a0; font-size: .85rem;">
+            <span>EXPOSING CORRUPTION SINCE 2024</span>
         </div>
     </header>
     {% endblock %}
@@ -31,9 +43,15 @@
     </main>
 
     {% block footer %}
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         <div class="container">
             <p>© {{ current_year or 2025 }} Apex Trading Intelligence</p>
+            <p style="margin-top:.5rem; font-size:.9rem; color:#a0a0a0;">
+                Satirical content for educational purposes • Not financial advice (unlike what your congressman gets)
+            </p>
+            <p style="margin-top:.5rem; font-size:.85rem; color:#808080;">
+                Trading involves risk. All congressional data is public record; we just make it fun.
+            </p>
         </div>
     </footer>
     {% endblock %}
