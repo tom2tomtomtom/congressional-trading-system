@@ -172,7 +172,14 @@ def health():
 
 @app.route('/dashboard')
 def dashboard():
-    """Render Apex-styled dashboard template."""
+    """Render comprehensive dashboard with full functionality."""
+    # Serve the comprehensive dashboard instead of the simple template
+    with open('src/dashboard/comprehensive_dashboard.html', 'r', encoding='utf-8') as f:
+        return f.read()
+
+@app.route('/dashboard/simple')
+def simple_dashboard():
+    """Render simple Apex-styled dashboard template."""
     return render_template('dashboard.html')
 
 @app.route('/analysis')
