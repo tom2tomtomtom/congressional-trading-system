@@ -178,12 +178,51 @@
         
         .chart-container {
             position: relative;
-            height: 300px;
+            height: 200px;
+            max-height: 30vh;
             margin: 1rem 0;
+            overflow: hidden;
         }
         
         .chart-container-large {
-            height: 400px;
+            height: 280px;
+            max-height: 35vh;
+        }
+
+        .chart-container-small {
+            height: 150px;
+            max-height: 20vh;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .chart-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .chart-summary .chart-container {
+            height: 120px;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .tab-buttons { flex-direction: column; }
+            .chart-container { height: 180px; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+
+        @media (max-width: 480px) {
+            .chart-container { height: 150px; }
+            .tab-button { padding: 0.5rem 1rem; font-size: 0.9rem; }
         }
         
         .chart-explanation {
@@ -478,47 +517,67 @@
             </div>
         </div>
         
-        <!-- Comprehensive Tab Navigation -->
+        <!-- NEW Optimized Tab Navigation -->
         <div class="tab-navigation">
             <div class="tab-buttons">
-                <button class="tab-button active" onclick="showTab('member-analysis')">
-                    👥 Member Analysis
+                <button class="tab-button active" onclick="showTab('overview')">
+                    📊 Trading Overview
                 </button>
-                <button class="tab-button" onclick="showTab('trade-explorer')">
-                    📊 Trade Explorer
+                <button class="tab-button" onclick="showTab('members-trades')">
+                    👥 Members & Trades  
                 </button>
-                <button class="tab-button" onclick="showTab('pattern-analysis')">
-                    🔍 Pattern Analysis
+                <button class="tab-button" onclick="showTab('political-intel')">
+                    🏛️ Political Intelligence
                 </button>
-                <button class="tab-button" onclick="showTab('predictions')">
-                    🎯 ML Predictions
+                <button class="tab-button" onclick="showTab('market-analysis')">
+                    📈 Market Analysis
                 </button>
-                <button class="tab-button" onclick="showTab('correlations')">
-                    📈 Event Correlations
-                </button>
-                <button class="tab-button" onclick="showTab('committees')">
-                    🏛️ Committee Analysis
-                </button>
-                <button class="tab-button" onclick="showTab('legislation')">
-                    📜 Active Legislation
-                </button>
-                <button class="tab-button" onclick="showTab('lobbying-intelligence')">
-                    🎯 Lobbying Intelligence
-                </button>
-                <button class="tab-button" onclick="showTab('stock-watchlist')">
-                    👀 Stock Watchlist
-                </button>
-                <button class="tab-button" onclick="showTab('enhanced-intelligence')">
-                    🎯 Enhanced Intelligence
-                </button>
-                <button class="tab-button" onclick="showTab('research')">
-                    📚 Research Tools
+                <button class="tab-button" onclick="showTab('actionable-insights')">
+                    🎯 Actionable Insights
                 </button>
             </div>
         </div>
         
-        <!-- Member Analysis Tab -->
-        <div id="member-analysis" class="tab-content active">
+        <!-- TAB 1: Trading Overview (Executive Summary) -->
+        <div id="overview" class="tab-content active">
+            <div class="overview-header">
+                <h2>📊 Trading Overview - Executive Summary</h2>
+                <p>Key metrics and recent activity at a glance</p>
+            </div>
+            
+            <!-- Key Metrics Cards (Keep existing stats-grid) -->
+            <div class="stats-grid">
+                <!-- Existing stat cards above act as data source -->
+            </div>
+            
+            <!-- Summary Charts Grid -->
+            <div class="chart-summary">
+                <div class="card">
+                    <h3>📈 Volume Trends (30 Days)</h3>
+                    <div class="chart-container-small">
+                        <canvas id="volumeTrendChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>⚠️ Unusual Activity</h3>
+                    <div class="chart-container-small">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>🎯 Top Performers</h3>
+                    <div class="chart-container-small">
+                        <canvas id="performersChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Notable Trades Table -->
+            <div class="card">
+                <h3>🔥 Recent Notable Trades</h3>
+                <div id="recentTradesTable"></div>
+            </div>
+        </div>
             <div class="analysis-grid">
                 <div class="card">
                     <h3><span class="emoji">👥</span>Congressional Members Overview
@@ -675,8 +734,8 @@
             </div>
         </div>
         
-        <!-- Trade Explorer Tab -->
-        <div id="trade-explorer" class="tab-content">
+        <!-- TAB 2: Members & Trades (Combine Member Analysis + Trade Explorer) -->
+        <div id="members-trades" class="tab-content">
             <div class="filters">
                 <div class="filter-group">
                     <label>Filter by Member:</label>
@@ -974,6 +1033,76 @@
                         
                         <p><strong>🚨 TRADING INTELLIGENCE:</strong> Tech stocks dominate (43% of all trades) due to ongoing regulation battles. Financial Services Committee members show 78% success rate on bank stocks.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Political Intelligence (Combine Committees + Legislation + Lobbying) -->
+        <div id="political-intel" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3>🏛️ Committee Analysis</h3>
+                    <div class="chart-container">
+                        <canvas id="committeeChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>📜 Active Legislation Impact</h3>
+                    <div class="chart-container">
+                        <canvas id="legislationChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 Lobbying Intelligence</h3>
+                    <div class="chart-container">
+                        <canvas id="lobbyingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Market Analysis (Combine Pattern Analysis + ML Predictions + Correlations) -->
+        <div id="market-analysis" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3>🔍 Pattern Recognition</h3>
+                    <div class="chart-grid">
+                        <div class="chart-container">
+                            <canvas id="patternChart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="correlationChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3>🎯 AI Predictions</h3>
+                    <div class="chart-container">
+                        <canvas id="predictionsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: Actionable Insights (Combine Stock Watchlist + Research Tools) -->
+        <div id="actionable-insights" class="tab-content">
+            <div class="analysis-grid">
+                <div class="card">
+                    <h3>🎯 Trade Signals</h3>
+                    <div id="tradeSignals"></div>
+                </div>
+                
+                <div class="card">
+                    <h3>👀 Stock Watchlist</h3>
+                    <div id="stockWatchlist"></div>
+                </div>
+                
+                <div class="card">
+                    <h3>📚 Research & Export Tools</h3>
+                    <div id="researchTools"></div>
                 </div>
             </div>
         </div>
@@ -2257,54 +2386,58 @@
     </div>
     
     <script>
-        // Tab Navigation
+        // Tab Navigation for Consolidated Tabs
         function showTab(tabId) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            // Remove active class from all buttons
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => button.classList.remove('active'));
-            
-            // Show selected tab and activate button
-            document.getElementById(tabId).classList.add('active');
+            const tabs = ['overview', 'members-trades', 'political-intel', 'market-analysis', 'actionable-insights'];
+            tabs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            const active = document.getElementById(tabId);
+            if (active) active.classList.add('active');
             event.target.classList.add('active');
-            
-            // Initialize charts for the active tab
             setTimeout(() => initializeChartsForTab(tabId), 100);
         }
-        
-        // Initialize charts based on active tab
+
         function initializeChartsForTab(tabId) {
             switch(tabId) {
-                case 'member-analysis':
-                    initializeMemberCharts();
+                case 'overview':
+                    initializeSummaryCharts();
                     break;
-                case 'trade-explorer':
+                case 'members-trades':
+                    initializeMemberCharts();
                     initializeTradeCharts();
                     break;
-                case 'pattern-analysis':
-                    initializePatternCharts();
-                    break;
-                case 'predictions':
-                    initializePredictionCharts();
-                    break;
-                case 'correlations':
-                    initializeCorrelationCharts();
-                    break;
-                case 'committees':
+                case 'political-intel':
                     initializeCommitteeCharts();
-                    break;
-                case 'legislation':
                     initializeLegislationCharts();
-                    break;
-                case 'stock-watchlist':
-                    initializeStockWatchlistCharts();
-                    break;
-                case 'lobbying-intelligence':
                     initializeLobbyingCharts();
                     break;
+                case 'market-analysis':
+                    initializePatternCharts();
+                    initializeCorrelationCharts();
+                    initializePredictionCharts();
+                    break;
+                case 'actionable-insights':
+                    initializeStockWatchlistCharts && initializeStockWatchlistCharts();
+                    break;
+            }
+        }
+
+        // New summary chart initializers
+        function initializeSummaryCharts() {
+            const vol = document.getElementById('volumeTrendChart');
+            if (vol && !vol.chart) {
+                vol.chart = new Chart(vol, { type: 'line', data: { labels: ['W1','W2','W3','W4'], datasets: [{ data: [12,18,15,22], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            }
+            const act = document.getElementById('activityChart');
+            if (act && !act.chart) {
+                act.chart = new Chart(act, { type: 'bar', data: { labels: ['Alerts','Spikes','Delays'], datasets: [{ data: [7,4,9], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
+            }
+            const perf = document.getElementById('performersChart');
+            if (perf && !perf.chart) {
+                perf.chart = new Chart(perf, { type: 'doughnut', data: { labels: ['Pelosi','Gottheimer','Crenshaw'], datasets: [{ data: [67,58,49], backgroundColor: ['#10b981','#3b82f6','#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
         }
         
