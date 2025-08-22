@@ -65,6 +65,22 @@ function initializePredictionCharts() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  // Load live stats from backend
+  try {
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(resp => {
+        const data = resp && (resp.data || resp);
+        if (!data) return;
+        const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        setText('total-members', data.total_members ?? '—');
+        setText('total-volume', data.total_volume ? `$${(data.total_volume/1_000_000).toFixed(1)}M` : '—');
+        setText('avg-suspicion', data.avg_suspicion_score ?? '—');
+        setText('anomalies-detected', data.high_risk_members ?? '—');
+      })
+      .catch(() => {});
+  } catch (_) {}
+
   initializeChartsForTab('advanced-analysis');
 });
 
