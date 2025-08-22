@@ -172,8 +172,8 @@ def health():
 
 @app.route('/dashboard')
 def dashboard():
-    """Render comprehensive dashboard template with full functionality."""
-    return render_template('dashboard.html')
+    """Serve updated working dashboard HTML while we migrate templates."""
+    return send_from_directory('src/dashboard', 'comprehensive_dashboard_WORKING.html')
 
 @app.route('/dashboard/simple')
 def simple_dashboard():

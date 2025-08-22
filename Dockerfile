@@ -12,6 +12,7 @@ COPY simple_app.py .
 COPY analysis_output/ ./analysis_output/
 COPY src/dashboard/comprehensive_dashboard.html ./dashboard/
 COPY src/dashboard/enhanced_dashboard.html ./src/dashboard/
+COPY src/dashboard/comprehensive_dashboard_WORKING.html ./src/dashboard/
 COPY src/dashboard/templates/ ./src/dashboard/templates/
 COPY src/dashboard/static/ ./src/dashboard/static/
 COPY src/data/ ./src/data/
