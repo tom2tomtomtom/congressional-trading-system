@@ -43,13 +43,16 @@ nav { position: fixed; top: 0; width: 100%; background: rgba(15, 15, 35, 0.95); 
 footer { padding: 3rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); text-align: center; color: #a0a0a0; }
 
 /* Ticker */
-.ticker { position: sticky; top: 62px; width: 100%; background: rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); overflow: hidden; white-space: nowrap; }
+.ticker { position: fixed; top: 64px; left: 0; width: 100%; background: rgba(0,0,0,0.6); border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); overflow: hidden; white-space: nowrap; z-index: 1100; }
 .ticker__track { display: inline-block; padding: .5rem 0; animation: ticker-scroll 30s linear infinite; }
 .ticker__item { display: inline-block; margin: 0 1.25rem; font-weight: 600; }
 .ticker__item.gain { color: #10b981; }
 .ticker__item.loss { color: #ef4444; }
 .ticker__item.alert { color: #f59e0b; }
 @keyframes ticker-scroll { from { transform: translateX(100%);} to { transform: translateX(-100%);} }
+
+/* Avoid overlap of fixed ticker with first section */
+.ticker + .hero { margin-top: 48px; }
 
 /* Manifesto, Accuracy, Corruption sections */
 .manifesto .apex-card, .accuracy .apex-card, .corruption .apex-card { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.15); }
