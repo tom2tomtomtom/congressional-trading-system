@@ -8,7 +8,7 @@ import json
 import sys
 import os
 from datetime import datetime, timedelta
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, send_from_directory
 from flask_cors import CORS
 import pandas as pd
 import numpy as np
@@ -38,7 +38,7 @@ from analysis.predictive_intelligence import (
     run_predictive_analysis
 )
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
 # Global data cache
@@ -88,9 +88,16 @@ def refresh_data_cache():
     print(f"Data cache refreshed at {_data_cache['last_updated']}")
 
 @app.route('/')
+def home():
+    """Apex Trading homepage."""
+    return render_template('index.html')
+
+@app.route('/dashboard')
 def dashboard():
-    """Serve the enhanced dashboard."""
-    return render_template('enhanced_dashboard.html')
+    """Serve the enhanced dashboard (legacy HTML)."""
+    # Serve the existing enhanced_dashboard.html file from this directory
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(current_dir, 'enhanced_dashboard.html')
 
 @app.route('/api/dashboard/stats')
 def get_dashboard_stats():

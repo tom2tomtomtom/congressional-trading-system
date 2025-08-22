@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Apex Trading — Congressional Intelligence{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <h1>Congressional Trading Intelligence</h1>
+        <p>Real-time analysis of congressional trades, risk scoring, and actionable insights.</p>
+        <div class="cta-group">
+            <a href="/dashboard" class="btn btn-primary">Open Dashboard</a>
+            <a href="#features" class="btn btn-secondary">Learn More</a>
+        </div>
+    </div>
+</section>
+
+<section id="features" class="features">
+    <div class="container grid">
+        <div class="card">
+            <h3>Advanced Analytics</h3>
+            <p>Pattern detection, anomaly analysis, and predictive intelligence.</p>
+        </div>
+        <div class="card">
+            <h3>Risk Scoring</h3>
+            <p>Member-level suspicion scores and compliance monitoring.</p>
+        </div>
+        <div class="card">
+            <h3>API Access</h3>
+            <p>REST endpoints to integrate congressional data into your workflows.</p>
+        </div>
+    </div>
+    <div class="container actions">
+        <a href="/dashboard" class="btn btn-primary">Launch Dashboard</a>
+    </div>
+    
+</section>
+
+<section id="about" class="about">
+    <div class="container">
+        <h2>About Apex Trading</h2>
+        <p>This system analyzes STOCK Act disclosures to surface patterns and potential conflicts for transparency and research.</p>
+    </div>
+</section>
+{% endblock %}
+
+

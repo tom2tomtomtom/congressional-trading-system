@@ -1,0 +1,46 @@
+:root {
+  --bg: #0b1020;
+  --card: #0f172a;
+  --muted: #94a3b8;
+  --text: #e2e8f0;
+  --primary: #3b82f6;
+  --primary-700: #1d4ed8;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+
+.site-header { background: linear-gradient(135deg, #0b1020 0%, #111827 60%, #1e293b 100%); border-bottom: 1px solid #0b1222; }
+.site-header .container { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+.brand { color: var(--text); text-decoration: none; font-weight: 700; font-size: 1.125rem; }
+.nav a { color: var(--muted); text-decoration: none; margin-left: 1rem; }
+.nav a:hover { color: var(--text); }
+
+.site-main { padding: 2rem 0; }
+.site-footer { border-top: 1px solid #0b1222; color: var(--muted); }
+.site-footer .container { padding: 2rem 0; }
+
+.hero { padding: 3rem 0; text-align: center; }
+.hero h1 { font-size: 2.5rem; margin: 0 0 0.75rem; letter-spacing: -0.02em; }
+.hero p { color: var(--muted); margin: 0 0 1.5rem; }
+.cta-group { display: inline-flex; gap: 0.75rem; }
+
+.btn { display: inline-block; padding: 0.6rem 1rem; border-radius: 10px; text-decoration: none; font-weight: 600; }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-700); }
+.btn-secondary { background: #111827; color: var(--text); border: 1px solid #0b1222; }
+.btn-secondary:hover { border-color: #1f2937; }
+
+.features { padding: 2rem 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+.card { background: #0b1222; border: 1px solid #0b1222; border-radius: 12px; padding: 1.25rem; }
+.card h3 { margin: 0 0 0.5rem; }
+.card p { margin: 0; color: var(--muted); }
+.actions { margin-top: 1.5rem; text-align: center; }
+.about { padding: 2rem 0; }
+.about h2 { margin-top: 0; }
+.about p { color: var(--muted); }
+
+

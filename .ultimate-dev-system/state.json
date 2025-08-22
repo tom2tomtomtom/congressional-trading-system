@@ -1,0 +1,17 @@
+{
+  "projectName": "congressional-trading-system",
+  "projectType": "python", 
+  "setupDate": "2025-08-20T08:39:07Z",
+  "ultimateDevSystem": {
+    "version": "1.0",
+    "enabled": true,
+    "lastUpdated": "2025-08-20T08:39:07Z"
+  },
+  "toolPreferences": {
+    "primary": "cursor",
+    "secondary": "augment", 
+    "testing": "claude-code"
+  },
+  "specialistHistory": [],
+  "commonTasks": []
+}

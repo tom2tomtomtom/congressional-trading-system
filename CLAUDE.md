@@ -101,3 +101,30 @@ cd src/dashboard && python3 -m http.server 8000   # Test dashboard
 - **Performance**: <2 second dashboard response times
 - **Research Impact**: Academic citations and investigative journalism
 - **Public Engagement**: Educational transparency content
+---
+
+## 🚀 Ultimate Dev System Integration
+
+This project is configured with the Ultimate Dev System for enhanced AI-assisted development.
+
+### Tool Routing (python project)
+- **Cursor**: UI development, quick changes (0-15K lines)
+- **Augment**: Large refactoring, cross-file changes (15K+ lines)  
+- **Claude Code**: Testing, automation, deployment
+
+### Available Specialists
+Use natural language to activate specialists:
+- "Build the UI" → frontend-developer + ui-engineer
+- "Fix database issues" → database-optimizer + debugger
+- "Add security" → security-auditor + auth-engineer
+- "Optimize performance" → performance-engineer + perf-optimizer
+
+### Quick Commands
+- `~/ultimate-dev-system/smart-workflow.sh` - Context-aware recommendations
+- `~/ultimate-dev-system/quick-switch.sh congressional-trading-system` - Switch to this project
+- Tell Claude: "Continue working on congressional-trading-system" for smart continuation
+
+### Configuration Files
+- `.cursor/rules/` - Cursor-specific rules and specialist routing
+- `.claude/commands/` - Custom Claude commands for this project
+- `.augment/config.json` - Augment configuration and preferences
