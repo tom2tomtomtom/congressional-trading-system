@@ -1206,6 +1206,9 @@
                     document.getElementById('last-updated').textContent = 
                         formatDate(new Date().toISOString(), { includeTime: true });
                     
+                    // Initialize the default active tab (member-analysis)
+                    await initializeTab('member-analysis');
+                    
                     showSuccess('Dashboard connected successfully');
                     return; // Success - exit retry loop
                     

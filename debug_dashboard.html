@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Dashboard - Congressional Trading</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #1a1a2e; color: white; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #444; border-radius: 8px; }
+        .success { color: #10b981; }
+        .error { color: #ef4444; }
+        button { padding: 10px 15px; margin: 5px; background: #8b5cf6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #7c3aed; }
+        .results { margin-top: 10px; padding: 10px; background: #2a2a3e; border-radius: 5px; max-height: 400px; overflow-y: auto; }
+        pre { white-space: pre-wrap; word-wrap: break-word; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Debug Dashboard - Congressional Trading Intelligence</h1>
+    
+    <div class="test-section">
+        <h3>API Endpoint Tests</h3>
+        <button onclick="testStats()">Test Stats API</button>
+        <button onclick="testMembers()">Test Members API</button>
+        <button onclick="testTrades()">Test Trades API</button>
+        <button onclick="testPredictions()">Test Predictions API</button>
+        <div id="api-results" class="results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h3>Dashboard Components Test</h3>
+        <button onclick="testDashboardInit()">Test Dashboard Initialization</button>
+        <button onclick="testDataLoading()">Test Data Loading Functions</button>
+        <div id="dashboard-results" class="results"></div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:5001';
+        
+        async function apiCall(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                const data = await response.json();
+                return { success: true, data: data };
+            } catch (error) {
+                return { success: false, error: error.message };
+            }
+        }
+        
+        async function testStats() {
+            const result = await apiCall('/api/v1/stats');
+            document.getElementById('api-results').innerHTML = `
+                <h4>Stats API Test:</h4>
+                <div class="${result.success ? 'success' : 'error'}">
+                    ${result.success ? '✅ Success' : '❌ Failed: ' + result.error}
+                </div>
+                <pre>${JSON.stringify(result.data || result.error, null, 2)}</pre>
+            `;
+        }
+        
+        async function testMembers() {
+            const result = await apiCall('/api/v1/members?limit=3');
+            document.getElementById('api-results').innerHTML = `
+                <h4>Members API Test:</h4>
+                <div class="${result.success ? 'success' : 'error'}">
+                    ${result.success ? '✅ Success' : '❌ Failed: ' + result.error}
+                </div>
+                <pre>${JSON.stringify(result.data || result.error, null, 2)}</pre>
+            `;
+        }
+        
+        async function testTrades() {
+            const result = await apiCall('/api/v1/trades?limit=2');
+            document.getElementById('api-results').innerHTML = `
+                <h4>Trades API Test:</h4>
+                <div class="${result.success ? 'success' : 'error'}">
+                    ${result.success ? '✅ Success' : '❌ Failed: ' + result.error}
+                </div>
+                <pre>${JSON.stringify(result.data || result.error, null, 2)}</pre>
+            `;
+        }
+        
+        async function testPredictions() {
+            const result = await apiCall('/api/v1/predictions');
+            document.getElementById('api-results').innerHTML = `
+                <h4>Predictions API Test:</h4>
+                <div class="${result.success ? 'success' : 'error'}">
+                    ${result.success ? '✅ Success' : '❌ Failed: ' + result.error}
+                </div>
+                <pre>${JSON.stringify(result.data || result.error, null, 2)}</pre>
+            `;
+        }
+        
+        function testDashboardInit() {
+            document.getElementById('dashboard-results').innerHTML = `
+                <h4>Dashboard Initialization Test:</h4>
+                <div class="success">✅ Debug dashboard loaded successfully</div>
+                <p>Testing basic JavaScript functionality...</p>
+                <p>Date: ${new Date().toISOString()}</p>
+                <p>API Base URL: ${API_BASE_URL}</p>
+                <p>Browser: ${navigator.userAgent}</p>
+            `;
+        }
+        
+        async function testDataLoading() {
+            document.getElementById('dashboard-results').innerHTML = '<h4>Testing Data Loading...</h4>';
+            
+            try {
+                // Test stats loading
+                const statsResult = await apiCall('/api/v1/stats');
+                
+                // Test member data access patterns
+                let memberTestResults = [];
+                
+                if (statsResult.success) {
+                    const stats = statsResult.data;
+                    memberTestResults.push(`✅ Stats loaded: ${stats.statistics?.total_members_tracked || 'N/A'} members`);
+                    
+                    // Test data structure access
+                    if (stats.statistics) {
+                        memberTestResults.push(`✅ Statistics object exists`);
+                        memberTestResults.push(`- Total trades: ${stats.statistics.total_trades || 'N/A'}`);
+                        memberTestResults.push(`- Total volume: ${stats.statistics.total_volume || 'N/A'}`);
+                        memberTestResults.push(`- Average risk score: ${stats.statistics.average_risk_score || 'N/A'}`);
+                    } else {
+                        memberTestResults.push(`❌ Statistics object missing`);
+                    }
+                } else {
+                    memberTestResults.push(`❌ Failed to load stats: ${statsResult.error}`);
+                }
+                
+                // Test members API
+                const membersResult = await apiCall('/api/v1/members?limit=1');
+                if (membersResult.success) {
+                    const members = membersResult.data;
+                    memberTestResults.push(`✅ Members API working`);
+                    
+                    if (members.data && members.data.members && members.data.members.length > 0) {
+                        const firstMember = members.data.members[0];
+                        memberTestResults.push(`✅ Member data structure: ${firstMember.name || 'unnamed'}`);
+                        memberTestResults.push(`- Risk score: ${firstMember.risk_score || 'N/A'}`);
+                        memberTestResults.push(`- Party: ${firstMember.party || 'N/A'}`);
+                        memberTestResults.push(`- Chamber: ${firstMember.chamber || 'N/A'}`);
+                    } else {
+                        memberTestResults.push(`❌ Members data structure invalid`);
+                    }
+                } else {
+                    memberTestResults.push(`❌ Failed to load members: ${membersResult.error}`);
+                }
+                
+                document.getElementById('dashboard-results').innerHTML = `
+                    <h4>Data Loading Test Results:</h4>
+                    ${memberTestResults.map(result => `<p>${result}</p>`).join('')}
+                `;
+                
+            } catch (error) {
+                document.getElementById('dashboard-results').innerHTML = `
+                    <h4>Data Loading Test Failed:</h4>
+                    <div class="error">❌ Error: ${error.message}</div>
+                    <pre>${error.stack}</pre>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
