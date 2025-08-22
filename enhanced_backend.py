@@ -277,6 +277,76 @@ class DataProcessor:
                 stats['median_net_worth'] = self.members_df['net_worth'].median()
         
         return stats
+    
+    def basic_statistical_analysis(self) -> Dict[str, Any]:
+        """Basic statistical analysis as fallback when advanced analyzer is not available"""
+        try:
+            analysis_results = {}
+            
+            # Party differences analysis
+            if self.members_df is not None and 'party' in self.members_df.columns and 'risk_score' in self.members_df.columns:
+                party_groups = self.members_df.groupby('party')['risk_score']
+                party_stats = party_groups.agg(['mean', 'std', 'count']).to_dict('index')
+                
+                analysis_results['party_differences'] = {
+                    'party_statistics': party_stats,
+                    'analysis_type': 'basic',
+                    'note': 'Basic party comparison - hypothesis test not available'
+                }
+            
+            # Chamber differences analysis  
+            if self.members_df is not None and 'chamber' in self.members_df.columns and 'risk_score' in self.members_df.columns:
+                chamber_groups = self.members_df.groupby('chamber')['risk_score']
+                chamber_stats = chamber_groups.agg(['mean', 'std', 'count']).to_dict('index')
+                
+                analysis_results['chamber_differences'] = {
+                    'chamber_statistics': chamber_stats,
+                    'analysis_type': 'basic',
+                    'note': 'Basic chamber comparison - hypothesis test not available'
+                }
+            
+            # Simple correlation analysis
+            if self.members_df is not None:
+                numeric_columns = self.members_df.select_dtypes(include=[np.number]).columns
+                if len(numeric_columns) > 1:
+                    correlation_matrix = self.members_df[numeric_columns].corr()
+                    
+                    analysis_results['correlations'] = {
+                        'correlation_matrix': correlation_matrix.to_dict(),
+                        'strongest_correlations': [],
+                        'analysis_type': 'basic'
+                    }
+            
+            # Temporal patterns (basic)
+            analysis_results['temporal_patterns'] = {
+                'pattern_type': 'seasonal_basic',
+                'description': 'Basic temporal analysis - advanced patterns require specialized analyzer',
+                'analysis_type': 'basic'
+            }
+            
+            # Basic outlier detection
+            if self.members_df is not None and 'risk_score' in self.members_df.columns:
+                q75, q25 = np.percentile(self.members_df['risk_score'], [75, 25])
+                iqr = q75 - q25
+                outlier_threshold = q75 + 1.5 * iqr
+                outliers = self.members_df[self.members_df['risk_score'] > outlier_threshold]
+                
+                analysis_results['outliers'] = {
+                    'outlier_count': len(outliers),
+                    'outlier_threshold': outlier_threshold,
+                    'outlier_members': outliers[['name', 'risk_score']].to_dict('records') if 'name' in outliers.columns else [],
+                    'analysis_type': 'basic_iqr'
+                }
+            
+            return analysis_results
+            
+        except Exception as e:
+            logger.error(f"Error in basic statistical analysis: {e}")
+            return {
+                'error': 'Basic statistical analysis failed',
+                'message': str(e),
+                'analysis_type': 'failed'
+            }
 
 # Initialize data processor
 data_processor = DataProcessor()
@@ -788,6 +858,25 @@ def api_v1_refresh():
         'timestamp': datetime.now().isoformat()
     })
 
+@app.route('/')
+def dashboard():
+    """Serve the enhanced dashboard"""
+    try:
+        dashboard_path = 'src/dashboard/enhanced_dashboard_with_real_data.html'
+        if os.path.exists(dashboard_path):
+            with open(dashboard_path, 'r') as f:
+                return f.read()
+        else:
+            return jsonify({
+                'status': 'error',
+                'message': 'Dashboard file not found'
+            }), 404
+    except Exception as e:
+        return jsonify({
+            'status': 'error',
+            'message': str(e)
+        }), 500
+
 @app.route('/health')
 def health():
     """Enhanced health check with system status"""
@@ -825,6 +914,72 @@ def health():
             'status': 'unhealthy',
             'error': str(e),
             'timestamp': datetime.now().isoformat()
+        }), 500
+
+@app.route('/api/v1/statistical-analysis')
+@cache_response('statistical_analysis', 30)  # Cache for 30 minutes
+def api_v1_statistical_analysis():
+    """Comprehensive statistical analysis including hypothesis tests and correlations"""
+    try:
+        # Try to use the statistical analyzer
+        try:
+            from src.analysis.statistical_analyzer import CongressionalStatisticalAnalyzer
+            
+            # Initialize statistical analyzer
+            analyzer = CongressionalStatisticalAnalyzer()
+            
+            # Set the data directly
+            analyzer.members_df = data_processor.members_df.copy() if data_processor.members_df is not None else pd.DataFrame()
+            analyzer.trades_df = data_processor.trades_df.copy() if data_processor.trades_df is not None else pd.DataFrame()
+            
+            # Run comprehensive statistical tests
+            party_analysis = analyzer.test_party_differences()
+            chamber_analysis = analyzer.test_chamber_differences()
+            temporal_analysis = analyzer.analyze_temporal_patterns()
+            correlation_analysis = analyzer.correlation_analysis()
+            outlier_analysis = analyzer.detect_statistical_outliers()
+            
+            # Compile results
+            analysis_results = {
+                'party_differences': party_analysis,
+                'chamber_differences': chamber_analysis,
+                'temporal_patterns': temporal_analysis,
+                'correlations': correlation_analysis,
+                'outliers': outlier_analysis,
+                'summary': {
+                    'total_tests': 5,
+                    'significant_results': sum([
+                        1 if party_analysis.get('p_value', 1) < 0.05 else 0,
+                        1 if chamber_analysis.get('p_value', 1) < 0.05 else 0,
+                        1 if correlation_analysis.get('strongest_correlation_p_value', 1) < 0.05 else 0
+                    ]),
+                    'analysis_timestamp': datetime.now().isoformat()
+                }
+            }
+            
+        except ImportError as import_error:
+            logger.warning(f"Statistical analyzer not available: {import_error}")
+            # Fall back to basic statistical analysis using current data
+            analysis_results = data_processor.basic_statistical_analysis()
+            
+        return jsonify({
+            'status': 'success',
+            'data': analysis_results,
+            'metadata': {
+                'endpoint': '/api/v1/statistical-analysis',
+                'version': '2.0.0',
+                'cached': False,
+                'analysis_method': 'comprehensive' if 'party_differences' in analysis_results else 'basic'
+            }
+        })
+        
+    except Exception as e:
+        logger.error(f"Error in /api/v1/statistical-analysis: {e}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        return jsonify({
+            'status': 'error',
+            'error': str(e),
+            'endpoint': '/api/v1/statistical-analysis'
         }), 500
 
 # Legacy endpoints for backward compatibility

@@ -1,0 +1,532 @@
+name,party,state,chamber,district,committee,trading_activity,net_worth,id,tenure_years,age
+Nancy Pelosi,D,CA,House,11,Former Speaker,Very High,114000000,1,21,70
+Kevin McCarthy,R,CA,House,20,Former Speaker,Medium,3000000,2,4,76
+Hakeem Jeffries,D,NY,House,8,Minority Leader,Low,1500000,3,5,51
+Steve Scalise,R,LA,House,1,Majority Leader,Medium,800000,4,25,36
+Josh Gottheimer,D,NJ,House,5,Financial Services,High,8200000,5,17,77
+Dan Crenshaw,R,TX,House,2,Energy & Commerce,High,1800000,6,12,69
+Alexandria Ocasio-Cortez,D,NY,House,14,Financial Services,None,100000,7,22,61
+Marjorie Taylor Greene,R,GA,House,14,Oversight,High,44000000,8,27,42
+Matt Gaetz,R,FL,House,1,Judiciary,Medium,700000,9,3,35
+Katie Porter,D,CA,House,47,Financial Services,None,1800000,10,4,49
+David King,D,CA,House,1,Budget,Low,1068694,11,14,84
+Betty Carter,D,CA,House,2,Energy & Commerce,Medium,570790,12,9,63
+Laura Clark,D,CA,House,3,Agriculture,Medium,2000577,13,2,29
+Mary Young,R,CA,House,4,Science & Technology,High,75893,14,24,81
+James Rivera,R,CA,House,5,Financial Services,None,584674,15,18,33
+Barbara Wilson,D,CA,House,6,Judiciary,None,76611,16,28,48
+Paul Wilson,R,CA,House,7,House Administration,None,512682,17,5,43
+Laura Miller,D,CA,House,8,Agriculture,High,92913,18,9,57
+Mary Rivera,D,CA,House,9,Financial Services,None,2069225,19,11,77
+Joshua Clark,D,CA,House,10,Energy & Commerce,Low,586216,20,5,47
+Sandra Gonzalez,D,CA,House,12,Small Business,None,1977624,21,17,53
+Christopher Lewis,R,CA,House,13,Ways & Means,High,4969281,22,15,61
+Andrew Clark,D,CA,House,14,Rules,Low,993223,23,12,35
+Ruth Ramirez,D,CA,House,15,Armed Services,Low,1049531,24,2,76
+Kimberly Perez,D,CA,House,16,Small Business,None,597952,25,18,37
+Barbara Allen,R,CA,House,17,Judiciary,None,555331,26,13,28
+Betty Harris,D,CA,House,18,Energy & Commerce,Low,1047517,27,2,52
+Betty Rivera,D,CA,House,19,Homeland Security,None,480812,28,16,82
+Joshua Green,D,CA,House,21,Transportation,Low,1980543,29,8,77
+Donna Scott,D,CA,House,22,Oversight,Low,1023280,30,15,49
+Matthew Baker,D,CA,House,23,Homeland Security,Medium,571078,31,17,48
+Thomas Nelson,D,CA,House,24,Ways & Means,Medium,1051791,32,13,71
+Christopher Hill,R,CA,House,25,Natural Resources,None,150317,33,21,38
+Sandra Davis,D,CA,House,26,House Administration,Low,988746,34,4,33
+Deborah Carter,D,CA,House,27,Education & Labor,None,1082367,35,25,65
+Sarah Perez,D,CA,House,28,Agriculture,High,5018279,36,6,60
+Mary Brown,D,CA,House,29,Rules,High,15090945,37,6,56
+Barbara Martin,R,CA,House,30,Small Business,High,1067649,38,16,71
+Nancy Sanchez,D,CA,House,31,Rules,None,148481,39,10,75
+Ruth Clark,D,CA,House,32,Appropriations,Medium,1023868,40,20,70
+Joshua Campbell,R,CA,House,33,Homeland Security,Medium,1983483,41,22,54
+Steven Lewis,R,CA,House,34,Oversight,Low,454162,42,11,66
+Thomas Lewis,R,CA,House,35,Energy & Commerce,None,142792,43,11,78
+Helen Roberts,R,CA,House,36,Science & Technology,Medium,1037391,44,30,65
+Karen Roberts,D,CA,House,37,Rules,Medium,1951494,45,14,60
+Anthony Jackson,D,CA,House,38,Ethics,Medium,1983156,46,3,54
+Kimberly Garcia,D,CA,House,39,Natural Resources,Medium,485139,47,17,70
+Sharon Campbell,R,CA,House,40,Financial Services,None,497408,48,13,56
+Christopher Martin,R,CA,House,41,Science & Technology,None,2005283,49,18,47
+Helen Sanchez,D,CA,House,42,Ethics,Low,1950210,50,14,53
+Anthony Baker,D,CA,House,43,Education & Labor,Medium,955605,51,21,42
+Paul Mitchell,D,CA,House,44,Homeland Security,Low,138590,52,30,58
+Nancy Mitchell,D,CA,House,45,Natural Resources,Low,1053258,53,28,34
+Karen Flores,D,CA,House,46,Homeland Security,Low,489702,54,26,73
+Helen Garcia,D,CA,House,48,Energy & Commerce,Low,2038444,55,21,80
+Richard Thompson,D,CA,House,49,Ways & Means,Low,598182,56,29,77
+Linda Anderson,D,CA,House,50,Small Business,Low,1975629,57,4,81
+Michael Moore,D,CA,House,51,Oversight,Very High,560945,58,22,60
+Joshua Harris,R,CA,House,52,Financial Services,None,953374,59,19,64
+Betty King,R,TX,House,1,House Administration,Low,2000880,60,8,62
+Sandra Torres,D,TX,House,3,House Administration,Medium,5023401,61,15,26
+John Lee,D,TX,House,4,Veterans Affairs,Low,1019196,62,10,79
+John Jackson,R,TX,House,5,Veterans Affairs,High,587638,63,17,28
+Joseph Walker,D,TX,House,6,Science & Technology,Low,1981975,64,10,26
+Mark Torres,R,TX,House,7,Energy & Commerce,Medium,2071060,65,2,33
+James Johnson,R,TX,House,8,Financial Services,Low,131310,66,14,71
+Dorothy Scott,D,TX,House,9,Veterans Affairs,Medium,541180,67,6,76
+Sandra Wilson,D,TX,House,10,Education & Labor,Medium,2020296,68,24,64
+Joshua Clark,R,TX,House,11,Veterans Affairs,Low,1053690,69,30,51
+Robert Nguyen,D,TX,House,12,Ethics,Low,150302,70,26,28
+Lisa Hall,R,TX,House,13,Natural Resources,None,2047271,71,30,34
+Helen Rodriguez,R,TX,House,14,Small Business,None,524281,72,17,70
+Dorothy Green,R,TX,House,15,Rules,None,952702,73,28,45
+Elizabeth Brown,D,TX,House,16,Armed Services,Low,109096,74,23,48
+Barbara Rodriguez,R,TX,House,17,Ways & Means,High,1988529,75,11,42
+Ruth Walker,D,TX,House,18,Transportation,None,589510,76,14,73
+Sandra Roberts,R,TX,House,19,Agriculture,Low,5089515,77,17,80
+Mary Baker,R,TX,House,20,Education & Labor,Medium,1013156,78,29,72
+Karen Adams,R,TX,House,21,Appropriations,None,72052,79,8,58
+Lisa Lopez,D,TX,House,22,Rules,None,991243,80,22,70
+Andrew Davis,D,TX,House,23,Rules,None,1041971,81,12,46
+Matthew Anderson,R,TX,House,24,Small Business,None,1977781,82,14,41
+Donna Thompson,R,TX,House,25,Natural Resources,None,472243,83,7,43
+Karen Miller,R,TX,House,26,Rules,None,523950,84,28,47
+Michelle Green,R,TX,House,27,Foreign Affairs,None,53714,85,28,63
+Karen Sanchez,D,TX,House,28,Agriculture,None,2000899,86,6,59
+Betty Sanchez,D,TX,House,29,Small Business,None,541436,87,28,66
+Lisa Clark,R,TX,House,30,Foreign Affairs,Low,1082057,88,24,44
+Nancy Robinson,R,TX,House,31,Appropriations,Low,5045798,89,9,43
+Deborah Thompson,D,TX,House,32,Rules,Low,5088244,90,8,32
+Helen King,R,TX,House,33,Financial Services,Medium,132032,91,29,51
+James Moore,D,TX,House,34,Appropriations,Low,2028904,92,11,44
+Elizabeth Clark,D,TX,House,35,Science & Technology,Medium,1998599,93,2,39
+Matthew Hernandez,D,TX,House,36,Science & Technology,Medium,5034962,94,15,69
+David Hill,D,TX,House,37,Agriculture,Low,472501,95,24,65
+Lisa Ramirez,D,TX,House,38,Armed Services,Low,519826,96,15,64
+Sarah Nelson,R,FL,House,2,Armed Services,None,593711,97,26,49
+Betty Wilson,R,FL,House,3,Ethics,Low,583221,98,14,38
+Jessica Hill,R,FL,House,4,Transportation,High,156327,99,7,46
+Sarah Lewis,D,FL,House,5,Transportation,Medium,570392,100,20,70
+Sharon White,D,FL,House,6,Oversight,Low,463518,101,9,70
+Deborah Jackson,D,FL,House,7,Veterans Affairs,Very High,14956549,102,4,78
+Kenneth Garcia,D,FL,House,8,Intelligence,None,467728,103,2,42
+Matthew Lewis,R,FL,House,9,Small Business,None,521268,104,29,34
+Matthew Jones,R,FL,House,10,Judiciary,Low,5071172,105,29,82
+Donna Lewis,D,FL,House,11,Budget,None,569353,106,25,32
+Jennifer Scott,D,FL,House,12,Education & Labor,None,986878,107,4,53
+Nancy Young,R,FL,House,13,Appropriations,None,180285,108,30,81
+Lisa Wilson,D,FL,House,14,Education & Labor,None,546877,109,11,35
+Paul Garcia,D,FL,House,15,Transportation,None,522580,110,15,58
+Anthony Baker,D,FL,House,16,Foreign Affairs,None,454275,111,24,50
+Susan Nguyen,D,FL,House,17,Education & Labor,None,116815,112,9,44
+Sarah Williams,R,FL,House,18,Education & Labor,Low,116889,113,14,81
+Betty Anderson,R,FL,House,19,Energy & Commerce,Low,2045345,114,18,65
+Patricia Wilson,R,FL,House,20,Appropriations,Low,85342,115,27,58
+Donna Robinson,D,FL,House,21,Financial Services,None,2070015,116,26,32
+Joseph Perez,R,FL,House,22,Appropriations,None,496505,117,6,47
+Andrew Wright,D,FL,House,23,Budget,None,1088142,118,17,58
+Robert Adams,R,FL,House,24,Education & Labor,Medium,1065032,119,6,69
+Richard Johnson,D,FL,House,25,Small Business,None,68156,120,30,34
+Joseph Nguyen,D,FL,House,26,Armed Services,Low,1021257,121,9,74
+Joseph Brown,D,FL,House,27,Oversight,None,1087831,122,22,57
+Michael Hill,D,FL,House,28,Rules,Low,568181,123,5,40
+Donald Flores,R,NY,House,1,Oversight,Medium,111622,124,13,74
+Nancy Wilson,R,NY,House,2,Budget,Low,986216,125,20,57
+Sandra Garcia,D,NY,House,3,Financial Services,None,462428,126,11,53
+Linda Anderson,D,NY,House,4,Armed Services,Low,511748,127,29,47
+John Perez,R,NY,House,5,Energy & Commerce,High,503107,128,6,38
+Michelle Mitchell,D,NY,House,6,Education & Labor,Low,1016561,129,4,33
+James Hall,D,NY,House,7,Energy & Commerce,None,559162,130,29,80
+Betty Harris,D,NY,House,9,Ways & Means,Medium,2005088,131,19,39
+Donald Smith,R,NY,House,10,House Administration,Medium,63278,132,18,69
+Christopher Perez,D,NY,House,11,Small Business,Low,5029606,133,12,29
+Joshua Flores,D,NY,House,12,Rules,Low,1961168,134,16,76
+Helen Johnson,R,NY,House,13,House Administration,Medium,123633,135,17,26
+Lisa Moore,R,NY,House,15,Foreign Affairs,None,963626,136,9,54
+Deborah Perez,R,NY,House,16,Homeland Security,High,1037267,137,4,50
+Betty Walker,D,NY,House,17,Intelligence,None,1957139,138,24,56
+Sharon Lopez,D,NY,House,18,Natural Resources,None,179977,139,5,26
+Dorothy Lopez,D,NY,House,19,Education & Labor,Low,1009242,140,14,49
+Paul Miller,R,NY,House,20,House Administration,None,1016257,141,5,74
+Barbara Martin,D,NY,House,21,Veterans Affairs,High,954841,142,16,82
+Nancy Clark,R,NY,House,22,Homeland Security,High,59346,143,10,53
+John King,D,NY,House,23,Transportation,Medium,989272,144,19,42
+Susan Garcia,D,NY,House,24,Natural Resources,None,145130,145,27,75
+Michelle Johnson,D,NY,House,25,Judiciary,None,1996391,146,12,52
+Nancy Walker,R,NY,House,26,Science & Technology,None,157158,147,13,75
+Sarah Garcia,R,PA,House,1,Homeland Security,None,593873,148,3,50
+Kenneth Martinez,R,PA,House,2,Ways & Means,Low,58684,149,23,49
+Michael Mitchell,D,PA,House,3,Foreign Affairs,None,500788,150,30,45
+Donald Torres,R,PA,House,4,Judiciary,Low,5009969,151,23,27
+Sarah Carter,D,PA,House,5,Intelligence,Low,583161,152,23,62
+Steven Young,D,PA,House,6,Small Business,Medium,518081,153,10,46
+Joseph Baker,D,PA,House,7,Intelligence,None,65288,154,16,59
+Daniel Mitchell,D,PA,House,8,Oversight,None,1071095,155,6,60
+Dorothy Moore,D,PA,House,9,Veterans Affairs,None,475443,156,16,40
+David Robinson,D,PA,House,10,Judiciary,Low,4971391,157,29,80
+Elizabeth Martinez,D,PA,House,11,Small Business,Medium,559325,158,8,74
+Steven Scott,R,PA,House,12,Science & Technology,Medium,550918,159,9,29
+Steven White,R,PA,House,13,Transportation,Medium,526598,160,2,36
+Kenneth Perez,R,PA,House,14,Education & Labor,Medium,66402,161,21,72
+Nancy Lee,R,PA,House,15,Judiciary,Low,957185,162,3,67
+Barbara Thomas,D,PA,House,16,Ethics,None,546207,163,23,56
+Barbara Hill,D,PA,House,17,Science & Technology,Low,5009819,164,8,79
+Sandra Jackson,R,IL,House,1,Foreign Affairs,High,548416,165,9,67
+Robert Hernandez,R,IL,House,2,Intelligence,High,495647,166,8,27
+Dorothy Lopez,D,IL,House,3,Energy & Commerce,Low,117233,167,26,83
+John Garcia,D,IL,House,4,Ways & Means,Low,968658,168,2,63
+Mary Lee,R,IL,House,5,Financial Services,Low,1062330,169,18,40
+Thomas Lopez,R,IL,House,6,Ethics,Medium,1052963,170,10,52
+Steven Wright,R,IL,House,7,Oversight,Medium,1997935,171,17,31
+Dorothy Davis,D,IL,House,8,House Administration,Low,484996,172,10,29
+Lisa Davis,D,IL,House,9,Oversight,None,1080414,173,13,66
+Steven Walker,D,IL,House,10,Armed Services,None,1045383,174,14,51
+Mark Perez,D,IL,House,11,Transportation,Medium,593883,175,10,35
+Thomas Wilson,D,IL,House,12,Ways & Means,None,2098717,176,23,44
+Michelle Nguyen,R,IL,House,13,Foreign Affairs,Medium,582789,177,17,55
+Carol Baker,D,IL,House,14,Energy & Commerce,Low,71881,178,22,81
+Patricia Hernandez,R,IL,House,15,Oversight,Low,5084209,179,3,76
+Andrew Perez,D,IL,House,16,Agriculture,Low,996369,180,25,84
+Carol Rivera,R,IL,House,17,Intelligence,None,1004135,181,19,80
+Betty Martin,R,OH,House,1,Ways & Means,None,4988773,182,25,75
+David Carter,R,OH,House,2,Homeland Security,None,1996624,183,19,56
+Helen Rivera,D,OH,House,3,Homeland Security,Medium,569630,184,28,37
+Helen Lewis,D,OH,House,4,Ethics,Low,150517,185,29,48
+Betty Rodriguez,D,OH,House,5,Natural Resources,None,1040588,186,12,77
+Michael Rodriguez,D,OH,House,6,Natural Resources,Low,1036501,187,12,45
+Nancy Anderson,R,OH,House,7,Natural Resources,None,547077,188,17,48
+Betty Brown,D,OH,House,8,Appropriations,None,583984,189,10,84
+James Martinez,D,OH,House,9,Foreign Affairs,None,57134,190,25,25
+David White,D,OH,House,10,Armed Services,None,118149,191,19,41
+Daniel Nguyen,D,OH,House,11,Homeland Security,Low,1050154,192,4,43
+Sarah Johnson,D,OH,House,12,Veterans Affairs,None,1065410,193,19,77
+Thomas Wilson,D,OH,House,13,Education & Labor,High,525315,194,21,63
+Barbara Baker,R,OH,House,14,Homeland Security,High,1961080,195,10,67
+Steven Flores,D,OH,House,15,Natural Resources,Low,77210,196,25,72
+William Baker,R,GA,House,1,Oversight,None,105085,197,13,60
+Jennifer King,R,GA,House,2,Agriculture,Low,962833,198,24,75
+Elizabeth Young,D,GA,House,3,Judiciary,Low,100001,199,25,68
+Deborah Miller,R,GA,House,4,Science & Technology,Medium,551116,200,12,48
+Sharon Young,R,GA,House,5,Ways & Means,Medium,573675,201,24,56
+Steven Roberts,D,GA,House,6,Armed Services,None,989177,202,25,35
+Patricia Nelson,D,GA,House,7,House Administration,Low,450853,203,12,27
+Sandra Brown,D,GA,House,8,Armed Services,Low,199284,204,8,46
+Sarah Flores,R,GA,House,9,Small Business,None,4965506,205,12,49
+Betty Rivera,D,GA,House,10,Ways & Means,Medium,1956442,206,10,45
+Steven Moore,D,GA,House,11,Energy & Commerce,Low,490645,207,4,84
+Matthew Lopez,D,GA,House,12,Transportation,Low,562697,208,30,52
+Paul Young,D,GA,House,13,Education & Labor,Low,497966,209,27,70
+James Campbell,R,NC,House,1,Ways & Means,None,542252,210,9,55
+Nancy Green,D,NC,House,2,Intelligence,Low,1050847,211,27,43
+Michelle Jones,D,NC,House,3,Financial Services,High,583359,212,4,74
+Betty Martin,D,NC,House,4,House Administration,Low,462512,213,3,34
+Lisa Garcia,D,NC,House,5,Veterans Affairs,Medium,510599,214,30,66
+Jennifer Smith,R,NC,House,6,Ways & Means,Medium,501160,215,18,65
+Mary Martin,D,NC,House,7,Homeland Security,Medium,492469,216,13,30
+Nancy Thompson,D,NC,House,8,Rules,None,994874,217,25,79
+Anthony Sanchez,D,NC,House,9,Ways & Means,Low,1970693,218,24,81
+Linda Hernandez,D,NC,House,10,Transportation,None,1074262,219,7,82
+Sharon Lopez,R,NC,House,11,Homeland Security,None,138281,220,3,32
+Nancy Baker,R,NC,House,12,Financial Services,None,598486,221,24,82
+Sandra Garcia,R,NC,House,13,Natural Resources,Low,523408,222,28,76
+Lisa Garcia,R,NC,House,14,Armed Services,Low,548885,223,24,37
+Matthew Green,R,MI,House,1,Budget,None,101249,224,7,38
+Laura White,D,MI,House,2,House Administration,None,481353,225,3,63
+Michael Hernandez,D,MI,House,3,Ethics,None,145251,226,22,25
+Donald Carter,R,MI,House,4,Budget,Low,1098977,227,28,40
+Joseph Nelson,D,MI,House,5,Oversight,Low,89197,228,18,28
+Lisa Robinson,R,MI,House,6,Oversight,None,116178,229,17,72
+Elizabeth Garcia,R,MI,House,7,Judiciary,None,1088429,230,17,74
+Lisa Thompson,R,MI,House,8,Natural Resources,Low,1066859,231,20,59
+Lisa Scott,D,MI,House,9,Energy & Commerce,None,187674,232,2,52
+Betty Campbell,R,MI,House,10,Agriculture,Medium,583993,233,30,64
+Mary Robinson,R,MI,House,11,Financial Services,Medium,983259,234,17,25
+Sharon Carter,D,MI,House,12,Intelligence,Low,522991,235,11,66
+Thomas Hill,R,MI,House,13,Natural Resources,Low,189525,236,11,83
+Richard Robinson,D,NJ,House,1,Rules,Low,511083,237,2,43
+Laura Garcia,D,NJ,House,2,House Administration,Low,67009,238,15,26
+Karen Perez,D,NJ,House,3,Budget,High,472246,239,13,68
+Joseph Jackson,R,NJ,House,4,Appropriations,Low,564903,240,9,38
+Anthony Hall,R,NJ,House,6,Oversight,None,83892,241,18,51
+Richard Moore,R,NJ,House,7,Appropriations,Low,470317,242,19,55
+Deborah Thompson,D,NJ,House,8,Foreign Affairs,Low,545748,243,4,53
+Barbara Mitchell,D,NJ,House,9,Science & Technology,Low,570845,244,25,71
+Helen Allen,R,NJ,House,10,House Administration,None,592628,245,14,60
+Lisa White,R,NJ,House,11,Armed Services,None,107499,246,12,57
+Deborah Lee,R,NJ,House,12,Education & Labor,None,156601,247,30,58
+Sandra Jones,R,VA,House,1,Education & Labor,None,1029119,248,4,49
+Mark King,R,VA,House,2,Veterans Affairs,Medium,541998,249,24,54
+Nancy Green,D,VA,House,3,Judiciary,Low,502474,250,14,44
+Laura Adams,R,VA,House,4,Rules,Low,176131,251,29,61
+Lisa Lewis,R,VA,House,5,Energy & Commerce,Medium,4959615,252,20,84
+Helen Perez,R,VA,House,6,Energy & Commerce,Medium,139632,253,20,49
+Daniel Mitchell,D,VA,House,7,Science & Technology,Low,998822,254,22,53
+William Miller,R,VA,House,8,Homeland Security,Low,81284,255,16,80
+Steven Thompson,R,VA,House,9,Ethics,High,962758,256,30,30
+Jennifer Williams,R,VA,House,10,Education & Labor,Low,2015346,257,20,71
+Michael Torres,R,VA,House,11,Appropriations,None,84201,258,18,77
+Helen White,R,WA,House,1,Small Business,Low,5032836,259,9,83
+Helen Walker,D,WA,House,2,Oversight,None,529509,260,27,53
+Mark Wilson,R,WA,House,3,Science & Technology,Medium,1043287,261,27,56
+Steven Gonzalez,R,WA,House,4,House Administration,None,1062619,262,18,30
+Andrew Taylor,D,WA,House,5,Armed Services,Medium,483775,263,5,39
+Mark Rivera,D,WA,House,6,Rules,Medium,144855,264,7,35
+Matthew Williams,D,WA,House,7,Science & Technology,None,5068014,265,7,70
+Anthony Lee,D,WA,House,8,Financial Services,Low,14955301,266,16,85
+Laura Jackson,D,WA,House,9,Energy & Commerce,Low,2079532,267,2,58
+Ruth Davis,D,WA,House,10,Small Business,Medium,980573,268,12,79
+Barbara Wilson,D,AZ,House,1,Education & Labor,Medium,80397,269,5,75
+Donna Ramirez,D,AZ,House,2,Armed Services,None,1060831,270,30,68
+Sarah Jackson,D,AZ,House,3,Natural Resources,Low,154215,271,24,45
+Paul Green,D,AZ,House,4,Foreign Affairs,None,196740,272,28,50
+Karen Thompson,R,AZ,House,5,Rules,Medium,1034648,273,7,49
+David Anderson,R,AZ,House,6,Veterans Affairs,Medium,467547,274,24,75
+Betty Rivera,D,AZ,House,7,Science & Technology,Low,982113,275,26,29
+Michelle Lewis,D,AZ,House,8,Intelligence,Medium,128014,276,3,72
+Christopher White,D,AZ,House,9,Intelligence,Medium,171406,277,16,47
+Lisa Flores,R,IN,House,1,House Administration,None,540650,278,16,51
+Helen Johnson,D,IN,House,2,Small Business,None,465526,279,27,65
+Jennifer Adams,R,IN,House,3,Science & Technology,None,86567,280,27,26
+Patricia Williams,D,IN,House,4,Education & Labor,Medium,450318,281,30,80
+Kimberly Scott,R,IN,House,5,Natural Resources,Low,5075547,282,23,85
+Sarah Taylor,R,IN,House,6,Education & Labor,None,1072578,283,30,67
+Christopher King,R,IN,House,7,Foreign Affairs,None,559404,284,12,53
+David Roberts,D,IN,House,8,Agriculture,Medium,528627,285,3,35
+Mark Adams,D,IN,House,9,Homeland Security,None,514493,286,15,25
+Jennifer Lee,D,MA,House,1,Agriculture,High,994683,287,8,52
+Betty Lopez,D,MA,House,2,Appropriations,None,1037151,288,22,47
+Matthew Baker,R,MA,House,3,Rules,Medium,65508,289,18,78
+Karen Miller,R,MA,House,4,Oversight,High,495103,290,12,40
+Kimberly Wright,D,MA,House,5,Appropriations,Low,957337,291,4,29
+Karen Rivera,D,MA,House,6,Veterans Affairs,None,993880,292,15,54
+Matthew Hill,R,MA,House,7,Foreign Affairs,Medium,151642,293,20,81
+Elizabeth Lee,D,MA,House,8,Homeland Security,None,140051,294,18,51
+Sandra Jones,D,MA,House,9,Judiciary,None,489448,295,7,55
+Lisa Scott,D,TN,House,1,Homeland Security,High,993360,296,8,82
+Paul Hernandez,D,TN,House,2,Agriculture,None,593538,297,19,55
+Matthew Young,R,TN,House,3,Budget,High,953677,298,10,57
+Karen Hernandez,R,TN,House,4,Homeland Security,Low,549151,299,26,64
+Sandra Clark,R,TN,House,5,Agriculture,Medium,575668,300,2,56
+Deborah Davis,D,TN,House,6,Small Business,Low,67222,301,27,55
+Donald Gonzalez,R,TN,House,7,House Administration,None,1096714,302,25,68
+Sandra Harris,R,TN,House,8,Rules,Medium,1077210,303,19,26
+Jessica Adams,D,TN,House,9,Financial Services,None,970014,304,23,79
+Joshua Lee,R,MD,House,1,House Administration,None,450904,305,13,62
+Dorothy Lopez,D,MD,House,2,Small Business,Low,1001084,306,11,67
+Joshua Lee,R,MD,House,3,Appropriations,Low,538681,307,3,37
+Sandra Jones,R,MD,House,4,Education & Labor,Medium,599516,308,9,41
+Joseph Ramirez,R,MD,House,5,Rules,Low,1067260,309,25,27
+Laura Harris,D,MD,House,6,Financial Services,Low,1986179,310,25,33
+William Young,D,MD,House,7,Homeland Security,Medium,1088585,311,19,41
+Deborah Lopez,D,MD,House,8,Foreign Affairs,Low,1033659,312,25,57
+David Hill,R,MN,House,1,Transportation,None,1028936,313,14,74
+Elizabeth Lopez,R,MN,House,2,Armed Services,Low,983485,314,2,75
+Barbara Harris,D,MN,House,3,Rules,Low,5056061,315,15,76
+Betty Lee,D,MN,House,4,Homeland Security,Low,553742,316,15,33
+Dorothy Nguyen,R,MN,House,5,Veterans Affairs,Medium,479504,317,3,41
+Sandra Torres,R,MN,House,6,Appropriations,Very High,4983042,318,10,40
+Robert Nguyen,D,MN,House,7,Foreign Affairs,None,1082453,319,25,47
+Laura Campbell,R,MN,House,8,Judiciary,None,14962845,320,6,41
+Susan Smith,R,MO,House,1,Veterans Affairs,Low,474993,321,23,58
+William Torres,D,MO,House,2,Judiciary,None,472297,322,13,67
+Ruth Adams,D,MO,House,3,Agriculture,Very High,158449,323,30,54
+Steven Thompson,R,MO,House,4,Appropriations,Low,459770,324,29,38
+Jennifer Thompson,D,MO,House,5,Appropriations,Low,501848,325,26,73
+Sharon Green,R,MO,House,6,Judiciary,Low,1051816,326,9,41
+Betty Ramirez,D,MO,House,7,Homeland Security,Low,176994,327,9,47
+Michelle Baker,R,MO,House,8,Judiciary,None,586217,328,8,29
+Michael Hernandez,R,WI,House,1,Natural Resources,Medium,139221,329,14,81
+Mary Rodriguez,D,WI,House,2,Energy & Commerce,Low,126406,330,10,69
+Thomas Sanchez,R,WI,House,3,Ethics,High,479882,331,2,40
+Paul Brown,R,WI,House,4,Rules,Medium,119276,332,18,68
+Lisa Campbell,R,WI,House,5,Natural Resources,Low,1047321,333,25,75
+Sarah Taylor,D,WI,House,6,House Administration,None,468242,334,25,48
+Susan Flores,D,WI,House,7,Agriculture,High,185657,335,27,28
+Elizabeth Allen,R,WI,House,8,Natural Resources,None,144617,336,5,56
+Helen Martin,D,CO,House,1,Ethics,Low,5040733,337,27,50
+David Miller,R,CO,House,2,Financial Services,High,55451,338,30,82
+Kenneth Williams,R,CO,House,3,Ethics,Low,1969649,339,14,65
+Donna Wilson,R,CO,House,4,Education & Labor,Low,529402,340,30,30
+Laura Davis,D,CO,House,5,Education & Labor,Medium,2097910,341,21,30
+Joshua Gonzalez,D,CO,House,6,Ways & Means,Low,463433,342,4,29
+Betty Adams,D,CO,House,7,Judiciary,High,478391,343,14,45
+Sarah Williams,D,CO,House,8,Energy & Commerce,None,40049913,344,8,61
+Helen Nguyen,R,AL,House,1,Natural Resources,None,488116,345,9,55
+Jessica Nguyen,R,AL,House,2,Armed Services,Low,514661,346,13,38
+Matthew Young,R,AL,House,3,Budget,Low,549283,347,27,33
+Joshua Wright,D,AL,House,4,Science & Technology,Medium,987881,348,13,32
+Thomas Nelson,D,AL,House,5,Financial Services,None,1034544,349,16,43
+Sharon Thomas,R,AL,House,6,Appropriations,Low,1987249,350,10,34
+Sarah Green,R,AL,House,7,Homeland Security,None,1065661,351,18,83
+Joseph Lee,D,SC,House,1,Ethics,Medium,506771,352,27,57
+Mary Mitchell,R,SC,House,2,Transportation,None,963607,353,17,41
+Lisa Martin,D,SC,House,3,Budget,Low,195237,354,14,40
+Betty Lee,R,SC,House,4,Veterans Affairs,None,576093,355,5,36
+Karen Jones,R,SC,House,5,Small Business,None,537789,356,23,46
+Karen Davis,R,SC,House,6,Foreign Affairs,High,5049661,357,25,31
+Donald Campbell,R,SC,House,7,Judiciary,None,462497,358,19,69
+Jessica Lewis,D,LA,House,2,Education & Labor,Medium,533767,359,28,39
+Jennifer Jones,D,LA,House,3,Education & Labor,Medium,467017,360,4,68
+Linda Roberts,D,LA,House,4,Energy & Commerce,Medium,83836,361,13,54
+Betty Hernandez,D,LA,House,5,Financial Services,Low,129959,362,4,69
+Sarah Nguyen,D,LA,House,6,Small Business,Low,544772,363,24,63
+Richard Robinson,R,KY,House,1,House Administration,None,1039022,364,9,80
+Christopher Flores,R,KY,House,2,Armed Services,Low,124893,365,21,26
+Anthony Hall,R,KY,House,3,Appropriations,High,142169,366,23,85
+David Perez,R,KY,House,4,Education & Labor,Medium,1010047,367,8,42
+Matthew Hall,R,KY,House,5,Armed Services,None,453290,368,22,25
+Matthew Hernandez,R,KY,House,6,Ethics,Low,551961,369,7,37
+Kimberly Wright,D,OR,House,1,Foreign Affairs,Medium,4968149,370,7,77
+Paul Brown,R,OR,House,2,Natural Resources,Low,138173,371,23,27
+John Flores,D,OR,House,3,Science & Technology,Medium,458701,372,10,44
+Ruth Thomas,D,OR,House,4,Oversight,None,78180,373,28,54
+Richard Nguyen,D,OR,House,5,Energy & Commerce,Low,581823,374,25,76
+Carol Garcia,D,OR,House,6,Homeland Security,None,496830,375,22,55
+Dorothy Jones,D,OK,House,1,Veterans Affairs,Low,14987338,376,9,82
+Linda Ramirez,R,OK,House,2,Armed Services,Low,1036077,377,14,30
+Patricia Mitchell,D,OK,House,3,Appropriations,Very High,562514,378,16,51
+Donna Moore,R,OK,House,4,Transportation,Low,495403,379,27,83
+William Allen,D,OK,House,5,Budget,None,5071259,380,6,67
+David Garcia,D,CT,House,1,Armed Services,Medium,563838,381,8,33
+Nancy Sanchez,D,CT,House,2,Intelligence,None,559851,382,19,59
+Nancy Anderson,R,CT,House,3,Judiciary,None,5088486,383,21,49
+William Lopez,D,CT,House,4,Agriculture,Medium,496994,384,23,30
+Helen Davis,R,CT,House,5,Armed Services,Low,485139,385,21,28
+Robert Rivera,D,IA,House,1,Financial Services,Medium,1989839,386,16,84
+Deborah Green,R,IA,House,2,Natural Resources,None,98877,387,11,56
+John Miller,D,IA,House,3,Budget,None,478700,388,6,30
+Karen Jackson,R,IA,House,4,House Administration,Low,84225,389,22,76
+Karen Williams,D,AR,House,1,Ways & Means,None,468291,390,9,67
+Paul Perez,R,AR,House,2,Rules,None,1995601,391,17,35
+Joseph Lee,D,AR,House,3,Education & Labor,None,1061224,392,19,61
+Dorothy Scott,R,AR,House,4,Transportation,None,1958411,393,13,81
+Sharon Perez,D,KS,House,1,House Administration,Medium,511807,394,5,56
+Lisa Torres,R,KS,House,2,Education & Labor,None,1067787,395,13,40
+Ruth Garcia,R,KS,House,3,Natural Resources,Medium,40075773,396,10,32
+Nancy Lopez,D,KS,House,4,Ways & Means,None,62698,397,6,51
+Paul Campbell,R,UT,House,1,Agriculture,None,15012120,398,8,27
+Patricia Johnson,D,UT,House,2,Armed Services,None,151475,399,26,74
+Lisa Adams,D,UT,House,3,Appropriations,Low,5039993,400,16,66
+Susan Nguyen,R,UT,House,4,Education & Labor,Medium,1057767,401,3,31
+David Martin,R,NV,House,1,Energy & Commerce,Medium,512350,402,19,57
+Carol Carter,D,NV,House,2,Homeland Security,None,978933,403,15,44
+Lisa Mitchell,D,NV,House,3,Energy & Commerce,None,1012391,404,19,39
+Thomas Torres,D,NV,House,4,Armed Services,Medium,1048526,405,28,31
+Dorothy Hernandez,R,NM,House,1,Foreign Affairs,Medium,1004677,406,6,74
+Nancy Thomas,R,NM,House,2,Science & Technology,Low,549167,407,9,31
+Karen Young,D,NM,House,3,Agriculture,Very High,195748,408,4,71
+Jennifer Green,D,WV,House,1,Natural Resources,None,565236,409,15,59
+Betty Flores,R,WV,House,2,Small Business,None,529527,410,29,45
+Betty Thomas,D,NE,House,1,Small Business,High,475185,411,8,75
+Nancy Moore,R,NE,House,2,Financial Services,None,570049,412,26,69
+Donald Baker,D,NE,House,3,Budget,None,61067,413,20,65
+Jessica Jones,R,ID,House,1,Financial Services,High,562710,414,22,59
+Robert White,R,ID,House,2,Agriculture,High,1959356,415,16,33
+Thomas Anderson,D,HI,House,1,Judiciary,None,4951880,416,7,40
+Kimberly Smith,R,HI,House,2,Agriculture,Low,989511,417,13,65
+Andrew Gonzalez,R,NH,House,1,Homeland Security,None,5063391,418,13,35
+Barbara Moore,D,NH,House,2,Agriculture,None,1057092,419,10,63
+Sarah Davis,D,ME,House,1,Education & Labor,Medium,171415,420,2,72
+Linda Harris,R,ME,House,2,Energy & Commerce,None,2048858,421,20,70
+Kimberly Mitchell,R,RI,House,1,Ways & Means,Low,4979765,422,27,41
+Nancy Hernandez,D,RI,House,2,Veterans Affairs,None,109657,423,28,55
+Karen Moore,R,MT,House,1,Intelligence,None,516570,424,10,26
+Robert Clark,R,MT,House,2,Oversight,High,547096,425,14,39
+Paul White,D,DE,House,1,Financial Services,Medium,531931,426,27,50
+Nancy Hall,D,SD,House,1,Financial Services,High,451044,427,17,59
+Karen Martinez,R,ND,House,1,Veterans Affairs,None,491023,428,6,29
+Susan Thomas,D,AK,House,1,Foreign Affairs,None,1062652,429,10,33
+Steven Flores,D,VT,House,1,Small Business,None,475486,430,29,47
+Robert Hall,R,WY,House,1,Budget,Low,4961285,431,11,62
+Chuck Schumer,D,NY,Senate,,Majority Leader,Low,1100000,436,31,64
+Mitch McConnell,R,KY,Senate,,Minority Leader,Medium,34000000,437,39,50
+Joe Manchin,D,WV,Senate,,Energy & Natural Resources,Very High,7600000,438,27,56
+Kyrsten Sinema,I,AZ,Senate,,Banking,High,100000,439,11,49
+Elizabeth Warren,D,MA,Senate,,Banking,None,12000000,440,23,57
+Ted Cruz,R,TX,Senate,,Judiciary,Medium,4000000,441,40,46
+Josh Hawley,R,MO,Senate,,Judiciary,Low,1000000,442,25,79
+Mark Warner,D,VA,Senate,,Intelligence Chair,High,25000000,443,10,55
+Richard Burr,R,NC,Senate,,Former Intelligence Chair,Very High,1700000,444,39,71
+Pat Toomey,R,PA,Senate,,Former Banking Chair,Very High,3000000,445,34,79
+Mark King,R,AL,Senate,,Agriculture,None,82388,446,25,77
+Helen Thompson,D,AL,Senate,,Agriculture,Low,1195518,447,33,67
+Patricia White,D,AK,Senate,,Agriculture,None,981656,448,21,60
+Betty Garcia,R,AK,Senate,,Rules,Medium,1005741,449,34,66
+Anthony Martin,R,AZ,Senate,,Armed Services,Very High,5056815,450,38,55
+Andrew Baker,R,AR,Senate,,Appropriations,Low,1002556,451,26,78
+Sharon King,D,AR,Senate,,Rules,None,4996655,452,35,78
+Mary Brown,R,CA,Senate,,Rules,Low,454465,453,19,75
+Andrew Gonzalez,R,CA,Senate,,Small Business,Low,613209,454,22,45
+Nancy Baker,R,CO,Senate,,Appropriations,Medium,4998721,455,11,40
+Donald Sanchez,R,CO,Senate,,Banking,None,1044831,456,37,82
+David Hill,D,CT,Senate,,Environment,Medium,10159560,457,26,67
+Sarah Rivera,D,CT,Senate,,Appropriations,None,1118813,458,10,79
+Mark Nelson,R,DE,Senate,,Foreign Relations,None,614488,459,16,38
+Donna Harris,D,DE,Senate,,Environment,Medium,9997442,460,15,82
+Nancy Green,R,FL,Senate,,Appropriations,Low,1041934,461,7,67
+Sandra King,D,FL,Senate,,Small Business,Medium,988310,462,9,62
+Michael Carter,D,GA,Senate,,Veterans Affairs,None,1146870,463,21,72
+David Allen,D,GA,Senate,,Budget,Low,1023395,464,16,74
+Sharon Wright,D,HI,Senate,,Homeland Security,None,566262,465,11,63
+Karen Williams,R,HI,Senate,,Banking,None,525872,466,22,63
+Donald Baker,D,ID,Senate,,Budget,Medium,1071202,467,16,55
+William Thompson,R,ID,Senate,,Budget,High,243891,468,20,52
+Laura King,R,IL,Senate,,Environment,Low,980232,469,27,80
+Mary Smith,D,IL,Senate,,Judiciary,None,78964,470,17,36
+Patricia Lee,D,IN,Senate,,Budget,Medium,533354,471,13,46
+Mark Smith,D,IN,Senate,,Intelligence,None,91313,472,29,46
+William Brown,R,IA,Senate,,Environment,High,630094,473,21,79
+Patricia Taylor,R,IA,Senate,,Intelligence,None,677496,474,38,63
+Michael Roberts,D,KS,Senate,,Environment,None,4965776,475,10,47
+Jessica Roberts,D,KS,Senate,,Appropriations,None,533727,476,11,85
+Christopher Robinson,R,KY,Senate,,Rules,Low,1028367,477,30,48
+Barbara Rodriguez,R,LA,Senate,,Foreign Relations,None,469321,478,8,61
+Dorothy Garcia,D,LA,Senate,,Homeland Security,Low,4960804,479,28,79
+Ruth Baker,D,ME,Senate,,Rules,Medium,1060566,480,29,70
+Helen Anderson,R,ME,Senate,,Small Business,None,196690,481,39,66
+Betty Scott,R,MD,Senate,,Armed Services,None,210983,482,26,85
+Paul Garcia,R,MD,Senate,,Small Business,None,123805,483,34,51
+Daniel Scott,R,MA,Senate,,Finance,None,4986304,484,24,81
+Ruth Flores,R,MI,Senate,,Banking,Low,278649,485,26,35
+Deborah Torres,D,MI,Senate,,Budget,Medium,614869,486,20,35
+John Adams,D,MN,Senate,,"Health, Education, Labor & Pensions",High,9959342,487,17,48
+Ruth Perez,D,MN,Senate,,Banking,Medium,5089804,488,15,61
+Mary Torres,R,MS,Senate,,Veterans Affairs,None,1093874,489,6,38
+Mark Wright,R,MS,Senate,,Appropriations,None,991265,490,40,58
+Lisa Sanchez,R,MO,Senate,,Appropriations,None,534017,491,17,54
+Joseph Moore,D,MT,Senate,,Appropriations,High,230605,492,16,39
+Michael Perez,D,MT,Senate,,Budget,Medium,1164426,493,17,66
+Mark King,D,NE,Senate,,Environment,High,591926,494,13,45
+Betty Flores,D,NE,Senate,,Environment,Low,10037745,495,29,63
+Linda Green,D,NV,Senate,,Judiciary,Medium,10166021,496,7,65
+Thomas Green,D,NV,Senate,,Small Business,None,489245,497,23,38
+John Hall,R,NH,Senate,,Environment,None,5133432,498,23,50
+Barbara Martinez,R,NH,Senate,,Intelligence,None,534734,499,31,55
+Lisa Walker,R,NJ,Senate,,Small Business,Low,5198748,500,24,81
+Michelle Adams,D,NJ,Senate,,Environment,None,1090705,501,27,37
+Thomas Rodriguez,D,NM,Senate,,Veterans Affairs,None,1011985,502,25,85
+John Miller,D,NM,Senate,,Judiciary,Low,1152875,503,6,47
+Sandra Lopez,R,NY,Senate,,Finance,None,1007760,504,31,65
+Nancy Rodriguez,D,NC,Senate,,Energy & Natural Resources,None,1187074,505,8,64
+Karen Davis,D,ND,Senate,,Foreign Relations,Very High,5096425,506,31,50
+Donna Lopez,D,ND,Senate,,Environment,Low,5050723,507,21,78
+Sharon Adams,R,OH,Senate,,Commerce,None,5175885,508,24,35
+Lisa Wilson,R,OH,Senate,,Small Business,None,466698,509,29,49
+Sarah Martin,D,OK,Senate,,"Health, Education, Labor & Pensions",None,1005000,510,23,43
+John Wilson,D,OK,Senate,,Rules,Low,1103821,511,18,45
+Paul Scott,R,OR,Senate,,Veterans Affairs,Low,1033003,512,33,49
+Sharon Perez,R,OR,Senate,,Rules,None,667897,513,26,58
+Karen Williams,R,PA,Senate,,Foreign Relations,High,453839,514,9,40
+Karen Hall,D,RI,Senate,,Judiciary,Low,25192907,515,22,56
+Sarah Hernandez,D,RI,Senate,,Judiciary,Medium,5176380,516,27,42
+Matthew Mitchell,D,SC,Senate,,Agriculture,None,650616,517,29,81
+Mark Green,R,SC,Senate,,Rules,High,5128481,518,25,46
+Sandra Harris,D,SD,Senate,,Rules,Medium,5059148,519,10,52
+Paul Lopez,D,SD,Senate,,Agriculture,None,5187479,520,15,54
+Matthew Davis,D,TN,Senate,,Veterans Affairs,None,4956990,521,34,72
+Joseph Williams,D,TN,Senate,,Foreign Relations,High,134276,522,26,40
+Deborah Scott,D,TX,Senate,,Finance,Medium,138397,523,15,62
+Joshua Martin,R,UT,Senate,,Foreign Relations,Low,1045330,524,8,40
+Patricia Thomas,D,UT,Senate,,Environment,Low,1025811,525,13,41
+Helen Gonzalez,D,VT,Senate,,Intelligence,None,1193006,526,16,58
+Steven Adams,R,VT,Senate,,Armed Services,None,466474,527,13,41
+Sharon Jones,D,VA,Senate,,"Health, Education, Labor & Pensions",None,184156,528,9,44
+Jessica Perez,R,WA,Senate,,Commerce,None,10067225,529,25,41
+Robert Lee,R,WA,Senate,,Intelligence,Low,108920,530,17,51
+Patricia Clark,R,WV,Senate,,Appropriations,Medium,4977120,531,22,75
+Paul Martinez,R,WI,Senate,,Budget,Medium,4966057,532,35,35
+Nancy King,R,WI,Senate,,Veterans Affairs,None,4952881,533,26,52
+Sarah Williams,R,WY,Senate,,Foreign Relations,Medium,4997819,534,6,76
+Donald Davis,R,WY,Senate,,Environment,Low,495079,535,28,77
