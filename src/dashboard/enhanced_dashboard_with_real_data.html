@@ -537,6 +537,9 @@
                     📁 Data Export
                 </button>
             </div>
+            <p style="text-align: center; color: #94a3b8; margin: 10px 0; font-size: 14px;">
+                💡 Data loads automatically when you switch tabs
+            </p>
         </div>
         
         <!-- Member Analysis Tab -->
@@ -578,7 +581,7 @@
             
             <div>
                 <button class="action-button" onclick="loadMemberData()">
-                    📊 Load Member Data
+                    🔄 Refresh Data
                 </button>
                 <button class="action-button" onclick="analyzeRiskPatterns()">
                     🎯 Analyze Risk Patterns
@@ -642,7 +645,7 @@
             
             <div>
                 <button class="action-button" onclick="searchTrades()">
-                    🔍 Search Trades
+                    🔍 Refresh Search
                 </button>
                 <button class="action-button" onclick="analyzeTiming()">
                     ⏰ Analyze Timing
@@ -1116,24 +1119,51 @@
         
         async function initializeTab(tabId) {
             try {
-                switch(tabId) {
-                    case 'member-analysis':
-                        await loadMemberData();
-                        break;
-                    case 'trade-explorer':
-                        // Trade data loaded on demand
-                        break;
-                    case 'ml-predictions':
-                        await generatePredictions();
-                        break;
-                    case 'anomaly-detection':
-                        await scanAnomalies();
-                        break;
-                    case 'statistical-analysis':
-                        await runStatisticalTests();
-                        break;
-                    default:
-                        console.log(`No initialization needed for tab: ${tabId}`);
+                // Check if tab data is already loaded (to prevent unnecessary API calls)
+                const isDataLoaded = (tabId) => {
+                    switch(tabId) {
+                        case 'member-analysis':
+                            return document.getElementById('member-table-body').children.length > 0;
+                        case 'trade-explorer':
+                            return document.getElementById('trade-table-body').children.length > 0;
+                        case 'ml-predictions':
+                            return document.getElementById('prediction-table-body').children.length > 0;
+                        case 'anomaly-detection':
+                            return document.getElementById('anomaly-table-body').children.length > 0;
+                        case 'statistical-analysis':
+                            return document.getElementById('party-analysis').innerHTML.trim().length > 100;
+                        default:
+                            return false;
+                    }
+                };
+                
+                // Only load if data is not already present
+                const needsLoading = ['member-analysis', 'trade-explorer', 'ml-predictions', 'anomaly-detection', 'statistical-analysis'];
+                
+                if (needsLoading.includes(tabId) && !isDataLoaded(tabId)) {
+                    showSuccess(`Loading ${tabId.replace('-', ' ')} data...`);
+                    
+                    switch(tabId) {
+                        case 'member-analysis':
+                            await loadMemberData();
+                            break;
+                        case 'trade-explorer':
+                            await searchTrades();
+                            break;
+                        case 'ml-predictions':
+                            await generatePredictions();
+                            break;
+                        case 'anomaly-detection':
+                            await scanAnomalies();
+                            break;
+                        case 'statistical-analysis':
+                            await runStatisticalTests();
+                            break;
+                    }
+                } else if (needsLoading.includes(tabId)) {
+                    console.log(`Data already loaded for tab: ${tabId}`);
+                } else {
+                    console.log(`No initialization needed for tab: ${tabId}`);
                 }
             } catch (error) {
                 console.error(`Failed to initialize tab ${tabId}:`, error);
