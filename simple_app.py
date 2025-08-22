@@ -7,10 +7,14 @@ Full system with 535+ members, comprehensive analysis, and dashboard
 import os
 import json
 import sys
-from flask import Flask, jsonify, render_template_string, send_from_directory
+from flask import Flask, jsonify, render_template, render_template_string, send_from_directory
 from flask_cors import CORS
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder='src/dashboard/templates',
+    static_folder='src/dashboard/static'
+)
 CORS(app)
 
 # Add current directory to Python path for imports
@@ -111,64 +115,8 @@ def get_analysis_data():
 
 @app.route('/')
 def home():
-    """Congressional Trading Intelligence System - Interactive Dashboard Home Page"""
-    try:
-        # Load the comprehensive dashboard as the home page
-        with open('dashboard/comprehensive_dashboard.html', 'r') as f:
-            dashboard_html = f.read()
-        return dashboard_html
-    except Exception as e:
-        # Fallback if dashboard file not found
-        print(f"Dashboard file not found: {e}")
-        data = get_analysis_data()
-        return f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Congressional Trading Intelligence System</title>
-            <style>
-                body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
-                .container {{ max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; }}
-                .error {{ background: #fee2e2; border: 1px solid #fecaca; padding: 20px; border-radius: 8px; margin: 20px 0; }}
-                .stat {{ display: inline-block; margin: 15px; padding: 20px; background: #3b82f6; color: white; border-radius: 8px; text-align: center; }}
-                .stat h3 {{ margin: 0; font-size: 2em; }}
-                .stat p {{ margin: 5px 0 0 0; }}
-            </style>
-        </head>
-        <body>
-            <div class="container">
-                <h1>🏛️ Congressional Trading Intelligence System</h1>
-                
-                <div class="error">
-                    <h3>⚠️ Dashboard Loading Issue</h3>
-                    <p><strong>Error:</strong> {e}</p>
-                    <p>The comprehensive dashboard is temporarily unavailable. Showing basic system overview instead.</p>
-                </div>
-                
-                <h2>📊 System Status</h2>
-                <div class="stat">
-                    <h3>{data['summary']['total_members']}</h3>
-                    <p>Congressional Members</p>
-                </div>
-                <div class="stat">
-                    <h3>{data['summary']['total_trades']:,}</h3>
-                    <p>Trades Analyzed</p>
-                </div>
-                <div class="stat">
-                    <h3>${data['summary']['total_volume']//1000000:,}M</h3>
-                    <p>Trading Volume</p>
-                </div>
-                
-                <h3>🔗 Try These Endpoints:</h3>
-                <ul>
-                    <li><a href="/analysis">📊 Full Analysis Page</a></li>
-                    <li><a href="/api/stats">📋 API Statistics</a></li>
-                    <li><a href="/api/high-risk">⚠️ High-Risk Members API</a></li>
-                </ul>
-            </div>
-        </body>
-        </html>
-        """
+    """Apex Trading homepage using Flask templates and static assets."""
+    return render_template('index.html', current_year=int(os.environ.get('CURRENT_YEAR', '0')) or None)
 
 @app.route('/api/stats')
 def api_stats():
@@ -224,18 +172,8 @@ def health():
 
 @app.route('/dashboard')
 def dashboard():
-    """Comprehensive Congressional Trading Intelligence Dashboard"""
-    try:
-        with open('dashboard/comprehensive_dashboard.html', 'r') as f:
-            dashboard_html = f.read()
-        return dashboard_html
-    except Exception as e:
-        return f"""
-        <h1>🏛️ Congressional Trading Intelligence System</h1>
-        <p><strong>Dashboard temporarily unavailable.</strong></p>
-        <p>Error: {e}</p>
-        <p><a href="/">← Back to Main System</a></p>
-        """, 500
+    """Serve enhanced dashboard HTML from existing static file."""
+    return send_from_directory('src/dashboard', 'enhanced_dashboard.html')
 
 @app.route('/analysis')
 def analysis():
