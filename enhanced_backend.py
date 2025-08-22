@@ -352,27 +352,31 @@ class DataProcessor:
 data_processor = DataProcessor()
 
 def cache_response(cache_key: str, ttl_minutes: int = 30):
-    """Decorator to cache API responses"""
+    """Decorator to cache API responses with query parameter support"""
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
             global _data_cache, _cache_timestamps
             
+            # Create a unique cache key that includes query parameters
+            query_params = request.args.to_dict() if request.args else {}
+            unique_cache_key = f"{cache_key}_{hash(frozenset(query_params.items()))}" if query_params else cache_key
+            
             # Check if cached data exists and is still valid
-            if (cache_key in _data_cache and 
-                cache_key in _cache_timestamps and
-                datetime.now() - _cache_timestamps[cache_key] < timedelta(minutes=ttl_minutes)):
-                logger.info(f"Returning cached data for {cache_key}")
-                return _data_cache[cache_key]
+            if (unique_cache_key in _data_cache and 
+                unique_cache_key in _cache_timestamps and
+                datetime.now() - _cache_timestamps[unique_cache_key] < timedelta(minutes=ttl_minutes)):
+                logger.info(f"Returning cached data for {unique_cache_key}")
+                return _data_cache[unique_cache_key]
             
             # Generate fresh data
             result = f(*args, **kwargs)
             
             # Cache the result
-            _data_cache[cache_key] = result
-            _cache_timestamps[cache_key] = datetime.now()
+            _data_cache[unique_cache_key] = result
+            _cache_timestamps[unique_cache_key] = datetime.now()
             
-            logger.info(f"Cached fresh data for {cache_key}")
+            logger.info(f"Cached fresh data for {unique_cache_key}")
             return result
         
         return decorated_function
