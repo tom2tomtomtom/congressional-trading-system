@@ -53,6 +53,7 @@ SAMPLE_CONGRESS_DATA = [
 ]
 
 @app.route('/')
+@app.route('/dashboard')
 def dashboard():
     """Main dashboard"""
     html = """
