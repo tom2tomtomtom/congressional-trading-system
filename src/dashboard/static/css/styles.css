@@ -1,5 +1,6 @@
 * { box-sizing: border-box; }
-body { margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%); color: #ffffff; line-height: 1.6; overflow-x: hidden; }
+html { background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%); min-height: 100%; }
+body { margin: 0; font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: transparent; color: #ffffff; line-height: 1.6; overflow-x: hidden; min-height: 100%; }
 
 .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 

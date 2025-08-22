@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congressional Trading - Debug Dashboard</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f0f23;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e1b4b, #581c87);
+            padding: 2rem;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        .tab-navigation {
+            background: #1e293b;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+        .tab-button {
+            background: #374151;
+            border: 2px solid #8b5cf6;
+            color: #e2e8f0;
+            padding: 12px 24px;
+            margin: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .tab-button:hover {
+            background: #8b5cf6;
+            transform: translateY(-2px);
+        }
+        .tab-button.active {
+            background: #8b5cf6;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+        .tab-content {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 12px;
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .status {
+            background: #16a34a;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .error {
+            background: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>🏛️ Congressional Trading Intelligence System</h1>
+    <h2>Debug Dashboard - Testing Button Functionality</h2>
+</div>
+
+<div class="tab-navigation">
+    <h3>🔧 Button Function Tests</h3>
+    <button class="tab-button active" onclick="showTab('member-analysis')">
+        👥 Member Analysis
+    </button>
+    <button class="tab-button" onclick="showTab('trade-explorer')">
+        📊 Trade Explorer  
+    </button>
+    <button class="tab-button" onclick="showTab('pattern-analysis')">
+        🔍 Pattern Analysis
+    </button>
+    <button class="tab-button" onclick="showTab('predictions')">
+        🎯 ML Predictions
+    </button>
+    <button class="tab-button" onclick="testAlert()">
+        🚨 Test Alert
+    </button>
+</div>
+
+<div id="status-area">
+    <div class="status">✅ Dashboard loaded successfully</div>
+</div>
+
+<!-- Tab Contents -->
+<div id="member-analysis" class="tab-content active">
+    <h2>👥 Member Analysis Tab</h2>
+    <p><strong>Status:</strong> ✅ This tab is working correctly!</p>
+    <p>Congressional members would be listed here with their trading patterns.</p>
+    <button onclick="updateStatus('Member Analysis button clicked!')">Test Member Button</button>
+</div>
+
+<div id="trade-explorer" class="tab-content">
+    <h2>📊 Trade Explorer Tab</h2>
+    <p><strong>Status:</strong> ✅ This tab is working correctly!</p>
+    <p>Individual trades would be displayed here with filtering options.</p>
+    <button onclick="updateStatus('Trade Explorer button clicked!')">Test Trade Button</button>
+</div>
+
+<div id="pattern-analysis" class="tab-content">
+    <h2>🔍 Pattern Analysis Tab</h2>
+    <p><strong>Status:</strong> ✅ This tab is working correctly!</p>
+    <p>Statistical patterns and correlations would be shown here.</p>
+    <button onclick="updateStatus('Pattern Analysis button clicked!')">Test Pattern Button</button>
+</div>
+
+<div id="predictions" class="tab-content">
+    <h2>🎯 ML Predictions Tab</h2>
+    <p><strong>Status:</strong> ✅ This tab is working correctly!</p>
+    <p>Machine learning predictions would be displayed here.</p>
+    <button onclick="updateStatus('ML Predictions button clicked!')">Test ML Button</button>
+</div>
+
+<script>
+// Debug: Log when script loads
+console.log("🔧 Debug Dashboard JavaScript loaded successfully");
+
+// Tab switching function
+function showTab(tabId) {
+    console.log(`🔄 Switching to tab: ${tabId}`);
+    
+    // Hide all tab contents
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabContents.forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Remove active class from all buttons
+    const tabButtons = document.querySelectorAll('.tab-button');
+    tabButtons.forEach(button => {
+        button.classList.remove('active');
+    });
+    
+    // Show selected tab
+    const targetTab = document.getElementById(tabId);
+    if (targetTab) {
+        targetTab.classList.add('active');
+        updateStatus(`✅ Successfully switched to ${tabId} tab`);
+    } else {
+        updateStatus(`❌ Error: Tab ${tabId} not found`);
+    }
+    
+    // Activate clicked button
+    event.target.classList.add('active');
+}
+
+// Test alert function
+function testAlert() {
+    alert("🎉 Alert function is working! Buttons are functional.");
+    updateStatus("🚨 Alert test completed successfully");
+}
+
+// Status update function
+function updateStatus(message) {
+    const statusArea = document.getElementById('status-area');
+    const timestamp = new Date().toLocaleTimeString();
+    statusArea.innerHTML += `<div class="status">[${timestamp}] ${message}</div>`;
+    console.log(`📝 Status: ${message}`);
+}
+
+// Test function execution on load
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("🚀 Dashboard initialized successfully");
+    updateStatus("🌟 Dashboard fully loaded and ready to test");
+    
+    // Test if all tab elements exist
+    const tabs = ['member-analysis', 'trade-explorer', 'pattern-analysis', 'predictions'];
+    tabs.forEach(tabId => {
+        const element = document.getElementById(tabId);
+        if (element) {
+            updateStatus(`✅ Tab element '${tabId}' found`);
+        } else {
+            updateStatus(`❌ Missing tab element '${tabId}'`);
+        }
+    });
+});
+
+// Global error handler
+window.addEventListener('error', function(e) {
+    console.error("🚨 JavaScript Error:", e.error);
+    updateStatus(`❌ JavaScript Error: ${e.message}`);
+});
+
+</script>
+
+</body>
+</html>
