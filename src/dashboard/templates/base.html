@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    {% block header %}
     <header class="site-header">
         <div class="container">
             <a class="brand" href="/">Apex Trading</a>
@@ -22,16 +23,19 @@
             </nav>
         </div>
     </header>
+    {% endblock %}
 
     <main class="site-main">
         {% block content %}{% endblock %}
     </main>
 
+    {% block footer %}
     <footer class="site-footer">
         <div class="container">
             <p>© {{ current_year or 2025 }} Apex Trading Intelligence</p>
         </div>
     </footer>
+    {% endblock %}
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block body_scripts %}{% endblock %}

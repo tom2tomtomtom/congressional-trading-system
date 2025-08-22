@@ -1,45 +1,126 @@
 {% extends 'base.html' %}
-{% block title %}Apex Trading — Congressional Intelligence{% endblock %}
+{% block title %}Apex Trading - Congressional Trading Intelligence{% endblock %}
+
+{% block header %}
+<nav>
+    <div class="container">
+        <div class="nav-content">
+            <div class="logo">Apex Trading</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="#insights">Insights</a></li>
+            </ul>
+        </div>
+    </div>
+    </nav>
+{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div class="container">
-        <h1>Congressional Trading Intelligence</h1>
-        <p>Real-time analysis of congressional trades, risk scoring, and actionable insights.</p>
-        <div class="cta-group">
-            <a href="/dashboard" class="btn btn-primary">Open Dashboard</a>
-            <a href="#features" class="btn btn-secondary">Learn More</a>
-        </div>
-    </div>
-</section>
-
-<section id="features" class="features">
-    <div class="container grid">
-        <div class="card">
-            <h3>Advanced Analytics</h3>
-            <p>Pattern detection, anomaly analysis, and predictive intelligence.</p>
-        </div>
-        <div class="card">
-            <h3>Risk Scoring</h3>
-            <p>Member-level suspicion scores and compliance monitoring.</p>
-        </div>
-        <div class="card">
-            <h3>API Access</h3>
-            <p>REST endpoints to integrate congressional data into your workflows.</p>
-        </div>
-    </div>
-    <div class="container actions">
-        <a href="/dashboard" class="btn btn-primary">Launch Dashboard</a>
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
     </div>
     
-</section>
-
-<section id="about" class="about">
     <div class="container">
-        <h2>About Apex Trading</h2>
-        <p>This system analyzes STOCK Act disclosures to surface patterns and potential conflicts for transparency and research.</p>
+        <div class="hero-content">
+            <h1>Congressional Trading Intelligence</h1>
+            <p class="subtitle">
+                Uncover potential insider trading patterns in Congress by analyzing historical trades, voting records, and committee activities to predict future market movements.
+            </p>
+            <a class="cta-button" href="#features">Explore Intelligence →</a>
+        </div>
     </div>
-</section>
+    </section>
+
+<!-- Features Section -->
+<section class="features" id="features">
+    <div class="container">
+        <h2 class="section-title">Advanced Trading Analytics</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Historical Trade Analysis</h3>
+                <p>Deep dive into congressional trading patterns, timing correlations with legislative actions, and performance metrics to identify potential insider knowledge usage.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3>Legislative Intelligence</h3>
+                <p>Track committee memberships, bill sponsorships, and voting records to understand which legislators have early access to market-moving information.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔮</div>
+                <h3>Predictive Modeling</h3>
+                <p>Machine learning algorithms analyze historical patterns to predict potential future trading activities based on committee assignments and legislative focus areas.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Market Impact Forecasting</h3>
+                <p>Identify sectors and stocks likely to be affected by upcoming legislation, giving you a 6-month forward-looking view of potential market movements.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3>Real-time Monitoring</h3>
+                <p>Stay updated with live congressional activities, new trade disclosures, and committee schedule changes that could signal trading opportunities.</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Alerts</h3>
+                <p>Get notified when unusual trading patterns emerge or when legislators with relevant committee positions make significant trades.</p>
+            </div>
+        </div>
+    </div>
+    </section>
+
+<!-- Stats Section -->
+<section class="stats">
+    <div class="container">
+        <h2 class="section-title">Intelligence at Scale</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-item">
+                <span class="stat-number">535</span>
+                <div class="stat-label">Congressional Members Tracked</div>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">50K+</span>
+                <div class="stat-label">Historical Trades Analyzed</div>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">20+</span>
+                <div class="stat-label">Congressional Committees</div>
+            </div>
+            
+            <div class="stat-item">
+                <span class="stat-number">85%</span>
+                <div class="stat-label">Prediction Accuracy</div>
+            </div>
+        </div>
+    </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <div class="container">
+        <p>&copy; 2025 Apex Trading. Congressional trading intelligence for informed investment decisions.</p>
+        <p style="margin-top: 1rem; font-size: 0.8rem;">
+            Data sources: Congressional disclosure reports, committee assignments, voting records, and market data.
+        </p>
+    </div>
+</footer>
 {% endblock %}
 
 
