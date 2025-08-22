@@ -1088,7 +1088,7 @@
                         <p>Congressional trades that occurred before major legislative votes, particularly in affected sectors.</p>
                     </div>
                     <div class="chart-container">
-                        <canvas id="legislationChart"></canvas>
+                        <canvas id="legislationChartPI"></canvas>
                     </div>
                 </div>
                 
@@ -1105,7 +1105,7 @@
                         <p>Relationship between corporate lobbying spending and congressional members' trading in those companies' stocks.</p>
                     </div>
                     <div class="chart-container">
-                        <canvas id="lobbyingChart"></canvas>
+                        <canvas id="lobbyingChartPI"></canvas>
                     </div>
                 </div>
             </div>
@@ -1128,10 +1128,10 @@
                     </div>
                     <div class="chart-grid">
                         <div class="chart-container">
-                            <canvas id="patternChart"></canvas>
+                            <canvas id="patternChartMA"></canvas>
                         </div>
                         <div class="chart-container">
-                            <canvas id="anomalyChart"></canvas>
+                            <canvas id="anomalyChartMA"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1149,7 +1149,7 @@
                         <p>AI-powered predictions of which stocks congressional members are likely to trade based on committee assignments and past behavior.</p>
                     </div>
                     <div class="chart-container">
-                        <canvas id="predictionsChart"></canvas>
+                        <canvas id="predictionsChartMA"></canvas>
                     </div>
                 </div>
                 
@@ -1166,7 +1166,7 @@
                         <p>How congressional trades correlate with market performance, identifying potential insider information.</p>
                     </div>
                     <div class="chart-container">
-                        <canvas id="correlationChart"></canvas>
+                        <canvas id="correlationChartMA"></canvas>
                     </div>
                 </div>
             </div>
@@ -2582,30 +2582,30 @@
                     options: { responsive: true, maintainAspectRatio: false }
                 });
             }
-            const legisCtx = document.getElementById('legislationChart');
+            const legisCtx = document.getElementById('legislationChartPI');
             if (legisCtx && !legisCtx.chart) {
                 legisCtx.chart = new Chart(legisCtx, { type: 'line', data: { labels: ['Bill A','Bill B','Bill C','Bill D'], datasets: [{ label: 'Pre-Vote Trades', data: [12,8,15,9], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
-            const lobbyCtx = document.getElementById('lobbyingChart');
+            const lobbyCtx = document.getElementById('lobbyingChartPI');
             if (lobbyCtx && !lobbyCtx.chart) {
                 lobbyCtx.chart = new Chart(lobbyCtx, { type: 'radar', data: { labels: ['Tech','Finance','Energy','Healthcare','Defense'], datasets: [{ label: 'Lobbying vs Trades', data: [78,65,52,49,31], borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,.15)' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100 } } } });
             }
         }
 
         function initializeMarketCharts() {
-            const patternCtx = document.getElementById('patternChart');
+            const patternCtx = document.getElementById('patternChartMA');
             if (patternCtx && !patternCtx.chart) {
                 patternCtx.chart = new Chart(patternCtx, { type: 'scatter', data: { datasets: [{ label: 'Trading Patterns', data: generateScatterData(), backgroundColor: 'rgba(139, 92, 246, 0.6)' }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
-            const anomalyCtx = document.getElementById('anomalyChart');
+            const anomalyCtx = document.getElementById('anomalyChartMA');
             if (anomalyCtx && !anomalyCtx.chart) {
                 anomalyCtx.chart = new Chart(anomalyCtx, { type: 'bar', data: { labels: ['Extreme','High','Medium','Low'], datasets: [{ data: [2,4,6,8], backgroundColor: ['#dc2626','#ef4444','#f59e0b','#10b981'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
-            const predCtx = document.getElementById('predictionsChart');
+            const predCtx = document.getElementById('predictionsChartMA');
             if (predCtx && !predCtx.chart) {
                 predCtx.chart = new Chart(predCtx, { type: 'line', data: { labels: ['W1','W2','W3','W4'], datasets: [{ label: 'Predicted Trades', data: [4,8,6,9], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
-            const corrCtx = document.getElementById('correlationChart');
+            const corrCtx = document.getElementById('correlationChartMA');
             if (corrCtx && !corrCtx.chart) {
                 corrCtx.chart = new Chart(corrCtx, { type: 'line', data: { labels: ['Jan','Feb','Mar','Apr','May'], datasets: [{ label: 'Correlation', data: [0.2,0.35,0.5,0.42,0.61], borderColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 1 } } } });
             }
