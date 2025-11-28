@@ -19,3 +19,11 @@ gunicorn==21.2.0
 
 # Utilities
 python-multipart>=0.0.6
+gunicorn==21.2.0
+
+# Distribution Bots (Track D)
+tweepy>=4.14.0        # Twitter/X API
+discord.py>=2.3.0     # Discord bot
+sendgrid>=6.10.0      # Email via SendGrid
+boto3>=1.28.0         # AWS SES for email (optional)
+aiohttp>=3.9.0        # Async HTTP for bots

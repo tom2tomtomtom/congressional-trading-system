@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Congressional Trading Intelligence System - Enhanced Dashboard</title>
+
+    <!-- D3.js for visualizations -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+    <!-- Chart.js for performance charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* =================================================================
+           BASE STYLES & RESET
+           ================================================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --danger-dark: #dc2626;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --dem-blue: #3b82f6;
+            --rep-red: #ef4444;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+        }
+
+        /* =================================================================
+           HEADER
+           ================================================================= */
+        .header {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* =================================================================
+           LAYOUT
+           ================================================================= */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* =================================================================
+           STATS BAR
+           ================================================================= */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        /* =================================================================
+           TABS
+           ================================================================= */
+        .tab-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 0;
+            border-bottom: 2px solid var(--gray-200);
+            overflow-x: auto;
+            scrollbar-width: thin;
+        }
+
+        .tab-button {
+            padding: 1rem 1.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--gray-500);
+            white-space: nowrap;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .tab-button:hover {
+            color: var(--primary);
+            background: var(--gray-50);
+        }
+
+        .tab-button.active {
+            color: var(--primary);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* =================================================================
+           CARDS
+           ================================================================= */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--gray-800);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* =================================================================
+           C1: CONVICTION SCORE STYLES
+           ================================================================= */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: white;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-300);
+        }
+
+        /* Trade Table */
+        .trade-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .trade-table th {
+            text-align: left;
+            padding: 0.75rem;
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-600);
+            border-bottom: 2px solid var(--gray-200);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .trade-table th:hover {
+            background: var(--gray-100);
+        }
+
+        .trade-table th .sort-icon {
+            margin-left: 0.25rem;
+            opacity: 0.5;
+        }
+
+        .trade-table th.sorted .sort-icon {
+            opacity: 1;
+        }
+
+        .trade-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+            vertical-align: middle;
+        }
+
+        .trade-table tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Conviction Score Badge */
+        .conviction-score {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .conviction-score:hover {
+            transform: scale(1.05);
+        }
+
+        .conviction-low { background: #d1fae5; color: #065f46; }
+        .conviction-moderate { background: #fef3c7; color: #92400e; }
+        .conviction-elevated { background: #fed7aa; color: #9a3412; }
+        .conviction-high { background: #fee2e2; color: #991b1b; }
+        .conviction-critical { background: #fecaca; color: #7f1d1d; }
+
+        /* Risk Badge */
+        .risk-badge {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        /* Party Badge */
+        .party-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-weight: 600;
+            font-size: 0.75rem;
+            color: white;
+        }
+
+        .party-badge.dem { background: var(--dem-blue); }
+        .party-badge.rep { background: var(--rep-red); }
+
+        /* Score Details Modal */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-400);
+        }
+
+        .modal-close:hover {
+            color: var(--gray-600);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        /* Score Display in Modal */
+        .score-display {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-large {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 1rem;
+            color: var(--gray-500);
+            margin-top: 0.5rem;
+        }
+
+        /* Factor Bars */
+        .factor-bar {
+            margin-bottom: 1rem;
+        }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.35rem;
+            font-size: 0.875rem;
+        }
+
+        .factor-name {
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .factor-value {
+            font-weight: 600;
+        }
+
+        .factor-track {
+            height: 8px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .factor-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease-out;
+        }
+
+        .factor-explanation {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.35rem;
+        }
+
+        /* =================================================================
+           C2: COMMITTEE VISUALIZATION STYLES
+           ================================================================= */
+        .viz-container {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 400px;
+        }
+
+        .viz-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .viz-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .viz-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .viz-btn:hover:not(.active) {
+            background: var(--gray-100);
+        }
+
+        /* Network Graph */
+        .network-graph {
+            width: 100%;
+            height: 450px;
+        }
+
+        .network-graph .node-member { fill: var(--primary); }
+        .network-graph .node-committee { fill: var(--secondary); }
+        .network-graph .node-sector { fill: var(--success); }
+
+        .network-graph .link {
+            stroke: var(--gray-300);
+            stroke-opacity: 0.6;
+        }
+
+        .network-graph text {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        /* Heat Map */
+        .heat-map {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .heat-map table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+        }
+
+        .heat-map th, .heat-map td {
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            border: 1px solid var(--gray-200);
+        }
+
+        .heat-map th {
+            background: var(--gray-100);
+            font-weight: 600;
+        }
+
+        .heat-map .row-header {
+            text-align: left;
+            font-weight: 500;
+            background: var(--gray-50);
+        }
+
+        .heat-cell {
+            transition: transform 0.2s;
+        }
+
+        .heat-cell:hover {
+            transform: scale(1.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Sankey Diagram */
+        .sankey-container {
+            width: 100%;
+            height: 400px;
+        }
+
+        .sankey-container .node rect {
+            fill-opacity: 0.9;
+            shape-rendering: crispEdges;
+        }
+
+        .sankey-container .node text {
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .sankey-container .link {
+            fill: none;
+            stroke-opacity: 0.3;
+        }
+
+        .sankey-container .link:hover {
+            stroke-opacity: 0.6;
+        }
+
+        /* Leaderboard */
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--gray-200);
+            gap: 1rem;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .leaderboard-rank {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-400);
+            width: 40px;
+            text-align: center;
+        }
+
+        .leaderboard-rank.top-3 {
+            color: var(--warning);
+        }
+
+        .leaderboard-info {
+            flex: 1;
+        }
+
+        .leaderboard-name {
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .leaderboard-meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .leaderboard-pct {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* =================================================================
+           C3: COPY CONGRESS SIMULATOR STYLES
+           ================================================================= */
+        .simulator-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .simulator-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .member-selector {
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .member-search {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .member-search input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .member-search input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .member-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .member-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .member-item:hover {
+            background: var(--gray-50);
+        }
+
+        .member-item.selected {
+            background: rgba(59, 130, 246, 0.1);
+            border-left: 3px solid var(--primary);
+        }
+
+        .member-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .member-item-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .member-item-return {
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .member-item-return.negative {
+            color: var(--danger);
+        }
+
+        .member-item-meta {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* Performance Dashboard */
+        .performance-dashboard {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .selected-member-info h2 {
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .perf-stat {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .perf-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .perf-stat-value.positive { color: var(--success); }
+        .perf-stat-value.negative { color: var(--danger); }
+
+        .perf-stat-label {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            margin-top: 0.25rem;
+        }
+
+        /* Calculator */
+        .calculator-card {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .calculator-card h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .calculator-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calculator-input-group label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .calculator-input-group input {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 150px;
+        }
+
+        .calculator-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255,255,255,0.15);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .calculator-result-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .calculator-result-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Leaderboard for Simulator */
+        .sim-leaderboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .sim-leader-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .sim-leader-rank {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gray-300);
+            width: 40px;
+        }
+
+        .sim-leader-rank.gold { color: #fbbf24; }
+        .sim-leader-rank.silver { color: #9ca3af; }
+        .sim-leader-rank.bronze { color: #d97706; }
+
+        .sim-leader-info {
+            flex: 1;
+        }
+
+        .sim-leader-name {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sim-leader-stats {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .sim-leader-return {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        /* =================================================================
+           FOOTER
+           ================================================================= */
+        .disclaimer {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+            border: 1px solid var(--gray-200);
+        }
+
+        .disclaimer h4 {
+            color: var(--gray-700);
+            margin-bottom: 0.5rem;
+        }
+
+        .disclaimer p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* =================================================================
+           UTILITIES
+           ================================================================= */
+        .text-success { color: var(--success); }
+        .text-danger { color: var(--danger); }
+        .text-warning { color: var(--warning); }
+        .text-muted { color: var(--gray-500); }
+        .font-bold { font-weight: 700; }
+        .text-center { text-align: center; }
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1>Congressional Trading Intelligence System</h1>
+            <p>Advanced analysis and visualization of congressional trading patterns</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total-trades">12</div>
+                <div class="stat-label">Trades Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-avg-score">66</div>
+                <div class="stat-label">Avg Conviction Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-high-risk">6</div>
+                <div class="stat-label">High Risk Trades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-alpha">+24.2%</div>
+                <div class="stat-label">Avg Alpha vs S&P</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-oversight">68%</div>
+                <div class="stat-label">Oversight Trading</div>
+            </div>
+        </div>
+
+        <!-- Main Tab Container -->
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('conviction')">Conviction Scores</button>
+                <button class="tab-button" onclick="showTab('committee')">Committee Connections</button>
+                <button class="tab-button" onclick="showTab('simulator')">Copy Congress Simulator</button>
+                <button class="tab-button" onclick="showTab('overview')">Overview</button>
+            </div>
+
+            <!-- =================================================================
+                 TAB 1: CONVICTION SCORES (C1)
+                 ================================================================= -->
+            <div id="conviction" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Trade Conviction Analysis</h3>
+                        <div class="filters">
+                            <div class="filter-group">
+                                <label>Risk Level:</label>
+                                <select id="filter-risk" onchange="filterTrades()">
+                                    <option value="">All Levels</option>
+                                    <option value="critical">Critical</option>
+                                    <option value="high">High</option>
+                                    <option value="elevated">Elevated</option>
+                                    <option value="moderate">Moderate</option>
+                                    <option value="low">Low</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Party:</label>
+                                <select id="filter-party" onchange="filterTrades()">
+                                    <option value="">All Parties</option>
+                                    <option value="D">Democrat</option>
+                                    <option value="R">Republican</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Min Score:</label>
+                                <input type="number" id="filter-min-score" min="0" max="100" placeholder="0" style="width: 70px" onchange="filterTrades()">
+                            </div>
+                            <button class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x: auto;">
+                        <table class="trade-table" id="conviction-table">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('score')">Score <span class="sort-icon">&#9650;</span></th>
+                                    <th onclick="sortTable('member_name')">Member <span class="sort-icon">&#9650;</span></th>
+                                    <th onclick="sortTable('symbol')">Symbol <span class="sort-icon">&#9650;</span></th>
+                                    <th>Transaction</th>
+                                    <th onclick="sortTable('amount_to')">Amount <span class="sort-icon">&#9650;</span></th>
+                                    <th>Risk Level</th>
+                                    <th>Top Factors</th>
+                                </tr>
+                            </thead>
+                            <tbody id="conviction-table-body">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Score Breakdown Cards -->
+                <div class="grid-2 mt-2">
+                    <div class="card">
+                        <h3>Risk Distribution</h3>
+                        <div class="chart-container">
+                            <canvas id="risk-distribution-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Factor Analysis</h3>
+                        <div class="chart-container">
+                            <canvas id="factor-analysis-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =================================================================
+                 TAB 2: COMMITTEE CONNECTIONS (C2)
+                 ================================================================= -->
+            <div id="committee" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Committee-Trading Correlation Visualization</h3>
+                        <div class="viz-controls">
+                            <button class="viz-btn active" onclick="showVisualization('network')">Network Graph</button>
+                            <button class="viz-btn" onclick="showVisualization('sankey')">Sankey Flow</button>
+                            <button class="viz-btn" onclick="showVisualization('heatmap')">Heat Map</button>
+                        </div>
+                    </div>
+
+                    <div class="viz-container">
+                        <div id="viz-network" class="network-graph"></div>
+                        <div id="viz-sankey" class="sankey-container" style="display: none;"></div>
+                        <div id="viz-heatmap" class="heat-map" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3>Oversight Trading Leaderboard</h3>
+                        <p class="text-muted mb-2" style="font-size: 0.85rem;">
+                            Members ranked by percentage of trades in sectors they regulate
+                        </p>
+                        <div id="oversight-leaderboard">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Committee Trading Summary</h3>
+                        <div class="chart-container">
+                            <canvas id="committee-trading-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- =================================================================
+                 TAB 3: COPY CONGRESS SIMULATOR (C3)
+                 ================================================================= -->
+            <div id="simulator" class="tab-content">
+                <div class="simulator-grid">
+                    <!-- Member Selector -->
+                    <div class="member-selector">
+                        <div class="member-search">
+                            <input type="text" id="member-search-input" placeholder="Search members..." oninput="filterMembers(this.value)">
+                        </div>
+                        <div class="member-list" id="member-list">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Performance Dashboard -->
+                    <div class="performance-dashboard">
+                        <div class="card">
+                            <div class="performance-header">
+                                <div class="selected-member-info" id="selected-member-info">
+                                    <h2>
+                                        <span class="party-badge dem">D</span>
+                                        Select a Member
+                                    </h2>
+                                    <p class="text-muted">Click on a member from the list to view their performance</p>
+                                </div>
+                            </div>
+
+                            <div class="performance-stats" id="performance-stats">
+                                <div class="perf-stat">
+                                    <div class="perf-stat-value positive" id="perf-return">--</div>
+                                    <div class="perf-stat-label">Total Return</div>
+                                </div>
+                                <div class="perf-stat">
+                                    <div class="perf-stat-value positive" id="perf-alpha">--</div>
+                                    <div class="perf-stat-label">Alpha vs S&P</div>
+                                </div>
+                                <div class="perf-stat">
+                                    <div class="perf-stat-value" id="perf-sharpe">--</div>
+                                    <div class="perf-stat-label">Sharpe Ratio</div>
+                                </div>
+                                <div class="perf-stat">
+                                    <div class="perf-stat-value" id="perf-winrate">--</div>
+                                    <div class="perf-stat-label">Win Rate</div>
+                                </div>
+                                <div class="perf-stat">
+                                    <div class="perf-stat-value negative" id="perf-drawdown">--</div>
+                                    <div class="perf-stat-label">Max Drawdown</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Calculator -->
+                        <div class="calculator-card">
+                            <h4>If You Had Invested...</h4>
+                            <div class="calculator-input-group">
+                                <label>Initial Investment:</label>
+                                <input type="number" id="calculator-input" value="10000" min="100" step="100" onchange="updateCalculator()">
+                            </div>
+                            <div class="calculator-result">
+                                <span class="calculator-result-label">Your portfolio would be worth:</span>
+                                <span class="calculator-result-value" id="calculator-result">$--</span>
+                            </div>
+                        </div>
+
+                        <!-- Performance Chart -->
+                        <div class="card">
+                            <h3>Performance vs S&P 500</h3>
+                            <div class="chart-container" style="height: 250px;">
+                                <canvas id="performance-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard -->
+                <div class="card mt-2">
+                    <h3 class="mb-2">Best Performing Members</h3>
+                    <div class="sim-leaderboard" id="performance-leaderboard">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- =================================================================
+                 TAB 4: OVERVIEW
+                 ================================================================= -->
+            <div id="overview" class="tab-content">
+                <div class="grid-3">
+                    <div class="card">
+                        <h3>Recent High-Risk Alerts</h3>
+                        <div id="recent-alerts">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Party Comparison</h3>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="party-comparison-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3>Top Traded Sectors</h3>
+                        <div class="chart-container" style="height: 200px;">
+                            <canvas id="sector-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <h4>Educational Disclaimer</h4>
+            <p>This system analyzes publicly available congressional financial disclosure reports as required by the STOCK Act. All data is sourced from official government filings. This tool is for educational and transparency purposes only and should not be considered investment advice. Conviction scores indicate patterns worth investigating, not proof of wrongdoing.</p>
+        </div>
+    </div>
+
+    <!-- Score Details Modal -->
+    <div class="modal-backdrop" id="score-modal" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3 id="modal-title">Conviction Score Details</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Mock Data -->
+    <script src="js/mock-data.js"></script>
+
+    <!-- Main Application Script -->
+    <script>
+        // =================================================================
+        // GLOBAL STATE
+        // =================================================================
+        let currentSort = { field: 'score', order: 'desc' };
+        let selectedMember = null;
+        let charts = {};
+
+        // =================================================================
+        // TAB NAVIGATION
+        // =================================================================
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active from all buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Initialize visualizations when tab is shown
+            if (tabName === 'committee') {
+                setTimeout(() => {
+                    initNetworkGraph();
+                }, 100);
+            }
+        }
+
+        // =================================================================
+        // C1: CONVICTION SCORE FUNCTIONS
+        // =================================================================
+        function initConvictionTable() {
+            const trades = ConvictionMockData.getFilteredTrades({
+                sortBy: currentSort.field,
+                sortOrder: currentSort.order
+            });
+            renderConvictionTable(trades);
+            updateStats();
+        }
+
+        function renderConvictionTable(trades) {
+            const tbody = document.getElementById('conviction-table-body');
+            tbody.innerHTML = trades.map(trade => {
+                const riskConfig = ConvictionMockData.getRiskLevel(trade.score);
+                const amountStr = formatAmount(trade.amount_from, trade.amount_to);
+
+                return `
+                    <tr>
+                        <td>
+                            <span class="conviction-score conviction-${trade.risk_level}"
+                                  onclick="showScoreDetails('${trade.trade_id}')">
+                                ${trade.score}
+                            </span>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <span class="party-badge ${trade.party === 'D' ? 'dem' : 'rep'}">${trade.party}</span>
+                                <div>
+                                    <div style="font-weight: 500;">${trade.member_name}</div>
+                                    <div style="font-size: 0.8rem; color: var(--gray-500);">${trade.state}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-weight: 600; color: var(--primary);">${trade.symbol}</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-500);">${trade.asset_name}</div>
+                        </td>
+                        <td>
+                            <span style="color: ${trade.transaction_type === 'Purchase' ? 'var(--success)' : 'var(--danger)'}">
+                                ${trade.transaction_type}
+                            </span>
+                        </td>
+                        <td style="font-weight: 600;">${amountStr}</td>
+                        <td>
+                            <span class="risk-badge conviction-${trade.risk_level}">
+                                ${riskConfig.label}
+                            </span>
+                        </td>
+                        <td style="font-size: 0.8rem; color: var(--gray-600);">
+                            ${trade.top_factors.slice(0, 2).map(f => formatFactorName(f)).join(', ')}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function formatAmount(from, to) {
+            if (to && to !== from) {
+                return `$${formatNumber(from)} - $${formatNumber(to)}`;
+            }
+            return `$${formatNumber(from)}`;
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(0) + 'K';
+            return num.toString();
+        }
+
+        function formatFactorName(factor) {
+            return factor.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function filterTrades() {
+            const riskLevel = document.getElementById('filter-risk').value;
+            const party = document.getElementById('filter-party').value;
+            const minScore = parseInt(document.getElementById('filter-min-score').value) || 0;
+
+            const trades = ConvictionMockData.getFilteredTrades({
+                riskLevel: riskLevel || undefined,
+                party: party || undefined,
+                minScore,
+                sortBy: currentSort.field,
+                sortOrder: currentSort.order
+            });
+
+            renderConvictionTable(trades);
+        }
+
+        function resetFilters() {
+            document.getElementById('filter-risk').value = '';
+            document.getElementById('filter-party').value = '';
+            document.getElementById('filter-min-score').value = '';
+            filterTrades();
+        }
+
+        function sortTable(field) {
+            if (currentSort.field === field) {
+                currentSort.order = currentSort.order === 'desc' ? 'asc' : 'desc';
+            } else {
+                currentSort.field = field;
+                currentSort.order = 'desc';
+            }
+            filterTrades();
+        }
+
+        function showScoreDetails(tradeId) {
+            const trade = ConvictionMockData.getTradeById(tradeId);
+            if (!trade) return;
+
+            const riskConfig = ConvictionMockData.getRiskLevel(trade.score);
+
+            document.getElementById('modal-title').textContent =
+                `${trade.member_name} - ${trade.symbol} Trade`;
+
+            document.getElementById('modal-body').innerHTML = `
+                <div class="score-display">
+                    <div class="score-large" style="color: ${riskConfig.color};">${trade.score}</div>
+                    <div class="score-label">${riskConfig.label} Risk</div>
+                </div>
+
+                <h4 style="margin-bottom: 1rem; color: var(--gray-700);">Factor Breakdown</h4>
+                ${Object.entries(trade.factors).map(([name, factor]) => {
+                    const barColor = factor.score > 70 ? 'var(--danger)' :
+                                    factor.score > 50 ? 'var(--warning)' : 'var(--success)';
+                    return `
+                        <div class="factor-bar">
+                            <div class="factor-header">
+                                <span class="factor-name">${formatFactorName(name)}</span>
+                                <span class="factor-value" style="color: ${barColor}">
+                                    ${factor.score.toFixed(0)} <span style="color: var(--gray-400);">(${(factor.weight * 100).toFixed(0)}% weight)</span>
+                                </span>
+                            </div>
+                            <div class="factor-track">
+                                <div class="factor-fill" style="width: ${factor.score}%; background: ${barColor};"></div>
+                            </div>
+                            <div class="factor-explanation">${factor.explanation}</div>
+                        </div>
+                    `;
+                }).join('')}
+
+                <div style="margin-top: 1.5rem; padding: 1rem; background: var(--gray-50); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem; font-size: 0.9rem; color: var(--gray-700);">Analysis Summary</h4>
+                    <p style="font-size: 0.875rem; color: var(--gray-600); line-height: 1.6;">
+                        ${trade.explanation}
+                    </p>
+                </div>
+            `;
+
+            document.getElementById('score-modal').classList.add('active');
+        }
+
+        function closeModal(event) {
+            if (!event || event.target.classList.contains('modal-backdrop')) {
+                document.getElementById('score-modal').classList.remove('active');
+            }
+        }
+
+        function updateStats() {
+            const stats = ConvictionMockData.getStatistics();
+            document.getElementById('stat-total-trades').textContent = stats.totalTrades;
+            document.getElementById('stat-avg-score').textContent = stats.averageScore;
+            document.getElementById('stat-high-risk').textContent =
+                (stats.riskDistribution.high || 0) + (stats.riskDistribution.critical || 0);
+        }
+
+        function initConvictionCharts() {
+            // Risk Distribution Chart
+            const riskCtx = document.getElementById('risk-distribution-chart').getContext('2d');
+            const stats = ConvictionMockData.getStatistics();
+
+            charts.riskDistribution = new Chart(riskCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Low', 'Moderate', 'Elevated', 'High', 'Critical'],
+                    datasets: [{
+                        data: [
+                            stats.riskDistribution.low || 0,
+                            stats.riskDistribution.moderate || 0,
+                            stats.riskDistribution.elevated || 0,
+                            stats.riskDistribution.high || 0,
+                            stats.riskDistribution.critical || 0
+                        ],
+                        backgroundColor: ['#10b981', '#f59e0b', '#f97316', '#ef4444', '#dc2626']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Factor Analysis Chart
+            const factorCtx = document.getElementById('factor-analysis-chart').getContext('2d');
+            const avgFactors = calculateAverageFactors();
+
+            charts.factorAnalysis = new Chart(factorCtx, {
+                type: 'radar',
+                data: {
+                    labels: ['Committee Access', 'Timing', 'Filing Delay', 'Trade Size', 'Historical Pattern', 'Sector Concentration'],
+                    datasets: [{
+                        label: 'Average Factor Score',
+                        data: [
+                            avgFactors.committee_access,
+                            avgFactors.timing_proximity,
+                            avgFactors.filing_delay,
+                            avgFactors.trade_size_anomaly,
+                            avgFactors.historical_pattern,
+                            avgFactors.sector_concentration
+                        ],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: '#3b82f6',
+                        pointBackgroundColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        function calculateAverageFactors() {
+            const factors = {};
+            const trades = ConvictionMockData.trades;
+
+            trades.forEach(trade => {
+                Object.entries(trade.factors).forEach(([key, value]) => {
+                    if (!factors[key]) factors[key] = [];
+                    factors[key].push(value.score);
+                });
+            });
+
+            const avgFactors = {};
+            Object.entries(factors).forEach(([key, values]) => {
+                avgFactors[key] = Math.round(values.reduce((a, b) => a + b, 0) / values.length);
+            });
+
+            return avgFactors;
+        }
+
+        // =================================================================
+        // C2: COMMITTEE VISUALIZATION FUNCTIONS
+        // =================================================================
+        function showVisualization(type) {
+            document.querySelectorAll('.viz-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            document.getElementById('viz-network').style.display = type === 'network' ? 'block' : 'none';
+            document.getElementById('viz-sankey').style.display = type === 'sankey' ? 'block' : 'none';
+            document.getElementById('viz-heatmap').style.display = type === 'heatmap' ? 'block' : 'none';
+
+            if (type === 'network') initNetworkGraph();
+            if (type === 'sankey') initSankeyDiagram();
+            if (type === 'heatmap') initHeatMap();
+        }
+
+        function initNetworkGraph() {
+            const container = document.getElementById('viz-network');
+            container.innerHTML = '';
+
+            const width = container.clientWidth;
+            const height = 450;
+
+            const svg = d3.select('#viz-network')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const data = CommitteeConnectionMockData;
+
+            // Create simulation
+            const simulation = d3.forceSimulation(data.nodes)
+                .force('link', d3.forceLink(data.edges).id(d => d.id).distance(100))
+                .force('charge', d3.forceManyBody().strength(-300))
+                .force('center', d3.forceCenter(width / 2, height / 2))
+                .force('collision', d3.forceCollide().radius(40));
+
+            // Draw links
+            const link = svg.append('g')
+                .selectAll('line')
+                .data(data.edges)
+                .join('line')
+                .attr('class', 'link')
+                .attr('stroke', '#cbd5e1')
+                .attr('stroke-width', 2);
+
+            // Draw nodes
+            const node = svg.append('g')
+                .selectAll('g')
+                .data(data.nodes)
+                .join('g')
+                .call(d3.drag()
+                    .on('start', dragstarted)
+                    .on('drag', dragged)
+                    .on('end', dragended));
+
+            // Node circles
+            node.append('circle')
+                .attr('r', d => d.type === 'member' ? 20 : d.type === 'committee' ? 15 : 12)
+                .attr('fill', d => {
+                    if (d.type === 'member') return d.party === 'D' ? '#3b82f6' : '#ef4444';
+                    if (d.type === 'committee') return '#7c3aed';
+                    return '#10b981';
+                })
+                .attr('stroke', '#fff')
+                .attr('stroke-width', 2);
+
+            // Node labels
+            node.append('text')
+                .text(d => d.label)
+                .attr('x', 0)
+                .attr('y', d => d.type === 'member' ? 35 : 25)
+                .attr('text-anchor', 'middle')
+                .attr('fill', '#334155')
+                .style('font-size', '10px')
+                .style('font-weight', '500');
+
+            // Tooltip on hover
+            node.append('title')
+                .text(d => {
+                    if (d.type === 'member') return `${d.label}\n${d.oversightPct}% oversight trading`;
+                    return d.label;
+                });
+
+            // Simulation tick
+            simulation.on('tick', () => {
+                link
+                    .attr('x1', d => d.source.x)
+                    .attr('y1', d => d.source.y)
+                    .attr('x2', d => d.target.x)
+                    .attr('y2', d => d.target.y);
+
+                node.attr('transform', d => `translate(${d.x},${d.y})`);
+            });
+
+            function dragstarted(event) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                event.subject.fx = event.subject.x;
+                event.subject.fy = event.subject.y;
+            }
+
+            function dragged(event) {
+                event.subject.fx = event.x;
+                event.subject.fy = event.y;
+            }
+
+            function dragended(event) {
+                if (!event.active) simulation.alphaTarget(0);
+                event.subject.fx = null;
+                event.subject.fy = null;
+            }
+        }
+
+        function initSankeyDiagram() {
+            const container = document.getElementById('viz-sankey');
+            container.innerHTML = '';
+
+            const width = container.clientWidth;
+            const height = 400;
+
+            const svg = d3.select('#viz-sankey')
+                .append('svg')
+                .attr('width', width)
+                .attr('height', height);
+
+            const data = CommitteeConnectionMockData.sankey;
+
+            // Create Sankey generator
+            const sankey = d3.sankey()
+                .nodeWidth(20)
+                .nodePadding(10)
+                .extent([[1, 1], [width - 1, height - 6]]);
+
+            const { nodes, links } = sankey({
+                nodes: data.nodes.map(d => Object.assign({}, d)),
+                links: data.links.map(d => Object.assign({}, d))
+            });
+
+            // Color scale
+            const color = d3.scaleOrdinal()
+                .domain(['committee', 'sector', 'stock'])
+                .range(['#7c3aed', '#10b981', '#3b82f6']);
+
+            // Draw links
+            svg.append('g')
+                .selectAll('path')
+                .data(links)
+                .join('path')
+                .attr('class', 'link')
+                .attr('d', d3.sankeyLinkHorizontal())
+                .attr('stroke-width', d => Math.max(1, d.width))
+                .attr('stroke', '#94a3b8')
+                .style('fill', 'none');
+
+            // Draw nodes
+            const node = svg.append('g')
+                .selectAll('g')
+                .data(nodes)
+                .join('g');
+
+            node.append('rect')
+                .attr('x', d => d.x0)
+                .attr('y', d => d.y0)
+                .attr('height', d => d.y1 - d.y0)
+                .attr('width', d => d.x1 - d.x0)
+                .attr('fill', (d, i) => {
+                    if (i < 5) return '#7c3aed';
+                    if (i < 10) return '#10b981';
+                    return '#3b82f6';
+                });
+
+            node.append('text')
+                .attr('x', d => d.x0 < width / 2 ? d.x1 + 6 : d.x0 - 6)
+                .attr('y', d => (d.y1 + d.y0) / 2)
+                .attr('dy', '0.35em')
+                .attr('text-anchor', d => d.x0 < width / 2 ? 'start' : 'end')
+                .text(d => d.name)
+                .style('font-size', '10px')
+                .style('fill', '#334155');
+        }
+
+        function initHeatMap() {
+            const container = document.getElementById('viz-heatmap');
+            const data = CommitteeConnectionMockData.heatMap;
+
+            let html = '<table><thead><tr><th></th>';
+            data.sectors.forEach(sector => {
+                html += `<th>${sector}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            data.committees.forEach((committee, i) => {
+                html += `<tr><td class="row-header">${committee}</td>`;
+                data.data[i].forEach(value => {
+                    const intensity = value / 100;
+                    const color = `rgba(59, 130, 246, ${intensity})`;
+                    html += `<td><div class="heat-cell" style="background: ${color}; color: ${intensity > 0.5 ? 'white' : '#334155'}; padding: 0.5rem; border-radius: 4px;">${value}%</div></td>`;
+                });
+                html += '</tr>';
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        function initOversightLeaderboard() {
+            const container = document.getElementById('oversight-leaderboard');
+            const data = CommitteeConnectionMockData.leaderboard;
+
+            container.innerHTML = data.map(item => `
+                <div class="leaderboard-item">
+                    <div class="leaderboard-rank ${item.rank <= 3 ? 'top-3' : ''}">#${item.rank}</div>
+                    <span class="party-badge ${item.party === 'D' ? 'dem' : 'rep'}">${item.party}</span>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">${item.member}</div>
+                        <div class="leaderboard-meta">${item.state} | ${item.committees.join(', ')}</div>
+                    </div>
+                    <div class="leaderboard-pct" style="color: ${item.oversightPct > 70 ? 'var(--danger)' : 'var(--warning)'}">
+                        ${item.oversightPct}%
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function initCommitteeTradingChart() {
+            const ctx = document.getElementById('committee-trading-chart').getContext('2d');
+            const data = CommitteeConnectionMockData.heatMap;
+
+            // Sum up trading per committee
+            const committeeData = data.committees.map((committee, i) => ({
+                committee,
+                total: data.data[i].reduce((a, b) => a + b, 0)
+            })).sort((a, b) => b.total - a.total);
+
+            charts.committeeTrading = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: committeeData.map(d => d.committee),
+                    datasets: [{
+                        label: 'Trading Volume in Oversight Areas',
+                        data: committeeData.map(d => d.total),
+                        backgroundColor: '#7c3aed'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+
+        // =================================================================
+        // C3: COPY CONGRESS SIMULATOR FUNCTIONS
+        // =================================================================
+        function initMemberList() {
+            renderMemberList(CopyCongressMockData.memberPerformance);
+        }
+
+        function renderMemberList(members) {
+            const container = document.getElementById('member-list');
+            container.innerHTML = members.map(member => `
+                <div class="member-item ${selectedMember?.member_id === member.member_id ? 'selected' : ''}"
+                     onclick="selectMember('${member.member_id}')">
+                    <div class="member-item-header">
+                        <span class="member-item-name">
+                            <span class="party-badge ${member.party === 'D' ? 'dem' : 'rep'}">${member.party}</span>
+                            ${member.member_name}
+                        </span>
+                        <span class="member-item-return ${member.total_return_pct < 0 ? 'negative' : ''}">
+                            ${member.total_return_pct > 0 ? '+' : ''}${member.total_return_pct.toFixed(1)}%
+                        </span>
+                    </div>
+                    <div class="member-item-meta">
+                        ${member.state} | ${member.trades_analyzed} trades | Alpha: ${member.alpha > 0 ? '+' : ''}${member.alpha.toFixed(1)}%
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMembers(query) {
+            const filtered = CopyCongressMockData.memberPerformance.filter(m =>
+                m.member_name.toLowerCase().includes(query.toLowerCase()) ||
+                m.state.toLowerCase().includes(query.toLowerCase())
+            );
+            renderMemberList(filtered);
+        }
+
+        function selectMember(memberId) {
+            selectedMember = CopyCongressMockData.getMemberById(memberId);
+            if (!selectedMember) return;
+
+            // Update UI
+            renderMemberList(CopyCongressMockData.memberPerformance);
+            updatePerformanceDisplay();
+            updateCalculator();
+            initPerformanceChart();
+        }
+
+        function updatePerformanceDisplay() {
+            if (!selectedMember) return;
+
+            const info = document.getElementById('selected-member-info');
+            info.innerHTML = `
+                <h2>
+                    <span class="party-badge ${selectedMember.party === 'D' ? 'dem' : 'rep'}">${selectedMember.party}</span>
+                    ${selectedMember.member_name}
+                </h2>
+                <p class="text-muted">${selectedMember.state} | ${selectedMember.trades_analyzed} trades analyzed</p>
+            `;
+
+            document.getElementById('perf-return').textContent =
+                `${selectedMember.total_return_pct > 0 ? '+' : ''}${selectedMember.total_return_pct.toFixed(1)}%`;
+            document.getElementById('perf-return').className =
+                `perf-stat-value ${selectedMember.total_return_pct >= 0 ? 'positive' : 'negative'}`;
+
+            document.getElementById('perf-alpha').textContent =
+                `${selectedMember.alpha > 0 ? '+' : ''}${selectedMember.alpha.toFixed(1)}%`;
+            document.getElementById('perf-alpha').className =
+                `perf-stat-value ${selectedMember.alpha >= 0 ? 'positive' : 'negative'}`;
+
+            document.getElementById('perf-sharpe').textContent = selectedMember.sharpe_ratio.toFixed(2);
+            document.getElementById('perf-winrate').textContent = `${selectedMember.win_rate}%`;
+            document.getElementById('perf-drawdown').textContent = `${selectedMember.max_drawdown.toFixed(1)}%`;
+        }
+
+        function updateCalculator() {
+            if (!selectedMember) {
+                document.getElementById('calculator-result').textContent = '$--';
+                return;
+            }
+
+            const investment = parseFloat(document.getElementById('calculator-input').value) || 10000;
+            const result = CopyCongressMockData.calculatePortfolioValue(selectedMember.member_id, investment);
+
+            if (result) {
+                document.getElementById('calculator-result').textContent =
+                    `$${result.finalValue.toLocaleString()}`;
+            }
+        }
+
+        function initPerformanceChart() {
+            if (charts.performance) {
+                charts.performance.destroy();
+            }
+
+            if (!selectedMember) return;
+
+            const ctx = document.getElementById('performance-chart').getContext('2d');
+            const memberReturns = selectedMember.monthly_returns;
+            const benchmarkReturns = CopyCongressMockData.benchmarkReturns;
+
+            // Calculate cumulative returns
+            let memberCum = 100;
+            let benchCum = 100;
+            const memberData = memberReturns.map(r => {
+                memberCum *= (1 + r.return / 100);
+                return memberCum.toFixed(2);
+            });
+            const benchData = benchmarkReturns.map(r => {
+                benchCum *= (1 + r.return / 100);
+                return benchCum.toFixed(2);
+            });
+
+            charts.performance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: memberReturns.map(r => r.month),
+                    datasets: [
+                        {
+                            label: selectedMember.member_name,
+                            data: memberData,
+                            borderColor: selectedMember.party === 'D' ? '#3b82f6' : '#ef4444',
+                            backgroundColor: 'transparent',
+                            tension: 0.3
+                        },
+                        {
+                            label: 'S&P 500',
+                            data: benchData,
+                            borderColor: '#94a3b8',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Portfolio Value ($100 start)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function initPerformanceLeaderboard() {
+            const container = document.getElementById('performance-leaderboard');
+            const leaderboard = CopyCongressMockData.getLeaderboard();
+
+            container.innerHTML = leaderboard.slice(0, 8).map((member, i) => {
+                const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+                return `
+                    <div class="sim-leader-card">
+                        <div class="sim-leader-rank ${rankClass}">#${i + 1}</div>
+                        <div class="sim-leader-info">
+                            <div class="sim-leader-name">
+                                <span class="party-badge ${member.party === 'D' ? 'dem' : 'rep'}">${member.party}</span>
+                                ${member.member_name}
+                            </div>
+                            <div class="sim-leader-stats">
+                                ${member.state} | Win Rate: ${member.win_rate}%
+                            </div>
+                        </div>
+                        <div class="sim-leader-return">+${member.total_return_pct.toFixed(1)}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // =================================================================
+        // OVERVIEW TAB FUNCTIONS
+        // =================================================================
+        function initOverviewTab() {
+            // Recent Alerts
+            const alertsContainer = document.getElementById('recent-alerts');
+            const highRiskTrades = ConvictionMockData.getFilteredTrades({ minScore: 70 }).slice(0, 5);
+
+            alertsContainer.innerHTML = highRiskTrades.map(trade => `
+                <div style="padding: 0.75rem; border-left: 3px solid ${trade.risk_level === 'critical' ? 'var(--danger)' : 'var(--warning)'}; background: var(--gray-50); margin-bottom: 0.5rem; border-radius: 4px;">
+                    <div style="font-weight: 600; display: flex; justify-content: space-between;">
+                        <span>${trade.member_name}</span>
+                        <span class="conviction-score conviction-${trade.risk_level}" style="font-size: 0.8rem; padding: 0.2rem 0.5rem;">${trade.score}</span>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--gray-600);">${trade.symbol} - ${trade.transaction_type} $${formatNumber((trade.amount_from + trade.amount_to) / 2)}</div>
+                </div>
+            `).join('');
+
+            // Party Comparison Chart
+            const partyCtx = document.getElementById('party-comparison-chart').getContext('2d');
+            const partyData = CopyCongressMockData.partyComparison;
+
+            charts.partyComparison = new Chart(partyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Avg Return', 'Avg Alpha', 'Win Rate'],
+                    datasets: [
+                        {
+                            label: 'Democrats',
+                            data: [partyData.democrat.avgReturn, partyData.democrat.avgAlpha, partyData.democrat.avgWinRate],
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
+                            label: 'Republicans',
+                            data: [partyData.republican.avgReturn, partyData.republican.avgAlpha, partyData.republican.avgWinRate],
+                            backgroundColor: '#ef4444'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Sector Chart
+            const sectorCtx = document.getElementById('sector-chart').getContext('2d');
+            charts.sector = new Chart(sectorCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Technology', 'Energy', 'Financials', 'Defense', 'Healthcare'],
+                    datasets: [{
+                        data: [35, 20, 25, 12, 8],
+                        backgroundColor: ['#3b82f6', '#f59e0b', '#10b981', '#7c3aed', '#ef4444']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // =================================================================
+        // INITIALIZATION
+        // =================================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize C1: Conviction Scores
+            initConvictionTable();
+            initConvictionCharts();
+
+            // Initialize C2: Committee Connections
+            initOversightLeaderboard();
+            initCommitteeTradingChart();
+
+            // Initialize C3: Copy Congress Simulator
+            initMemberList();
+            initPerformanceLeaderboard();
+
+            // Initialize Overview
+            initOverviewTab();
+
+            // Select first member by default
+            if (CopyCongressMockData.memberPerformance.length > 0) {
+                selectMember(CopyCongressMockData.memberPerformance[0].member_id);
+            }
+
+            console.log('Congressional Trading Intelligence Dashboard initialized');
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
