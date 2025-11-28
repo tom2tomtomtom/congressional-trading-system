@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Congressional Trading ML Prediction Engine
+Congressional Trading ML PredictionEngine
 Advanced machine learning models for predicting trading patterns and risk assessment
 """
 
@@ -198,8 +198,9 @@ class TradingPredictionEngine:
         
         # Network wealth estimate (if available)
         if self.members_df is not None and 'net_worth' in self.members_df.columns:
-            wealth_data = self.members_df.set_index('name')['net_worth']
-            df['member_net_worth'] = df['member_name'].map(wealth_data).fillna(0)
+            # Use map instead of reindex to avoid duplicate index issues
+            wealth_map = dict(zip(self.members_df['name'], self.members_df['net_worth']))
+            df['member_net_worth'] = df['member_name'].map(wealth_map).fillna(0)
             df['trade_to_wealth_ratio'] = df['amount_avg'] / (df['member_net_worth'] + 1)
         else:
             df['member_net_worth'] = 0

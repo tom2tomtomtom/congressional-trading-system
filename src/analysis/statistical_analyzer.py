@@ -140,12 +140,12 @@ class CongressionalStatisticalAnalyzer:
             'mann_whitney_u': {
                 'statistic': float(mw_stat),
                 'p_value': float(mw_p),
-                'significant': mw_p < self.significance_level
+                'significant': bool(mw_p < self.significance_level)
             },
             't_test': {
                 'statistic': float(t_stat),
                 'p_value': float(t_p),
-                'significant': t_p < self.significance_level
+                'significant': bool(t_p < self.significance_level)
             },
             'effect_size': float(abs(dem_amounts.mean() - rep_amounts.mean()) / 
                                np.sqrt((dem_amounts.var() + rep_amounts.var()) / 2))
@@ -164,12 +164,12 @@ class CongressionalStatisticalAnalyzer:
             'mann_whitney_u': {
                 'statistic': float(mw_delay_stat),
                 'p_value': float(mw_delay_p),
-                'significant': mw_delay_p < self.significance_level
+                'significant': bool(mw_delay_p < self.significance_level)
             },
             't_test': {
                 'statistic': float(t_delay_stat),
                 'p_value': float(t_delay_p),
-                'significant': t_delay_p < self.significance_level
+                'significant': bool(t_delay_p < self.significance_level)
             }
         }
         
@@ -188,7 +188,7 @@ class CongressionalStatisticalAnalyzer:
                     'statistic': float(chi2_stat),
                     'p_value': float(chi2_p),
                     'degrees_of_freedom': int(dof),
-                    'significant': chi2_p < self.significance_level
+                    'significant': bool(chi2_p < self.significance_level)
                 },
                 'cramers_v': float(np.sqrt(chi2_stat / (contingency_table.sum().sum() * 
                                                       (min(contingency_table.shape) - 1))))
@@ -217,7 +217,7 @@ class CongressionalStatisticalAnalyzer:
                 'fisher_exact': {
                     'odds_ratio': float(fisher_odds),
                     'p_value': float(fisher_p),
-                    'significant': fisher_p < self.significance_level
+                    'significant': bool(fisher_p < self.significance_level)
                 }
             }
         
@@ -258,12 +258,12 @@ class CongressionalStatisticalAnalyzer:
             'mann_whitney_u': {
                 'statistic': float(mw_stat),
                 'p_value': float(mw_p),
-                'significant': mw_p < self.significance_level
+                'significant': bool(mw_p < self.significance_level)
             },
             't_test': {
                 'statistic': float(t_stat),
                 'p_value': float(t_p),
-                'significant': t_p < self.significance_level
+                'significant': bool(t_p < self.significance_level)
             }
         }
         
@@ -281,7 +281,7 @@ class CongressionalStatisticalAnalyzer:
             'mann_whitney_u': {
                 'statistic': float(mw_delay_stat),
                 'p_value': float(mw_delay_p),
-                'significant': mw_delay_p < self.significance_level
+                'significant': bool(mw_delay_p < self.significance_level)
             }
         }
         
@@ -307,12 +307,12 @@ class CongressionalStatisticalAnalyzer:
         chi2_monthly, p_monthly = stats.chisquare(monthly_counts.values)
         
         results['patterns_detected']['monthly_distribution'] = {
-            'counts_by_month': monthly_counts.to_dict(),
-            'amounts_by_month': monthly_amounts.to_dict(),
+            'counts_by_month': {str(k): int(v) for k, v in monthly_counts.items()},
+            'amounts_by_month': {str(k): float(v) for k, v in monthly_amounts.items()},
             'uniformity_test': {
                 'chi_square_statistic': float(chi2_monthly),
                 'p_value': float(p_monthly),
-                'uniform_distribution': p_monthly > self.significance_level
+                'uniform_distribution': bool(p_monthly > self.significance_level)
             },
             'peak_month': int(monthly_counts.idxmax()),
             'lowest_month': int(monthly_counts.idxmin())
@@ -323,8 +323,8 @@ class CongressionalStatisticalAnalyzer:
         quarterly_amounts = self.trades_df.groupby('transaction_quarter')['amount_avg'].sum()
         
         results['patterns_detected']['quarterly_distribution'] = {
-            'counts_by_quarter': quarterly_counts.to_dict(),
-            'amounts_by_quarter': quarterly_amounts.to_dict(),
+            'counts_by_quarter': {str(k): int(v) for k, v in quarterly_counts.items()},
+            'amounts_by_quarter': {str(k): float(v) for k, v in quarterly_amounts.items()},
             'peak_quarter': int(quarterly_counts.idxmax()),
             'lowest_quarter': int(quarterly_counts.idxmin())
         }
@@ -344,22 +344,22 @@ class CongressionalStatisticalAnalyzer:
                 # Spearman correlation for trend
                 trend_corr, trend_p = spearmanr(years, trade_counts)
                 
-                results['patterns_detected']['yearly_trends'] = {
-                    'trade_counts_by_year': dict(zip(years, trade_counts)),
-                    'trend_analysis': {
-                        'correlation': float(trend_corr),
-                        'p_value': float(trend_p),
-                        'significant_trend': trend_p < self.significance_level,
-                        'trend_direction': 'increasing' if trend_corr > 0 else 'decreasing'
-                    }
+            results['patterns_detected']['yearly_trends'] = {
+                'trade_counts_by_year': {str(k): int(v) for k, v in zip(years, trade_counts)},
+                'trend_analysis': {
+                    'correlation': float(trend_corr),
+                    'p_value': float(trend_p),
+                    'significant_trend': bool(trend_p < self.significance_level),
+                    'trend_direction': 'increasing' if trend_corr > 0 else 'decreasing'
                 }
+            }
         
         # Day of week analysis
         self.trades_df['weekday'] = self.trades_df['transaction_date'].dt.day_name()
         weekday_counts = self.trades_df['weekday'].value_counts()
         
         results['patterns_detected']['weekday_distribution'] = {
-            'counts_by_weekday': weekday_counts.to_dict(),
+            'counts_by_weekday': {str(k): int(v) for k, v in weekday_counts.items()},
             'most_active_day': weekday_counts.idxmax(),
             'least_active_day': weekday_counts.idxmin()
         }
@@ -424,7 +424,7 @@ class CongressionalStatisticalAnalyzer:
                                 'pearson_correlation': float(pearson_val),
                                 'spearman_correlation': float(spearman_val),
                                 'p_value': float(p_value),
-                                'significant': p_value < self.significance_level,
+                                'significant': bool(p_value < self.significance_level),
                                 'strength': self._interpret_correlation(abs(pearson_val))
                             })
             
@@ -625,7 +625,7 @@ class CongressionalStatisticalAnalyzer:
                     analysis['normality_tests']['shapiro_wilk'] = {
                         'statistic': float(shapiro_stat),
                         'p_value': float(shapiro_p),
-                        'normal_distribution': shapiro_p > self.significance_level
+                        'normal_distribution': bool(shapiro_p > self.significance_level)
                     }
                 
                 # D'Agostino-Pearson test
@@ -633,7 +633,7 @@ class CongressionalStatisticalAnalyzer:
                 analysis['normality_tests']['dagostino_pearson'] = {
                     'statistic': float(dagostino_stat),
                     'p_value': float(dagostino_p),
-                    'normal_distribution': dagostino_p > self.significance_level
+                    'normal_distribution': bool(dagostino_p > self.significance_level)
                 }
                 
                 # Kolmogorov-Smirnov test against normal distribution
@@ -641,7 +641,7 @@ class CongressionalStatisticalAnalyzer:
                 analysis['normality_tests']['kolmogorov_smirnov'] = {
                     'statistic': float(ks_stat),
                     'p_value': float(ks_p),
-                    'normal_distribution': ks_p > self.significance_level
+                    'normal_distribution': bool(ks_p > self.significance_level)
                 }
             
             # Distribution interpretation

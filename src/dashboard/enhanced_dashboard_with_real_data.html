@@ -879,9 +879,8 @@
 
     <script>
         // Global configuration
-        const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-            ? 'http://127.0.0.1:5001' 
-            : window.location.origin; // Use backend port for local dev, current origin for production
+        // Use current origin since we are serving from the backend
+        const API_BASE_URL = window.location.origin;
         const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes cache
         
         // Global data cache
@@ -896,6 +895,53 @@
         
         // Global chart instances
         let charts = {};
+        
+        // Utility Functions
+        function formatCurrency(value, options = {}) {
+            if (value == null) return '$0.00';
+            
+            const formatOptions = {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
+                ...options
+            };
+            
+            // Handle compact option specifically if passed as custom prop
+            if (options.compact) {
+                formatOptions.notation = 'compact';
+                formatOptions.compactDisplay = 'short';
+                delete formatOptions.compact;
+            }
+            
+            return new Intl.NumberFormat('en-US', formatOptions).format(value);
+        }
+
+        function formatNumber(value) {
+            if (value == null) return '0';
+            return new Intl.NumberFormat('en-US').format(value);
+        }
+
+        function formatDate(dateString, options = {}) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return 'Invalid Date';
+            
+            const defaultOptions = {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            };
+            
+            if (options.includeTime) {
+                defaultOptions.hour = '2-digit';
+                defaultOptions.minute = '2-digit';
+                defaultOptions.second = '2-digit';
+            }
+            
+            return new Intl.DateTimeFormat('en-US', defaultOptions).format(date);
+        }
         
         // API utility functions
         async function apiRequest(endpoint, options = {}) {
@@ -1382,6 +1428,8 @@
         }
         
         function createMemberRiskChart(members) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('memberChart');
             const ctx = canvas.getContext('2d');
             
@@ -1470,6 +1518,8 @@
         }
         
         function createEmptyMemberChart() {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('memberChart');
             const ctx = canvas.getContext('2d');
             
@@ -1596,6 +1646,8 @@
         }
         
         function createTradeVolumeChart(trades) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('tradeChart');
             const ctx = canvas.getContext('2d');
             
@@ -1714,6 +1766,8 @@
         }
         
         function createEmptyTradeChart() {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('tradeChart');
             const ctx = canvas.getContext('2d');
             
@@ -1838,6 +1892,8 @@
         }
         
         function createPredictionChart(predictions) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('predictionChart');
             const ctx = canvas.getContext('2d');
             
@@ -1893,6 +1949,8 @@
         }
         
         function createEmptyPredictionChart() {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('predictionChart');
             const ctx = canvas.getContext('2d');
             
@@ -2014,6 +2072,8 @@
         }
         
         function createAnomalyChart(anomalies) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('anomalyChart');
             const ctx = canvas.getContext('2d');
             
@@ -2076,6 +2136,8 @@
         }
         
         function createEmptyAnomalyChart() {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('anomalyChart');
             const ctx = canvas.getContext('2d');
             
@@ -2304,6 +2366,8 @@
         }
         
         function createStatisticalChart(analysis) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('statisticalChart');
             const ctx = canvas.getContext('2d');
             
@@ -2443,6 +2507,8 @@
         }
         
         function createFallbackStatisticalChart(members) {
+            if (typeof Chart === 'undefined') return;
+            
             const canvas = document.getElementById('statisticalChart');
             const ctx = canvas.getContext('2d');
             

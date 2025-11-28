@@ -44,7 +44,7 @@ class EnhancedSystemLauncher:
                 'script': 'enhanced_backend.py',
                 'description': 'Enhanced API backend with comprehensive endpoints',
                 'required': True,
-                'port': 5000
+                'port': 5001
             },
             'data_updater': {
                 'script': 'src/data_pipeline/automated_updater.py',
@@ -61,7 +61,7 @@ class EnhancedSystemLauncher:
         logger.info("🔍 Checking system dependencies...")
         
         required_packages = [
-            'flask', 'flask-cors', 'pandas', 'numpy', 'scikit-learn',
+            'flask', 'flask_cors', 'pandas', 'numpy', 'sklearn',
             'xgboost', 'scipy', 'statsmodels', 'requests', 'schedule'
         ]
         

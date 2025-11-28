@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple Congressional Trading API
+Simple Congressional Trading API with Enhanced Dashboard
 """
 import os
 from flask import Flask, jsonify, render_template_string
@@ -31,6 +31,27 @@ SAMPLE_CONGRESS_DATA = [
         "recent_trades": [
             {"date": "2024-01-12", "stock": "AAPL", "action": "Buy", "amount": "$15K-50K"}
         ]
+    },
+    {
+        "id": 3,
+        "name": "Dan Crenshaw", 
+        "party": "Republican",
+        "state": "Texas",
+        "chamber": "House",
+        "recent_trades": [
+            {"date": "2024-02-01", "stock": "AMD", "action": "Buy", "amount": "$50K-100K"},
+            {"date": "2024-02-01", "stock": "META", "action": "Buy", "amount": "$15K-50K"}
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Austin Scott", 
+        "party": "Republican",
+        "state": "Georgia",
+        "chamber": "House",
+        "recent_trades": [
+            {"date": "2024-01-28", "stock": "SO", "action": "Buy", "amount": "$15K-50K"}
+        ]
     }
 ]
 
@@ -39,74 +60,584 @@ def dashboard():
     """Main dashboard"""
     html = """
     <!DOCTYPE html>
-    <html>
+    <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Congressional Trading Intelligence</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
-            body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
-            .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                     color: white; padding: 30px; border-radius: 10px; text-align: center; }
-            .stats { display: flex; gap: 20px; margin: 20px 0; }
-            .stat { background: white; padding: 20px; border-radius: 8px; flex: 1; text-align: center; }
-            .members { background: white; padding: 20px; border-radius: 8px; margin: 20px 0; }
-            .member { border-bottom: 1px solid #eee; padding: 15px 0; }
-            .trade { background: #f8f9fa; margin: 5px 0; padding: 10px; border-radius: 5px; }
+            :root {
+                --primary: #4f46e5;
+                --primary-dark: #4338ca;
+                --secondary: #64748b;
+                --bg: #f8fafc;
+                --card-bg: #ffffff;
+                --text-main: #1e293b;
+                --text-light: #64748b;
+                --success: #10b981;
+                --warning: #f59e0b;
+                --danger: #ef4444;
+                --border: #e2e8f0;
+            }
+            
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            
+            body { 
+                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+                background-color: var(--bg);
+                color: var(--text-main);
+                line-height: 1.6;
+            }
+            
+            .navbar {
+                background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+                color: white;
+                padding: 1rem 2rem;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            
+            .navbar-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .brand {
+                font-size: 1.5rem;
+                font-weight: 700;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+            
+            .nav-links a {
+                color: rgba(255,255,255,0.9);
+                text-decoration: none;
+                margin-left: 1.5rem;
+                font-weight: 500;
+                transition: color 0.2s;
+            }
+            
+            .nav-links a:hover {
+                color: white;
+            }
+            
+            .container {
+                max-width: 1200px;
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+            
+            .hero-section {
+                text-align: center;
+                margin-bottom: 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+                color: var(--text-main);
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+                color: var(--text-light);
+            }
+
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 3rem;
+            }
+            
+            .stat-card {
+                background: var(--card-bg);
+                padding: 1.5rem;
+                border-radius: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                border: 1px solid var(--border);
+                transition: transform 0.2s, box-shadow 0.2s;
+                cursor: pointer;
+            }
+            
+            .stat-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            
+            .stat-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1rem;
+            }
+            
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.25rem;
+            }
+            
+            .icon-blue { background: #eff6ff; color: #3b82f6; }
+            .icon-green { background: #ecfdf5; color: #10b981; }
+            .icon-purple { background: #f3e8ff; color: #a855f7; }
+            .icon-orange { background: #fff7ed; color: #f97316; }
+            
+            .stat-value {
+                font-size: 2rem;
+                font-weight: 700;
+                color: var(--text-main);
+                margin-bottom: 0.25rem;
+            }
+            
+            .stat-label {
+                font-size: 0.875rem;
+                color: var(--text-light);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+            }
+            
+            .controls-bar {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .search-box {
+                flex: 1;
+                min-width: 300px;
+                position: relative;
+            }
+
+            .search-input {
+                width: 100%;
+                padding: 0.75rem 1rem 0.75rem 2.5rem;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                font-size: 1rem;
+                transition: border-color 0.2s;
+            }
+
+            .search-input:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            }
+
+            .search-icon {
+                position: absolute;
+                left: 1rem;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-light);
+            }
+
+            .filter-group {
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                padding: 0.5rem 1rem;
+                border: 1px solid var(--border);
+                background: white;
+                border-radius: 6px;
+                color: var(--text-main);
+                cursor: pointer;
+                font-weight: 500;
+                transition: all 0.2s;
+            }
+
+            .filter-btn:hover {
+                background: #f8fafc;
+            }
+
+            .filter-btn.active {
+                background: var(--primary);
+                color: white;
+                border-color: var(--primary);
+            }
+            
+            .card {
+                background: var(--card-bg);
+                border-radius: 12px;
+                border: 1px solid var(--border);
+                overflow: hidden;
+                min-height: 400px;
+            }
+            
+            .card-header {
+                padding: 1.25rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                background: #f8fafc;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .card-title {
+                font-weight: 600;
+                color: var(--text-main);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .members-list {
+                padding: 0;
+            }
+            
+            .member-item {
+                display: flex;
+                flex-direction: column;
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--border);
+                transition: background 0.2s;
+                cursor: pointer;
+            }
+            
+            .member-item:last-child {
+                border-bottom: none;
+            }
+            
+            .member-item:hover {
+                background: #f8fafc;
+            }
+            
+            .member-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 1rem;
+            }
+            
+            .member-info h4 {
+                font-size: 1.1rem;
+                margin-bottom: 0.25rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .party-tag {
+                font-size: 0.75rem;
+                padding: 0.125rem 0.5rem;
+                border-radius: 999px;
+                font-weight: 600;
+            }
+            
+            .tag-dem { background: #eff6ff; color: #2563eb; }
+            .tag-rep { background: #fef2f2; color: #dc2626; }
+            
+            .member-meta {
+                font-size: 0.875rem;
+                color: var(--text-light);
+            }
+            
+            .trades-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 0.75rem;
+            }
+            
+            .trade-card {
+                background: white;
+                border: 1px solid var(--border);
+                border-radius: 8px;
+                padding: 0.75rem;
+                font-size: 0.875rem;
+                transition: transform 0.2s;
+            }
+            
+            .trade-card:hover {
+                transform: translateY(-2px);
+                border-color: var(--primary);
+            }
+            
+            .trade-header {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+            }
+            
+            .stock-symbol {
+                font-weight: 700;
+                color: var(--text-main);
+            }
+            
+            .trade-date {
+                color: var(--text-light);
+                font-size: 0.75rem;
+            }
+            
+            .trade-action {
+                display: inline-block;
+                padding: 0.125rem 0.375rem;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 0.75rem;
+                margin-bottom: 0.25rem;
+            }
+            
+            .action-buy { background: #ecfdf5; color: #059669; }
+            .action-sell { background: #fef2f2; color: #dc2626; }
+            
+            .trade-amount {
+                font-weight: 500;
+                color: var(--text-main);
+            }
+            
+            footer {
+                text-align: center;
+                padding: 2rem;
+                color: var(--text-light);
+                font-size: 0.875rem;
+                margin-top: 2rem;
+            }
+            
+            .api-link {
+                display: inline-block;
+                margin-top: 1rem;
+                color: var(--primary);
+                text-decoration: none;
+                font-weight: 500;
+            }
+
+            .no-results {
+                text-align: center;
+                padding: 3rem;
+                color: var(--text-light);
+            }
+            
+            @media (min-width: 768px) {
+                .member-item {
+                    flex-direction: row;
+                    align-items: flex-start;
+                }
+                
+                .member-header {
+                    width: 300px;
+                    flex-shrink: 0;
+                    margin-bottom: 0;
+                    margin-right: 2rem;
+                    flex-direction: column;
+                }
+                
+                .trades-grid {
+                    flex-grow: 1;
+                }
+            }
         </style>
     </head>
     <body>
-        <div class="header">
-            <h1>🏛️ Congressional Trading Intelligence System</h1>
-            <p>Real-time Analysis of Congressional Stock Trading Patterns</p>
+        <nav class="navbar">
+            <div class="navbar-content">
+                <div class="brand">
+                    <i class="fas fa-landmark"></i>
+                    Congressional Trading
+                </div>
+                <div class="nav-links">
+                    <a href="#" onclick="location.reload()">Dashboard</a>
+                    <a href="#analysis" onclick="alert('Detailed analysis coming soon!')">Analysis</a>
+                    <a href="/api/v1/info">API</a>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container">
+            <div class="hero-section">
+                <h1 class="hero-title">Congressional Trading Intelligence</h1>
+                <p class="hero-subtitle">Real-time tracking and analysis of legislative financial disclosures</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card" onclick="filterByParty('all')">
+                    <div class="stat-header">
+                        <div class="stat-label">Total Members</div>
+                        <div class="stat-icon icon-blue"><i class="fas fa-users"></i></div>
+                    </div>
+                    <div class="stat-value">535</div>
+                    <div class="stat-trend text-green"><i class="fas fa-arrow-up"></i> 100% Tracking</div>
+                </div>
+                
+                <div class="stat-card" onclick="alert('Viewing year-to-date statistics')">
+                    <div class="stat-header">
+                        <div class="stat-label">Trades (YTD)</div>
+                        <div class="stat-icon icon-green"><i class="fas fa-chart-line"></i></div>
+                    </div>
+                    <div class="stat-value">2,847</div>
+                    <div class="stat-trend text-green"><i class="fas fa-arrow-up"></i> +12% vs 2023</div>
+                </div>
+                
+                <div class="stat-card" onclick="alert('Volume calculation includes options and stocks')">
+                    <div class="stat-header">
+                        <div class="stat-label">Total Volume</div>
+                        <div class="stat-icon icon-purple"><i class="fas fa-sack-dollar"></i></div>
+                    </div>
+                    <div class="stat-value">$47.2M</div>
+                    <div class="stat-trend text-green"><i class="fas fa-arrow-up"></i> High Activity</div>
+                </div>
+                
+                <div class="stat-card" onclick="alert('Compliance based on STOCK Act filing deadlines')">
+                    <div class="stat-header">
+                        <div class="stat-label">Compliance Rate</div>
+                        <div class="stat-icon icon-orange"><i class="fas fa-clipboard-check"></i></div>
+                    </div>
+                    <div class="stat-value">94%</div>
+                    <div class="stat-trend text-red"><i class="fas fa-arrow-down"></i> -2% vs 2023</div>
+                </div>
+            </div>
+            
+            <div class="controls-bar">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search members, states, or stocks..." onkeyup="filterMembers()">
+                </div>
+                
+                <div class="filter-group">
+                    <button class="filter-btn active" onclick="filterByParty('all')" id="btn-all">All Parties</button>
+                    <button class="filter-btn" onclick="filterByParty('Democrat')" id="btn-dem">Democrats</button>
+                    <button class="filter-btn" onclick="filterByParty('Republican')" id="btn-rep">Republicans</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <i class="fas fa-history"></i> Latest Disclosures
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn" onclick="location.reload()">
+                            <i class="fas fa-sync-alt"></i> Refresh
+                        </button>
+                    </div>
+                </div>
+                <div class="members-list" id="members-list">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
         </div>
         
-        <div class="stats">
-            <div class="stat">
-                <h3>535</h3>
-                <p>Total Members</p>
-            </div>
-            <div class="stat">
-                <h3>2,847</h3>
-                <p>Total Trades YTD</p>
-            </div>
-            <div class="stat">
-                <h3>$47.2M</h3>
-                <p>Total Volume</p>
-            </div>
-            <div class="stat">
-                <h3>94%</h3>
-                <p>Compliance Rate</p>
-            </div>
-        </div>
-        
-        <div class="members">
-            <h2>📊 Recent Congressional Trading Activity</h2>
-            <div id="members-list"></div>
-        </div>
+        <footer>
+            <p>Congressional Trading Intelligence System &copy; 2025</p>
+            <p>Data provided for educational purposes only.</p>
+            <a href="/api/v1/info" class="api-link">View API Documentation <i class="fas fa-arrow-right"></i></a>
+        </footer>
         
         <script>
+            // Pass the Python data to JS
             const members = """ + json.dumps(SAMPLE_CONGRESS_DATA) + """;
+            let currentPartyFilter = 'all';
             
-            function renderMembers() {
+            function renderMembers(data = members) {
                 const container = document.getElementById('members-list');
-                members.forEach(member => {
+                container.innerHTML = '';
+                
+                if (data.length === 0) {
+                    container.innerHTML = `
+                        <div class="no-results">
+                            <i class="fas fa-search" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
+                            <p>No matching records found</p>
+                        </div>`;
+                    return;
+                }
+                
+                data.forEach(member => {
+                    // Determine party tag class
+                    const partyClass = member.party.includes('Democrat') ? 'tag-dem' : 'tag-rep';
+                    const partyShort = member.party.includes('Democrat') ? 'D' : 'R';
+                    
                     const memberDiv = document.createElement('div');
-                    memberDiv.className = 'member';
-                    memberDiv.innerHTML = `
-                        <h4>${member.name} (${member.party[0]}-${member.state})</h4>
-                        <p><strong>Chamber:</strong> ${member.chamber}</p>
-                        <div class="trades">
-                            ${member.recent_trades.map(trade => `
-                                <div class="trade">
-                                    <strong>${trade.date}:</strong> ${trade.action} ${trade.stock} (${trade.amount})
+                    memberDiv.className = 'member-item';
+                    
+                    // Generate trades HTML
+                    const tradesHtml = member.recent_trades.map(trade => {
+                        const actionClass = trade.action.toLowerCase().includes('buy') ? 'action-buy' : 'action-sell';
+                        const icon = trade.action.toLowerCase().includes('buy') ? 'fa-plus' : 'fa-minus';
+                        
+                        return `
+                            <div class="trade-card" onclick="alert('Trade Details:\n${trade.action} ${trade.amount} of ${trade.stock}\nDate: ${trade.date}')">
+                                <div class="trade-header">
+                                    <span class="stock-symbol">${trade.stock}</span>
+                                    <span class="trade-date">${trade.date}</span>
                                 </div>
-                            `).join('')}
+                                <div class="trade-action ${actionClass}">
+                                    <i class="fas ${icon}"></i> ${trade.action}
+                                </div>
+                                <div class="trade-amount">${trade.amount}</div>
+                            </div>
+                        `;
+                    }).join('');
+                    
+                    memberDiv.innerHTML = `
+                        <div class="member-header">
+                            <div class="member-info">
+                                <h4>
+                                    ${member.name} 
+                                    <span class="party-tag ${partyClass}">${partyShort}</span>
+                                </h4>
+                                <div class="member-meta">
+                                    <i class="fas fa-map-marker-alt"></i> ${member.state} • ${member.chamber}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trades-grid">
+                            ${tradesHtml}
                         </div>
                     `;
+                    
                     container.appendChild(memberDiv);
                 });
             }
             
-            renderMembers();
+            function filterMembers() {
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                
+                const filtered = members.filter(member => {
+                    // Check party filter first
+                    if (currentPartyFilter !== 'all' && !member.party.includes(currentPartyFilter)) {
+                        return false;
+                    }
+                    
+                    // Then check search term
+                    const searchString = `${member.name} ${member.state} ${member.party} ${JSON.stringify(member.recent_trades)}`.toLowerCase();
+                    return searchString.includes(searchTerm);
+                });
+                
+                renderMembers(filtered);
+            }
+            
+            function filterByParty(party) {
+                currentPartyFilter = party;
+                
+                // Update buttons
+                document.querySelectorAll('.filter-group .filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                if (party === 'all') document.getElementById('btn-all').classList.add('active');
+                else if (party === 'Democrat') document.getElementById('btn-dem').classList.add('active');
+                else if (party === 'Republican') document.getElementById('btn-rep').classList.add('active');
+                
+                filterMembers(); // Re-run filter including search term
+            }
+            
+            // Initialize
+            document.addEventListener('DOMContentLoaded', () => renderMembers());
         </script>
     </body>
     </html>
@@ -119,7 +650,7 @@ def health():
     return jsonify({
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "version": "1.0.0-simple"
+        "version": "1.0.0-enhanced"
     })
 
 @app.route('/api/v1/info')
@@ -127,8 +658,8 @@ def api_info():
     """API information"""
     return jsonify({
         "name": "Congressional Trading Intelligence API",
-        "version": "1.0.0-simple",
-        "description": "Simple API for congressional trading data analysis",
+        "version": "1.0.0-enhanced",
+        "description": "Enhanced API for congressional trading data analysis",
         "endpoints": {
             "/": "Main dashboard",
             "/health": "Health check",
@@ -164,7 +695,7 @@ def get_trades():
     })
 
 if __name__ == '__main__':
-    print("🚀 Starting Congressional Trading Intelligence API...")
+    print("🚀 Starting Enhanced Congressional Trading Intelligence API...")
     print("📊 Dashboard: http://localhost:8080")
     print("🔗 API Info: http://localhost:8080/api/v1/info")
     print("🏥 Health: http://localhost:8080/health")

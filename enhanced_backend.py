@@ -1018,7 +1018,7 @@ def legacy_trades():
     return api_v1_trades()
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))
     
     # Initialize data on startup
     logger.info("Initializing Congressional Trading Intelligence Enhanced Backend...")
