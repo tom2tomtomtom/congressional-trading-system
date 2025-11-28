@@ -538,19 +538,19 @@
         <!-- NEW Optimized Tab Navigation -->
         <div class="tab-navigation">
             <div class="tab-buttons">
-                <button class="tab-button active" onclick="showTab('overview')">
+                <button class="tab-button active" onclick="showTab('overview', this)">
                     📊 Trading Overview
                 </button>
-                <button class="tab-button" onclick="showTab('members-trades')">
+                <button class="tab-button" onclick="showTab('members-trades', this)">
                     👥 Members & Trades  
                 </button>
-                <button class="tab-button" onclick="showTab('political-intel')">
+                <button class="tab-button" onclick="showTab('political-intel', this)">
                     🏛️ Political Intelligence
                 </button>
-                <button class="tab-button" onclick="showTab('market-analysis')">
+                <button class="tab-button" onclick="showTab('market-analysis', this)">
                     📈 Market Analysis
                 </button>
-                <button class="tab-button" onclick="showTab('actionable-insights')">
+                <button class="tab-button" onclick="showTab('actionable-insights', this)">
                     🎯 Actionable Insights
                 </button>
             </div>
@@ -2522,20 +2522,52 @@
     
     <script>
         // Tab Navigation for Consolidated Tabs
-        function showTab(tabId) {
+        function showTab(tabId, btnElement) {
             const tabs = ['overview', 'members-trades', 'political-intel', 'market-analysis', 'actionable-insights'];
+            
+            // Hide all tabs
             tabs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.classList.remove('active');
             });
+            
+            // Deactivate all buttons
             document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            
+            // Show active tab
             const active = document.getElementById(tabId);
             if (active) active.classList.add('active');
-            event.target.classList.add('active');
-            setTimeout(() => initializeChartsForTab(tabId), 100);
+            
+            // Activate button
+            if (btnElement) {
+                btnElement.classList.add('active');
+            } else {
+                // Fallback if no button element passed (e.g. initial load)
+                // Try to find button with matching onclick
+                const btns = document.querySelectorAll('.tab-button');
+                btns.forEach(b => {
+                    if (b.getAttribute('onclick').includes(tabId)) {
+                        b.classList.add('active');
+                    }
+                });
+            }
+            
+            // Initialize charts with error handling
+            setTimeout(() => {
+                try {
+                    initializeChartsForTab(tabId);
+                } catch (e) {
+                    console.error('Error initializing charts for tab ' + tabId, e);
+                }
+            }, 100);
         }
 
         function initializeChartsForTab(tabId) {
+            if (typeof Chart === 'undefined') {
+                console.warn('Chart.js not loaded - charts will not be rendered');
+                return;
+            }
+            
             switch(tabId) {
                 case 'overview':
                     initializeSummaryCharts();
