@@ -2590,24 +2590,44 @@
 
         // New summary chart initializers
         function initializeSummaryCharts() {
+            const chartIds = ['volumeTrendChart', 'activityChart', 'performersChart'];
+            
+            chartIds.forEach(id => {
+                const canvas = document.getElementById(id);
+                if (canvas && canvas.chart) {
+                    canvas.chart.destroy();
+                    canvas.chart = null;
+                }
+            });
+
             const vol = document.getElementById('volumeTrendChart');
-            if (vol && !vol.chart) {
+            if (vol) {
                 vol.chart = new Chart(vol, { type: 'line', data: { labels: ['W1','W2','W3','W4'], datasets: [{ data: [12,18,15,22], borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,.1)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
             const act = document.getElementById('activityChart');
-            if (act && !act.chart) {
+            if (act) {
                 act.chart = new Chart(act, { type: 'bar', data: { labels: ['Alerts','Spikes','Delays'], datasets: [{ data: [7,4,9], backgroundColor: ['#ef4444','#f59e0b','#8b5cf6'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
             const perf = document.getElementById('performersChart');
-            if (perf && !perf.chart) {
+            if (perf) {
                 perf.chart = new Chart(perf, { type: 'doughnut', data: { labels: ['Pelosi','Gottheimer','Crenshaw'], datasets: [{ data: [67,58,49], backgroundColor: ['#10b981','#3b82f6','#f59e0b'] }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
         }
 
         // Add these chart initialization functions
         function initializePoliticalCharts() {
+            const chartIds = ['committeeAnalysisChart', 'legislationChartPI', 'lobbyingChartPI'];
+            
+            chartIds.forEach(id => {
+                const canvas = document.getElementById(id);
+                if (canvas && canvas.chart) {
+                    canvas.chart.destroy();
+                    canvas.chart = null;
+                }
+            });
+
             const committeeCtx = document.getElementById('committeeAnalysisChart');
-            if (committeeCtx && !committeeCtx.chart) {
+            if (committeeCtx) {
                 committeeCtx.chart = new Chart(committeeCtx, {
                     type: 'bar',
                     data: { labels: ['Banking', 'Technology', 'Healthcare', 'Energy', 'Defense'], datasets: [{ label: 'Trades by Committee Members', data: [45,32,28,22,18], backgroundColor: 'rgba(139, 92, 246, 0.8)' }] },
@@ -2615,30 +2635,40 @@
                 });
             }
             const legisCtx = document.getElementById('legislationChartPI');
-            if (legisCtx && !legisCtx.chart) {
+            if (legisCtx) {
                 legisCtx.chart = new Chart(legisCtx, { type: 'line', data: { labels: ['Bill A','Bill B','Bill C','Bill D'], datasets: [{ label: 'Pre-Vote Trades', data: [12,8,15,9], borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
             const lobbyCtx = document.getElementById('lobbyingChartPI');
-            if (lobbyCtx && !lobbyCtx.chart) {
+            if (lobbyCtx) {
                 lobbyCtx.chart = new Chart(lobbyCtx, { type: 'radar', data: { labels: ['Tech','Finance','Energy','Healthcare','Defense'], datasets: [{ label: 'Lobbying vs Trades', data: [78,65,52,49,31], borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,.15)' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 100 } } } });
             }
         }
 
         function initializeMarketCharts() {
+            const chartIds = ['patternChartMA', 'anomalyChartMA', 'predictionsChartMA', 'correlationChartMA'];
+            
+            chartIds.forEach(id => {
+                const canvas = document.getElementById(id);
+                if (canvas && canvas.chart) {
+                    canvas.chart.destroy();
+                    canvas.chart = null;
+                }
+            });
+
             const patternCtx = document.getElementById('patternChartMA');
-            if (patternCtx && !patternCtx.chart) {
+            if (patternCtx) {
                 patternCtx.chart = new Chart(patternCtx, { type: 'scatter', data: { datasets: [{ label: 'Trading Patterns', data: generateScatterData(), backgroundColor: 'rgba(139, 92, 246, 0.6)' }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
             const anomalyCtx = document.getElementById('anomalyChartMA');
-            if (anomalyCtx && !anomalyCtx.chart) {
+            if (anomalyCtx) {
                 anomalyCtx.chart = new Chart(anomalyCtx, { type: 'bar', data: { labels: ['Extreme','High','Medium','Low'], datasets: [{ data: [2,4,6,8], backgroundColor: ['#dc2626','#ef4444','#f59e0b','#10b981'] }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } } });
             }
             const predCtx = document.getElementById('predictionsChartMA');
-            if (predCtx && !predCtx.chart) {
+            if (predCtx) {
                 predCtx.chart = new Chart(predCtx, { type: 'line', data: { labels: ['W1','W2','W3','W4'], datasets: [{ label: 'Predicted Trades', data: [4,8,6,9], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,.15)', fill: true }] }, options: { responsive: true, maintainAspectRatio: false } });
             }
             const corrCtx = document.getElementById('correlationChartMA');
-            if (corrCtx && !corrCtx.chart) {
+            if (corrCtx) {
                 corrCtx.chart = new Chart(corrCtx, { type: 'line', data: { labels: ['Jan','Feb','Mar','Apr','May'], datasets: [{ label: 'Correlation', data: [0.2,0.35,0.5,0.42,0.61], borderColor: '#3b82f6' }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 1 } } } });
             }
         }
@@ -2668,9 +2698,19 @@
         
         // Member analysis charts
         function initializeMemberCharts() {
+            const chartIds = ['memberDistributionChart', 'complianceChart', 'volumeByMemberChart'];
+            
+            chartIds.forEach(id => {
+                const canvas = document.getElementById(id);
+                if (canvas && canvas.chart) {
+                    canvas.chart.destroy();
+                    canvas.chart = null;
+                }
+            });
+
             // Member Distribution Chart
             const memberCtx = document.getElementById('memberDistributionChart');
-            if (memberCtx && !memberCtx.chart) {
+            if (memberCtx) {
                 memberCtx.chart = new Chart(memberCtx, {
                     type: 'doughnut',
                     data: {
@@ -2692,7 +2732,7 @@
             
             // Compliance Chart
             const complianceCtx = document.getElementById('complianceChart');
-            if (complianceCtx && !complianceCtx.chart) {
+            if (complianceCtx) {
                 complianceCtx.chart = new Chart(complianceCtx, {
                     type: 'bar',
                     data: {
@@ -2715,7 +2755,7 @@
             
             // Volume by Member Chart
             const volumeCtx = document.getElementById('volumeByMemberChart');
-            if (volumeCtx && !volumeCtx.chart) {
+            if (volumeCtx) {
                 volumeCtx.chart = new Chart(volumeCtx, {
                     type: 'bar',
                     data: {
@@ -2746,9 +2786,19 @@
         
         // Trade analysis charts
         function initializeTradeCharts() {
+            const chartIds = ['tradeAnalysisChart', 'stockAnalysisChart'];
+            
+            chartIds.forEach(id => {
+                const canvas = document.getElementById(id);
+                if (canvas && canvas.chart) {
+                    canvas.chart.destroy();
+                    canvas.chart = null;
+                }
+            });
+
             // Trade Analysis Scatter Plot
             const tradeCtx = document.getElementById('tradeAnalysisChart');
-            if (tradeCtx && !tradeCtx.chart) {
+            if (tradeCtx) {
                 tradeCtx.chart = new Chart(tradeCtx, {
                     type: 'scatter',
                     data: {
@@ -2796,7 +2846,7 @@
             
             // Stock Analysis Chart
             const stockCtx = document.getElementById('stockAnalysisChart');
-            if (stockCtx && !stockCtx.chart) {
+            if (stockCtx) {
                 stockCtx.chart = new Chart(stockCtx, {
                     type: 'pie',
                     data: {
