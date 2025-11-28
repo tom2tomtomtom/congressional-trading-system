@@ -1,6 +1,24 @@
+# Web Framework - FastAPI (primary)
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+
+# Web Framework - Flask (legacy/backward compatibility)
 Flask==2.3.3
 Flask-CORS==4.0.0
+
+# Data Processing
 pandas==2.0.3
+
+# Database
+sqlalchemy>=2.0.0
+
+# Server
+gunicorn==21.2.0
+
+# Utilities
+python-multipart>=0.0.6
 gunicorn==21.2.0
 
 # Distribution Bots (Track D)
